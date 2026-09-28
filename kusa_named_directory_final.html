@@ -791,6 +791,18 @@ body,
     <p>掲載内容の訂正・削除依頼は<a href="#correction-request">要望BOX</a>から受け付けます。このポリシーは使用するサービスや運営方法が変わった際に改定します。最終更新：2026年9月28日。</p>
   </section>
 
+  <section class="info-card profile-offer" aria-labelledby="profileOfferTitle">
+    <h2 id="profileOfferTitle">プロフィール掲載について</h2>
+    <p>ネームド・コテハンの方は、プロフィール欄に好きな文言・キャッチコピー・活動内容・宣伝したいサイトや作品などを掲載できます。</p>
+    <p>掲載を希望する場合は、kusa内で管理人「作曲家」までご連絡ください。本人からの申し出であることを確認したうえで、内容を相談して掲載します。</p>
+    <ul>
+      <li>掲載は無料です。</li>
+      <li>他者への攻撃・嫌がらせ・個人情報を含む内容など、宣伝内容によっては掲載できない場合があります。</li>
+      <li>本人確認のため、個人情報や身分証の提出を求めることはありません。住所・電話番号・学校名・勤務先などの情報は送らないでください。</li>
+      <li>掲載後も、本人からの依頼でいつでも削除・修正できます。</li>
+    </ul>
+  </section>
+
   <section class="info-card" id="correction-request" aria-labelledby="correctionTitle">
     <h2 id="correctionTitle">削除・訂正依頼</h2>
     <p>掲載名、訂正・削除したい箇所、理由を<a href="https://tally.so/r/ODv2XR" target="_blank" rel="noopener noreferrer">要望BOX</a>からお知らせください。公開情報を照合して対応します。本名・住所・電話番号・学校名・勤務先などの個人情報は送らず、掲載名と理由だけを記入してください。</p>
@@ -1693,6 +1705,7 @@ function arrangePageForFirstVisit() {
     document.getElementById('about-site'),
     document.getElementById('usage-notes'),
     document.getElementById('privacy-policy'),
+    main.querySelector('.profile-offer'),
     document.getElementById('correction-request'),
     document.getElementById('request-box'),
     main.querySelector('.note'),
