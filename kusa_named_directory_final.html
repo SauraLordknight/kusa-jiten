@@ -504,7 +504,7 @@ body,
   <section class="news-card" aria-labelledby="newsTitle">
     <div class="news-card-head">
       <h2 id="newsTitle">📰 草むら速報</h2>
-      <span class="news-date">2026年9月28日・試験版</span>
+      <span class="news-date">2026年9月29日・観測版</span>
     </div>
     <p class="news-caption">公開投稿・返信・配信枠から確認できた話題を、個人の身元や匿名IDに依存しない形で中立的に要約しています。見出しをタップすると記事が開きます。</p>
     <div class="news-ticker" aria-label="草むら速報の見出し">
@@ -581,9 +581,8 @@ body,
     <li class="named-item" data-name="全肯定お兄さん"><span class="leaf">🌱</span><span class="name">全肯定お兄さん</span></li>
     <li class="named-item" data-name="赤ゆに"><span class="leaf">🌱</span><span class="name">赤ゆに</span></li>
     <li class="named-item" data-name="サツヨコピングー"><span class="leaf">🌱</span><span class="name">サツヨコピングー</span></li>
-    <li class="named-item" data-name="しそニートだけど"><span class="leaf">🌱</span><span class="name">しそニートだけど</span></li>
     <li class="named-item" data-name="チュパカブラ"><span class="leaf">🌱</span><span class="name">チュパカブラ</span></li>
-    <li class="named-item" data-name="きうい"><span class="leaf">🌱</span><span class="name">きうい</span></li>
+    <li class="named-item" data-name="きぃうぃ"><span class="leaf">🌱</span><span class="name">きぃうぃ</span></li>
     <li class="named-item" data-name="ビビアミ"><span class="leaf">🌱</span><span class="name">ビビアミ</span></li>
     <li class="named-item" data-name="エジプト壁画ガイジ"><span class="leaf">🌱</span><span class="name">エジプト壁画ガイジ</span></li>
     <li class="named-item" data-name="リコーダーガイジ"><span class="leaf">🌱</span><span class="name">リコーダーガイジ</span></li>
@@ -697,6 +696,8 @@ body,
 
   <section class="info-card" id="revision-history" aria-labelledby="revisionTitle">
     <h2 id="revisionTitle">kusa事典の更新履歴</h2>
+    <div class="era"><strong>2026年9月29日</strong><span>ネームド名鑑の名前を情報提供に合わせて分割・表記修正し、各名前を五十音順の該当欄に整理しました。</span></div>
+    <div class="era"><strong>2026年9月29日</strong><span>「草むらを適当に調べる」の演出で改行コードが文字として表示される不具合を修正しました。</span></div>
     <div class="era"><strong>2026年9月28日</strong><span>サイト名を「kusa事典」に変更しました。kusaの用語、文化、出来事を整理する構成に更新しました。</span></div>
     <div class="era"><strong>2026年9月28日</strong><span>ネームドとコテハンの違いを説明する項目を追加しました。判断できないものは「判定保留」として表示しています。</span></div>
     <div class="era"><strong>2026年9月28日</strong><span>サイト内の案内、利用上の注意、削除・訂正依頼の説明を整理しました。</span></div>
@@ -778,6 +779,42 @@ body,
 </main>
 
 <script>
+function applyRequestedNameSplits() {
+  const replacements = {
+    'あ': ['おえちゃん', 'onjs'],
+    'か': ['QR', 'ガチシコマン'],
+    'さ': ['しそ', 'シャドバンガイジ'],
+    'な': ['ニートだけど'],
+    'は': ['兵庫受験生', 'pb', 'ふぁぼ', 'ふむ', 'ぷゆゆパン', 'ぷゆゆ特化の可愛い魔法', 'ホイ卒', '包丁おじ'],
+    'ら': ['ラベンダー', 'ラテアート']
+  };
+  [
+    'おえちゃんonis', 'しそういqr', '兵庫受験生_pbだけど', 'ふぁぼふむ',
+    'ぷゆぷゆパンガイ', 'ぷゆゆ特化の可愛い魔法シャドバンガイジ',
+    'ホイ卒包丁おじ', 'らべんだーラテアート', 'ガチンコマン'
+  ].forEach(name => {
+    document.querySelectorAll(`.named-item[data-name="${name}"]`).forEach(item => item.remove());
+  });
+  Object.entries(replacements).forEach(([group, names]) => {
+    const list = document.querySelector(`#${group} .name-list`);
+    if (!list) return;
+    names.forEach(name => {
+      const item = document.createElement('li');
+      item.className = 'named-item';
+      item.dataset.name = name;
+      const leaf = document.createElement('span');
+      leaf.className = 'leaf';
+      leaf.textContent = '🌱';
+      const label = document.createElement('span');
+      label.className = 'name';
+      label.textContent = name;
+      item.append(leaf, label);
+      list.appendChild(item);
+    });
+  });
+}
+applyRequestedNameSplits();
+
 const input = document.getElementById('searchInput');
 const items = [...document.querySelectorAll('.named-item')];
 const sections = [...document.querySelectorAll('.section')];
@@ -818,22 +855,28 @@ const newsModalClose = document.getElementById('newsModalClose');
 
 const newsItems = Object.freeze([
   {
-    date: '2026年9月28日',
-    headline: 'ネームド一覧サイト作戦会議の配信が終了',
-    body: 'kusaの終了配信枠で、ネームド一覧サイトについて話し合う「ネームド一覧サイト作戦会議」が確認された。配信では、掲載情報の追加、シンプルで中立的な紹介、要望フォーム、カードやガチャなどのアイデアが話題になった。',
-    source: '確認範囲：公開されていた配信タイトルと配信内の公開コメント。匿名ID・個別の発言者情報は記事に記載していません。'
+    date: '2026年9月29日',
+    headline: 'ネームド名鑑に分割・表記修正の要望が相次ぐ',
+    body: '公開投稿と返信で、複数の名前が連結して表示されているという指摘が相次いだ。返信では、おえちゃんとonjs、しそとQR、兵庫受験生・pb・ニートだけどなどに分ける案のほか、きぃうぃへの表記修正も示された。',
+    source: '確認範囲：公開投稿・返信。提案段階の削除・同一人物判定は、確定情報として扱っていません。'
   },
   {
-    date: '2026年9月28日',
-    headline: 'ぬとらじをめぐる短いやり取りが発生',
-    body: '投稿欄で、ぬとらじが流行しているのかを尋ねる投稿があり、返信欄で配信文化について別の見方を示す反応が寄せられていた。また、配信枠にはぬとらじ関連のタイトルも表示されていた。',
-    source: '確認範囲：公開投稿・返信と、確認時点の配信枠一覧。流行の規模や因果関係を断定するものではありません。'
+    date: '2026年9月29日',
+    headline: '草ガチャの保存方式について指摘が寄せられる',
+    body: '草ガチャの抽選時刻をlocalStorageに保存していることについて、サイトデータを削除すれば待ち時間をリセットできるという指摘があった。返信では、GitHub Pages上の同一オリジンで保存データが共有される仕組みも話題になった。',
+    source: '確認範囲：公開投稿・返信。現在の草ガチャはブラウザ側で動く簡易クールダウンであり、厳密な不正防止機能ではありません。'
   },
   {
-    date: '2026年9月28日',
-    headline: 'お絵描き投稿と動画紹介がタイムラインに並ぶ',
-    body: 'タイムラインでは、#お絵描きの投稿やキャラクターを題材にした作品紹介、動画紹介が確認された。投稿への返信もあり、作品をきっかけにした短い交流が生まれていた。',
-    source: '確認範囲：公開タイムライン上の投稿・返信。作品の作者や投稿者の現実の属性は扱っていません。'
+    date: '2026年9月29日',
+    headline: 'kusa事典に好意的な反応と追加要望',
+    body: 'タイムラインでは、事典を図鑑にたとえる反応や、ガチャを含む構成への感想が見られた。一方で、要望ページの表示速度、重複して見える名前、作曲家の掲載など、追加確認を求める声も寄せられている。',
+    source: '確認範囲：公開タイムライン上の投稿・返信。反応の一部を要約したもので、利用者全体の評価を示すものではありません。'
+  },
+  {
+    date: '2026年9月29日',
+    headline: '確認時点の配信枠は0件',
+    body: 'kusaの公開画面を確認した時点では、配信枠は0件と表示されていた。今回の確認範囲では、新しく開かれた配信について確実に記録できる情報は見つからなかった。',
+    source: '確認範囲：2026年9月29日の公開トップ画面。配信枠は時間によって変動します。'
   }
 ]);
 
@@ -978,11 +1021,11 @@ const namedDetails = Object.freeze({
     source: '呼称・返信・投稿傾向を総合して整理。個別の匿名IDやURLは記録していない。'
   },
   '長門': {
-    description: '長門という呼称と、しまじろうカーなどの継続した話題が結び付いているネームド。',
+    description: 'kusa初期の2026年5月から確認されているネームド。長門という呼称と、しまじろうカーなどの継続した話題が結び付いている。',
     classification: 'お絵描き型・アニメ話題型',
     topics: '確認できた投稿では、しまじろうカー、アニメ・音楽、お絵描き、日常の出来事に触れている。',
     preferences: 'しまじろうカーを「至高」と表現した投稿がある。苦手なものについて継続した傾向は確認できていない。',
-    activity: '2026年9月頃から確認。過去の正確な開始時期は未確認。',
+    activity: 'kusa初期の2026年5月から確認されている。',
     confidence: '有力',
     summary: 'キャラクターやアニメ、音楽、お絵描きなどの話題を中心に活動するネームド。',
     iconTendency: '淡い紫髪と大きな目のアニメ調キャラクターを中心にした、きらめきのあるアイコン。',
@@ -1329,7 +1372,7 @@ function encounter(name) {
     openDetail(name);
     return;
   }
-  encounterCopy.textContent = '草むらを調べています……\\n葉音を確認……\\n何かいる……';
+  encounterCopy.textContent = '草むらを調べています……\n葉音を確認……\n何かいる……';
   encounterOverlay.classList.add('is-open');
   encounterOverlay.setAttribute('aria-hidden', 'false');
   window.setTimeout(() => {
@@ -1380,14 +1423,15 @@ if (valokichi && haRow) {
   document.getElementById('valokichi-source')?.remove();
 }
 const newNamedGroups = {
-  'あ': ['一日五食ガイジ', '赤ゆに', 'エジプト壁画ガイジ'],
-  'か': ['コロッケガイジ', 'ことわざバトルガイジ', 'カリカリガイジ', 'きうい', 'クウガイジ', 'ガチンコマン'],
-  'さ': ['全肯定おじ', '全肯定お兄さん', 'サツヨコピングー', 'しそニートだけど', 'シオン'],
+  'あ': ['一日五食ガイジ', '赤ゆに', 'エジプト壁画ガイジ', 'おえちゃん', 'onjs'],
+  'か': ['コロッケガイジ', 'ことわざバトルガイジ', 'カリカリガイジ', 'きぃうぃ', 'クウガイジ', 'QR', 'ガチシコマン'],
+  'さ': ['全肯定おじ', '全肯定お兄さん', 'サツヨコピングー', 'シオン', 'しそ', 'シャドバンガイジ'],
   'た': ['タラタラガイジ', 'チュパカブラ', 'トリッカル'],
-  'は': ['ぷゆガイ', 'ビビアミ', 'ぷゆゆ特化の可愛い魔法シャドバンガイジ'],
+  'な': ['ニートだけど'],
+  'は': ['ぷゆガイ', 'ビビアミ', '兵庫受験生', 'pb', 'ふぁぼ', 'ふむ', 'ぷゆゆパン', 'ぷゆゆ特化の可愛い魔法', 'ホイ卒', '包丁おじ'],
   'ま': ['むほほおじさん'],
   'や': ['矢言ニキ'],
-  'ら': ['リコーダーガイジ']
+  'ら': ['リコーダーガイジ', 'ラベンダー', 'ラテアート']
 };
 Object.entries(newNamedGroups).forEach(([group, names]) => {
   const row = document.querySelector(`#${group} .name-list`);
