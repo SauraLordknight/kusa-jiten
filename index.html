@@ -242,8 +242,9 @@ footer{margin-top:30px;text-align:center;color:var(--muted);font-size:11px}
 .gacha-result-card.rarity-SR{border-color:#a682d7;box-shadow:0 0 0 3px rgba(138,91,214,.08)}
 .gacha-result-card.rarity-SSR{border-color:#d9ae3c;box-shadow:0 0 0 3px rgba(217,174,60,.12)}
 .gacha-result-card.rarity-UR{border-color:#c36bc5;box-shadow:0 0 0 3px rgba(195,107,197,.14)}
+.gacha-result-card.rarity-GOD{border-color:#e5a51f;box-shadow:0 0 0 4px rgba(229,165,31,.2),0 0 24px rgba(255,207,77,.24);background:linear-gradient(135deg,#fff8d9,#fff1b8)}
 .gacha-rarity{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900;background:var(--green3);color:var(--deep)}
-.rarity-R .gacha-rarity{background:#eaf3ff;color:#235f9e}.rarity-SR .gacha-rarity{background:#f2ebff;color:#6840a1}.rarity-SSR .gacha-rarity{background:#fff5d7;color:#8b6500}.rarity-UR .gacha-rarity{background:linear-gradient(90deg,#e9f8ff,#fff1ff);color:#85458c}
+.rarity-R .gacha-rarity{background:#eaf3ff;color:#235f9e}.rarity-SR .gacha-rarity{background:#f2ebff;color:#6840a1}.rarity-SSR .gacha-rarity{background:#fff5d7;color:#8b6500}.rarity-UR .gacha-rarity{background:linear-gradient(90deg,#e9f8ff,#fff1ff);color:#85458c}.rarity-GOD .gacha-rarity{background:#ffe28a;color:#7c4d00}
 .gacha-kind{margin-left:6px;color:var(--muted);font-size:11px}
 .gacha-card-title{margin:11px 0 5px;color:var(--deep);font-size:20px;font-weight:900}
 .gacha-card-text{margin:0;color:var(--ink);font-size:13px;line-height:1.75}
@@ -877,6 +878,30 @@ const newsItems = Object.freeze([
     headline: '確認時点の配信枠は0件',
     body: 'kusaの公開画面を確認した時点では、配信枠は0件と表示されていた。今回の確認範囲では、新しく開かれた配信について確実に記録できる情報は見つからなかった。',
     source: '確認範囲：2026年9月29日の公開トップ画面。配信枠は時間によって変動します。'
+  },
+  {
+    date: '2026年9月29日',
+    headline: '大学生活を前にした投稿に掲示板モードの案内',
+    body: '大学生活の開始を間近に控えた投稿に対し、別の利用者から掲示板モードへの切り替えを促す返信が寄せられた。kusaの表示モードをめぐる短いやり取りとして確認された。',
+    source: '確認範囲：公開タイムライン上の投稿・返信。匿名IDや個人の身元は記録していません。'
+  },
+  {
+    date: '2026年9月29日',
+    headline: 'ファンアートと刺繍練習、創作の話題が続く',
+    body: 'ファンアートを求める投稿と、ぬいぐるみ作りに向けて刺繍の練習を始めたという投稿が確認された。返信でも作品への反応が寄せられ、創作関連の話題が続いた。',
+    source: '確認範囲：公開タイムライン上の投稿・返信。作品の完成状況までは確認していません。'
+  },
+  {
+    date: '2026年9月29日',
+    headline: '「矢野さとる」に関する外部ランキング投稿が共有される',
+    body: '「矢野さとる」の好意度が39％目前という内容と、外部ランキングページへのリンクを含む投稿が確認された。外部ページの数値や集計方法は、kusa事典側では検証していない。',
+    source: '確認範囲：公開タイムライン上の投稿。外部サイトの内容を公式情報として扱っていません。'
+  },
+  {
+    date: '2026年9月29日',
+    headline: 'ホイ卒をめぐる呼称の反応が見られる',
+    body: 'ホイ卒という呼称を含む投稿に対し、一人称に関する短い返信が寄せられた。今回確認できた範囲では、継続的な議論というより、その場の反応として展開していた。',
+    source: '確認範囲：公開タイムライン上の投稿・返信。呼称の関連付けは確定情報として扱っていません。'
   }
 ]);
 
@@ -1043,11 +1068,11 @@ const namedDetails = Object.freeze({
     source: '本人の明示的な名乗りと他者からの呼称を総合して整理。個別の匿名IDやURLは記録していない。'
   },
   'ロリガイ': {
-    description: 'ロリガイという呼称を本人が用い、他の利用者からも同じ名前で呼ばれているネームド。',
+    description: 'kusa初期の2026年5月から確認されているネームド。ロリガイという呼称を本人が用い、他の利用者からも同じ名前で呼ばれている。',
     classification: '交流型・雑談型',
     topics: '確認できた投稿・返信では、学校で流す音楽、アニメ、掲示板での交流などに触れている。短い冗談や意見の投稿も見られる。',
     preferences: '好きなもの・苦手なものについて、継続した傾向を示すだけの根拠は確認できていない。',
-    activity: '2026年9月頃から確認。過去の正確な開始時期は未確認。',
+    activity: 'kusa初期の2026年5月から確認されている。',
     confidence: '確定',
     summary: '音楽、アニメ、掲示板内の交流などを話題にするネームド。',
     iconTendency: '緑髪・緑目のアニメ調キャラクターがハンバーガーを持つ、食べ物モチーフのイラスト系アイコン。',
@@ -1089,7 +1114,8 @@ const rarityMeta = Object.freeze({
   R: { label: 'R', name: '観測記録' },
   SR: { label: 'SR', name: '珍種' },
   SSR: { label: 'SSR', name: '希少種' },
-  UR: { label: 'UR', name: '幻の個体' }
+  UR: { label: 'UR', name: '幻の個体' },
+  GOD: { label: 'GOD', name: 'ゴッドレア' }
 });
 const grassCards = Object.freeze([
   { id: 'grass-001', rarity: 'N', kind: '雑草カード', emoji: '🌱', title: '若葉', text: '草むらの入口で見つかる、元気な若葉。' },
@@ -1106,8 +1132,30 @@ const glossaryCards = Object.freeze([
 ]);
 const historyCards = Object.freeze([
   { id: 'history-001', rarity: 'UR', kind: '歴史カード', emoji: '📜', title: 'kusa誕生', text: '2026年5月13日、kusaが生まれた日。' },
-  { id: 'history-002', rarity: 'UR', kind: '伝承カード', emoji: '🌌', title: '草むらの伝承', text: '消えていく投稿と、残っていく呼び名。' }
+  { id: 'history-002', rarity: 'UR', kind: '伝承カード', emoji: '🌌', title: '草むらの伝承', text: '消えていく投稿と、残っていく呼び名。' },
+  { id: 'history-003', rarity: 'GOD', kind: '神話カード', emoji: '💩', title: 'さとる', text: 'おーぷん2chを生み出したとされる、草むらの神話級カード。' }
 ]);
+
+const namedCardEmoji = Object.freeze({
+  '荒特': '🌪️', 'アキネイター': '🔮', 'ウザミク': '🎤', '笑顔族': '😄',
+  '香川': '🍜', '顔晒し': '📸', 'きい': '🟡', 'キルリヤ大佐': '🎖️',
+  'ゴエモン': '🪙', 'ゴールドタイガー': '🐯', 'QR': '🔳', 'ガチシコマン': '🥊',
+  'きぃうぃ': '🥝', 'クウガイジ': '🦸', 'カリカリガイジ': '🍘', 'コロッケガイジ': '🥔',
+  'ことわざバトルガイジ': '⚔️', 'サツヨコ': '🏹', 'サツヨコピングー': '🐧',
+  '小6': '🎒', '擦り寄り': '🤝', '全肯定': '👍', '全肯定おじ': '👍',
+  '全肯定お兄さん': '🙆', 'しそ': '🌿', 'シャドバンガイジ': '🚫', 'シオン': '💠',
+  '千歳': '🕊️', '拓也': '🧭', 'タラタラガイジ': '🐌', 'チュバシャド': '🎮',
+  'チカブラバン': '🎺', 'チュパカブラ': '👾', 'トリッカル': '🃏', '長門': '🚌',
+  '虹神': '🌈', 'にゃむ': '🐱', '猫jk': '🐈‍⬛', 'ニートだけど': '🛋️', 'ノープ': '🚫',
+  '中受': '📚', 'バッドテト': '🖤', '兵庫受験生': '📝', 'pb': '🅿️', 'ふぁぼ': '❤️',
+  'ふむ': '🤔', 'ぷゆガイ': '🍀', 'ぷゆゆパン': '🍞', 'ぷゆゆ特化の可愛い魔法': '✨',
+  'ホイ卒': '🍼', '包丁おじ': '🔪', 'ビビアミ': '🎮', 'ベータちゃん': '🧪', 'ぺこら': '🐰',
+  'ミク絵師': '🎨', 'むほほおじさん': '😏', 'ユニコーン': '🦄', '矢言ニキ': '🗣️',
+  '霊王': '👻', 'ロゼ': '🌹', 'ロリガイ': '🧸', 'ラベンダー': '💜', 'ラテアート': '☕',
+  'リコーダーガイジ': '🎵', 'ワイテjc': '🎓', 'ヴァロキチ': '🎯',
+  '一日五食ガイジ': '🍽️', '赤ゆに': '🔴', 'エジプト壁画ガイジ': '🏺',
+  'おえちゃん': '🎁', 'onjs': '⚡'
+});
 
 function namedGachaCard(name, rarity) {
   const detail = namedDetails[name];
@@ -1118,7 +1166,7 @@ function namedGachaCard(name, rarity) {
     id: `named-${rarity}-${name}`,
     rarity,
     kind: `${typeLabel}カード`,
-    emoji: type === 'handle' ? '🏷️' : type === 'named' ? '🌿' : '❔',
+    emoji: namedCardEmoji[name] || (type === 'handle' ? '🏷️' : type === 'named' ? '🌿' : '❔'),
     title: name,
     text: description
   };
@@ -1134,7 +1182,8 @@ function buildGachaPools() {
     R: names.map(name => namedGachaCard(name, 'R')),
     SR: knownNames.map(name => namedGachaCard(name, 'SR')),
     SSR: confirmedNames.map(name => namedGachaCard(name, 'SSR')),
-    UR: [...historyCards]
+    UR: historyCards.filter(card => card.rarity === 'UR'),
+    GOD: historyCards.filter(card => card.rarity === 'GOD')
   };
 }
 
@@ -1153,9 +1202,9 @@ function saveGachaState(state) {
   try { localStorage.setItem(gachaStorageKey, JSON.stringify(state)); } catch { /* 保存できない環境でも抽選は表示する */ }
 }
 
-function chooseWeightedRarity(pools) {
-  const weights = [['grass', 55], ['glossary', 15], ['R', 18], ['SR', 8], ['SSR', 3], ['UR', 1]];
-  const available = weights.filter(([group]) => pools[group]?.length);
+function chooseWeightedRarity(pools, obtained) {
+  const weights = [['grass', 55], ['glossary', 15], ['R', 18], ['SR', 8], ['SSR', 3], ['UR', 1], ['GOD', 0.1]];
+  const available = weights.filter(([group]) => pools[group]?.some(card => !obtained.has(card.id)));
   const total = available.reduce((sum, [, weight]) => sum + weight, 0);
   let roll = Math.random() * total;
   for (const [group, weight] of available) {
@@ -1165,9 +1214,10 @@ function chooseWeightedRarity(pools) {
   return available[available.length - 1][0];
 }
 
-function chooseGachaCard(pools) {
-  const group = chooseWeightedRarity(pools);
-  const pool = pools[group] || pools.grass;
+function chooseGachaCard(pools, obtained) {
+  const group = chooseWeightedRarity(pools, obtained);
+  if (!group) return null;
+  const pool = (pools[group] || pools.grass).filter(card => !obtained.has(card.id));
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
@@ -1254,8 +1304,14 @@ function initGacha() {
   gachaButton.addEventListener('click', () => {
     state = updateGachaAvailability();
     if (state.lastDrawAt && Date.now() - state.lastDrawAt < gachaCooldown) return;
-    const card = chooseGachaCard(pools);
-    const duplicate = state.obtainedCards.includes(card.id);
+    const card = chooseGachaCard(pools, new Set(state.obtainedCards));
+    if (!card) {
+      gachaResult.textContent = 'カード図鑑をコンプリートしました。草むらの全種を発見済みです。';
+      gachaButton.disabled = true;
+      gachaTimer.textContent = 'コンプリート済み';
+      return;
+    }
+    const duplicate = false;
     state.lastDrawAt = Date.now();
     state.obtainedCards.push(card.id);
     if (duplicate) state.grassPoint += 10;
