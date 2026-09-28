@@ -1,0 +1,1411 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#62c83a">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>kusa事典</title>
+<style>
+:root {
+  --green:#57bf38;
+  --green2:#80d84d;
+  --green3:#eaffdf;
+  --green4:#d7f7c8;
+  --deep:#225d20;
+  --ink:#203020;
+  --muted:#687568;
+  --paper:#f8fff6;
+  --page:#f4fbf1;
+  --panel:#ffffff;
+  --panel-soft:#fbfff9;
+  --line:#caeabf;
+  --warn:#fff4cb;
+  --warn-line:#efd67b;
+  --shadow:rgba(50,100,40,.08);
+  --pattern:rgba(87,191,56,.12);
+  --hero-end:#9ee56f;
+  --hero-border:#3f9c2a;
+}
+:root.night {
+  --paper:#101b22;--page:#0b141a;--panel:#14242a;--panel-soft:#172b31;
+  --ink:#e5f5df;--muted:#a9c2b1;--deep:#a9ed84;--line:#315b45;
+  --green3:#19372d;--green4:#214b38;--warn:#3e3820;--warn-line:#806d29;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;color-scheme:light}
+body{margin:0;background:var(--page);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+html.night{color-scheme:dark}
+body::before{
+  content:"";
+  position:fixed;inset:0;pointer-events:none;opacity:.14;
+  background-image:
+    linear-gradient(45deg, var(--pattern) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--pattern) 25%, transparent 25%);
+  background-size:28px 28px;
+}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 64px;position:relative}
+.hero{
+  background:linear-gradient(135deg,var(--green),#74d847 55%,var(--hero-end));
+  color:white;
+  border-bottom:4px solid var(--hero-border);
+  box-shadow:0 8px 24px rgba(62,125,42,.18);
+}
+.night .hero{background:linear-gradient(135deg,#102e35,#193f3c 55%,#273b4f);border-bottom-color:#69c985}
+.hero-inner{
+  max-width:860px;margin:auto;padding:26px 16px 22px;position:relative;overflow:hidden;
+}
+.hero-inner::after{
+  content:"🌿 🌱 🌿";
+  position:absolute;right:14px;bottom:-12px;font-size:42px;opacity:.25;
+  transform:rotate(-6deg);
+}
+.grass-field{height:34px;display:flex;align-items:flex-end;justify-content:space-around;overflow:hidden;margin-top:12px;opacity:.65}
+.grass-field span{display:block;color:#d8ffb9;font-size:25px;line-height:1;transform-origin:bottom center;animation:grass-sway 3.4s ease-in-out infinite alternate}
+.grass-field span:nth-child(2n){animation-delay:-1.2s;animation-duration:4.1s}
+.grass-field span:nth-child(3n){animation-delay:-2.1s;animation-duration:2.8s}
+@keyframes grass-sway{from{transform:rotate(-5deg) translateY(2px)}to{transform:rotate(6deg) translateY(-2px)}}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{
+  width:52px;height:52px;border-radius:16px;background:white;color:var(--green);
+  display:grid;place-items:center;font-size:29px;
+  box-shadow:0 6px 0 rgba(50,119,31,.22);
+}
+.logo h1{margin:0;font-size:26px;line-height:1.2;letter-spacing:.02em}
+.logo p{margin:5px 0 0;font-size:12px;opacity:.9}
+.intro-card{
+  margin-top:22px;background:var(--panel);
+  border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;
+  box-shadow:0 8px 24px var(--shadow);
+}
+.intro-card p{margin:0;color:var(--ink);font-size:14px}
+.policy-banner{margin-top:12px;padding:15px 16px;background:var(--panel);border:1px solid var(--warn-line);border-left:5px solid var(--green);border-radius:14px;box-shadow:0 6px 18px var(--shadow)}
+.policy-banner h2{margin:0 0 8px;color:var(--deep);font-size:16px}
+.policy-banner p{margin:0;color:var(--ink);font-size:13px;line-height:1.8}
+.policy-banner p+p{margin-top:8px}
+.policy-banner a{color:var(--deep);font-weight:800}
+.archive-console{margin-top:12px;padding:10px 12px;border-radius:10px;background:#10251a;color:#bdf69b;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;box-shadow:inset 0 0 0 1px rgba(180,255,150,.15)}
+.archive-console::before{content:"> ";color:#7ee45d}
+.theme-button{border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.12);color:#fff;padding:8px 11px;font:inherit;font-size:12px;cursor:pointer}
+.theme-button:hover{background:rgba(255,255,255,.22)}
+.contact{
+  margin-top:12px;padding:12px 13px;border-radius:12px;
+  background:var(--green3);border:1px solid var(--line);
+  color:var(--ink);font-size:13px;
+}
+.contact strong{color:var(--deep)}
+.stats{
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px
+}
+.stat-pill{
+  display:inline-flex;gap:6px;align-items:center;
+  background:var(--panel);border:1px solid var(--line);border-radius:999px;
+  padding:7px 11px;font-size:12px;color:var(--muted);
+}
+.stat-pill strong{color:var(--deep);font-size:14px}
+.search-box{
+  margin:16px 0 10px;position:relative;
+}
+.search-box::before{
+  content:"🔎";position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  font-size:15px;opacity:.65;
+}
+.search-box input{
+  width:100%;border:2px solid var(--line);background:var(--panel);color:var(--ink);
+  border-radius:14px;padding:13px 14px 13px 41px;font-size:16px;outline:none;
+  box-shadow:0 4px 12px rgba(60,120,40,.05);
+}
+.search-box input:focus{
+  border-color:var(--green2);
+  box-shadow:0 0 0 4px rgba(87,191,56,.12);
+}
+.kana-nav{
+  display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none
+}
+.kana-nav::-webkit-scrollbar{display:none}
+.kana-nav a{
+  flex:0 0 auto;text-decoration:none;color:var(--deep);background:var(--panel);
+  border:1px solid var(--line);padding:7px 11px;border-radius:999px;font-size:13px;
+  box-shadow:0 2px 7px rgba(70,120,50,.05);
+}
+.kana-nav a:hover{background:var(--green3);border-color:var(--green2)}
+.section{
+  margin-top:20px;background:var(--panel);
+  border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  box-shadow:0 8px 22px rgba(50,100,40,.06);
+}
+.section-title{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 15px;background:linear-gradient(90deg,var(--green3),var(--panel-soft));
+  color:var(--deep);font-weight:800;border-bottom:1px solid var(--line);
+}
+.mini-grass{font-size:18px}
+.name-list{list-style:none;margin:0;padding:0}
+.named-item{
+  display:flex;align-items:center;gap:9px;
+  padding:13px 15px;border-bottom:1px dashed var(--line);font-size:16px;
+  transition:.15s ease;
+}
+.named-item:last-child{border-bottom:0}
+.named-item:hover{background:var(--panel-soft);transform:translateX(2px)}
+.leaf{font-size:14px;opacity:.78}
+.name{word-break:break-word;flex:1;font-weight:600}
+.note{
+  margin-top:22px;padding:14px 15px;background:var(--panel);
+  border:1px solid var(--line);border-radius:14px;color:var(--muted);font-size:12px
+}
+.footer-grass{font-size:22px;letter-spacing:4px;margin-bottom:6px}
+footer{margin-top:30px;text-align:center;color:var(--muted);font-size:11px}
+.empty{display:none;color:var(--muted);padding:30px 6px;text-align:center}
+.named-item{cursor:pointer}
+.named-item:focus-visible{outline:3px solid rgba(87,191,56,.35);outline-offset:-3px}
+.named-item.type-named{border-left:4px solid #4caf50}
+.named-item.type-handle{border-left:4px solid #4389d8}
+.named-item.type-both{border-left:4px solid #8a5bd6}
+.named-item.type-unknown{border-left:4px solid #a6ada6}
+.type-badge{display:inline-flex;align-items:center;gap:3px;flex:0 0 auto;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:800;line-height:1;border:1px solid currentColor;white-space:nowrap}
+.type-badge.type-named{color:#287b32;background:#edf9ed}
+.type-badge.type-handle{color:#235f9e;background:#edf5ff}
+.type-badge.type-both{color:#6840a1;background:#f4efff}
+.type-badge.type-unknown{color:#687568;background:#f1f3f1}
+.detail-title-wrap{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.detail-type-badge{font-size:11px}
+.detail-modal{position:fixed;inset:0;z-index:10;display:none;place-items:center;padding:18px;background:rgba(24,55,20,.42)}
+.detail-modal.is-open{display:grid}
+.detail-panel{width:min(620px,100%);max-height:min(760px,92vh);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 55px rgba(20,65,18,.25)}
+.detail-panel.is-revealing{animation:card-reveal .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes card-reveal{from{opacity:0;transform:perspective(900px) rotateX(-10deg) translateY(18px) scale(.97)}to{opacity:1;transform:perspective(900px) rotateX(0) translateY(0) scale(1)}}
+.detail-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;background:linear-gradient(90deg,var(--green3),var(--panel-soft));border-bottom:1px solid var(--line)}
+.detail-head h2{margin:0;color:var(--deep);font-size:21px}
+.detail-close{border:0;background:transparent;color:var(--deep);font-size:24px;line-height:1;cursor:pointer;padding:4px 7px;border-radius:9px}
+.detail-close:hover{background:var(--green4)}
+.detail-body{padding:18px;color:var(--ink)}
+.detail-label{margin:0 0 7px;color:var(--deep);font-weight:800;font-size:13px}
+.detail-text{margin:0 0 18px;white-space:pre-wrap;line-height:1.75;color:var(--muted)}
+.info-card{margin-top:22px;padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 22px var(--shadow)}
+.info-card h2{margin:0 0 10px;color:var(--deep);font-size:18px}
+.info-card h3{margin:16px 0 5px;color:var(--deep);font-size:14px}
+.info-card p{margin:0 0 10px;color:var(--ink);font-size:13px;line-height:1.8}
+.info-card a,.detail-body a{color:var(--deep);overflow-wrap:anywhere}
+.footer-links{display:flex;justify-content:center;gap:8px 16px;flex-wrap:wrap;margin:9px 0}
+.footer-links a{color:var(--deep)}
+.site-map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.site-map a{display:block;padding:12px 13px;border:1px solid var(--line);border-radius:12px;background:var(--panel-soft);color:var(--deep);text-decoration:none;font-weight:700;font-size:13px}
+.site-map a:hover{background:var(--green3);border-color:var(--green2)}
+.era{margin:14px 0 0;padding:13px 14px;border-left:4px solid var(--green2);background:var(--panel-soft);border-radius:0 12px 12px 0}
+.era strong{display:block;color:var(--deep);margin-bottom:4px}
+.term-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.term-grid div{padding:10px 11px;border:1px dashed var(--line);border-radius:10px;background:var(--panel-soft);font-size:12px;line-height:1.6}
+.term-grid strong{display:block;color:var(--deep);font-size:13px}
+.filter-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0 4px}
+.type-filter-bar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:8px 0 4px}
+.type-filter-bar .filter-button{font-size:11px;padding:7px 10px}
+.filter-button{border:1px solid var(--line);background:var(--panel);color:var(--deep);border-radius:999px;padding:8px 12px;font:inherit;font-size:12px;cursor:pointer}
+.filter-button:hover,.filter-button.is-active{background:var(--green3);border-color:var(--green2);font-weight:800}
+.random-button{margin:10px 0 4px;width:100%;border:0;border-radius:13px;padding:12px 14px;font:inherit;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--deep),var(--green));cursor:pointer;box-shadow:0 5px 14px rgba(61,135,42,.18)}
+.random-button:hover{filter:brightness(1.06);transform:translateY(-1px)}
+.history-track{position:relative;margin-top:14px;padding-left:18px}
+.history-track::before{content:"";position:absolute;left:4px;top:5px;bottom:5px;width:2px;background:var(--line)}
+.history-track .era{position:relative;margin-top:10px}
+.history-track .era::before{content:"";position:absolute;left:-22px;top:16px;width:9px;height:9px;border-radius:50%;background:var(--green);border:3px solid var(--green3)}
+.scroll-reveal{opacity:0;transform:translateY(14px);transition:opacity .45s ease,transform .45s ease}
+.scroll-reveal.is-visible{opacity:1;transform:none}
+.explore-box{margin-top:14px;padding:12px;border:1px dashed var(--line);border-radius:12px;background:var(--panel-soft)}
+.explore-button{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--deep);padding:9px 12px;font:inherit;font-weight:800;cursor:pointer}
+.explore-button:hover{background:var(--green3)}
+.explore-message{display:inline-block;margin-left:8px;color:var(--muted);font-size:12px}
+.gacha-card{margin-top:22px;padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 22px var(--shadow)}
+.gacha-card.is-collapsed{display:flex;align-items:center;justify-content:center;padding:10px}
+.gacha-toggle{display:inline-grid;place-items:center;width:52px;height:52px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,var(--green3),var(--panel));font-size:29px;cursor:pointer;box-shadow:0 4px 12px rgba(60,120,40,.12);transition:transform .15s ease,box-shadow .15s ease}
+.gacha-toggle:hover{transform:translateY(-2px);box-shadow:0 7px 16px rgba(60,120,40,.18)}
+.gacha-toggle:focus-visible{outline:3px solid rgba(87,191,56,.3);outline-offset:3px}
+.gacha-toggle-label{margin-left:9px;color:var(--deep);font-size:13px;font-weight:800}
+.gacha-panel{width:100%}
+.gacha-close{float:right;border:0;background:transparent;color:var(--deep);font-size:22px;line-height:1;cursor:pointer;padding:2px 6px;border-radius:8px}
+.gacha-close:hover{background:var(--green4)}
+.gacha-card h2{margin:0 0 6px;color:var(--deep);font-size:18px}
+.gacha-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+.gacha-button{width:100%;margin-top:13px;border:0;border-radius:14px;padding:13px 16px;font:inherit;font-weight:800;font-size:15px;color:#fff;background:linear-gradient(135deg,#2c8b4d,#75c94a);cursor:pointer;box-shadow:0 5px 14px rgba(61,135,42,.18);transition:transform .15s ease,filter .15s ease,opacity .15s ease}
+.gacha-button:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.04)}
+.gacha-button:disabled{cursor:not-allowed;opacity:.55;box-shadow:none}
+.gacha-timer{display:block;margin-top:9px;text-align:center;color:var(--muted);font-size:12px}
+.gacha-result{margin-top:14px;min-height:20px}
+.gacha-result:empty{display:none}
+.gacha-result-card{position:relative;padding:17px 16px;border:2px solid var(--line);border-radius:16px;background:var(--panel-soft);overflow:hidden}
+.gacha-result-card.is-revealing{animation:gacha-reveal .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes gacha-reveal{from{opacity:0;transform:scale(.94) rotate(-1deg)}to{opacity:1;transform:none}}
+.gacha-result-card::after{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.45) 50%,transparent 58%);transform:translateX(-55%) rotate(8deg);animation:card-shine 1.1s ease-out both;pointer-events:none}
+@keyframes card-shine{to{transform:translateX(55%) rotate(8deg)}}
+.gacha-result-card.rarity-N{border-color:#b8d5b1}
+.gacha-result-card.rarity-R{border-color:#77a9df}
+.gacha-result-card.rarity-SR{border-color:#a682d7;box-shadow:0 0 0 3px rgba(138,91,214,.08)}
+.gacha-result-card.rarity-SSR{border-color:#d9ae3c;box-shadow:0 0 0 3px rgba(217,174,60,.12)}
+.gacha-result-card.rarity-UR{border-color:#c36bc5;box-shadow:0 0 0 3px rgba(195,107,197,.14)}
+.gacha-rarity{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900;background:var(--green3);color:var(--deep)}
+.rarity-R .gacha-rarity{background:#eaf3ff;color:#235f9e}.rarity-SR .gacha-rarity{background:#f2ebff;color:#6840a1}.rarity-SSR .gacha-rarity{background:#fff5d7;color:#8b6500}.rarity-UR .gacha-rarity{background:linear-gradient(90deg,#e9f8ff,#fff1ff);color:#85458c}
+.gacha-kind{margin-left:6px;color:var(--muted);font-size:11px}
+.gacha-card-title{margin:11px 0 5px;color:var(--deep);font-size:20px;font-weight:900}
+.gacha-card-text{margin:0;color:var(--ink);font-size:13px;line-height:1.75}
+.gacha-duplicate{margin-top:9px;color:var(--muted);font-size:11px}
+.gacha-book{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
+.gacha-book-head{display:flex;justify-content:space-between;gap:10px;align-items:baseline;color:var(--deep);font-weight:800;font-size:14px}
+.gacha-book-count{color:var(--muted);font-size:11px;font-weight:400}
+.gacha-book-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:10px}
+.gacha-book-item{min-height:70px;padding:8px 6px;border:1px solid var(--line);border-radius:10px;background:var(--panel-soft);text-align:center;font-size:11px;color:var(--muted)}
+.gacha-book-item.is-owned{color:var(--deep);font-weight:700}
+.gacha-book-emoji{display:block;font-size:20px;line-height:1.2;margin-bottom:4px}
+.gacha-book-name{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gacha-book-item.is-locked{filter:grayscale(1);opacity:.65}
+.encounter-overlay{position:fixed;inset:0;z-index:20;display:none;place-items:center;background:rgba(8,28,14,.78);color:#d8ffbd;text-align:center}
+.encounter-overlay.is-open{display:grid}
+.encounter-copy{font:700 18px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-line;text-shadow:0 0 16px rgba(180,255,140,.45)}
+.encounter-copy::after{content:"_";animation:blink 1s steps(2,end) infinite}
+@keyframes blink{50%{opacity:0}}
+
+body,
+.intro-card,
+.contact,
+.stat-pill,
+.search-box input,
+.kana-nav a,
+.section,
+.section-title,
+.named-item,
+.note {
+  transition:background-color .22s ease,color .22s ease,border-color .22s ease,box-shadow .22s ease;
+}
+
+.hero-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.kusa-link-wrap {
+  margin-top:14px;
+}
+
+.kusa-link {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  font-weight:800;
+  font-size:14px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--green),var(--green2));
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:999px;
+  padding:10px 14px;
+  box-shadow:0 5px 14px rgba(61,135,42,.18);
+  transition:transform .15s ease,box-shadow .15s ease,filter .15s ease;
+}
+.kusa-link:hover {
+  transform:translateY(-1px);
+  box-shadow:0 7px 18px rgba(61,135,42,.24);
+  filter:brightness(1.03);
+}
+.kusa-link:active {
+  transform:translateY(0);
+}
+.kusa-link:focus-visible {
+  outline:3px solid rgba(87,191,56,.25);
+  outline-offset:3px;
+}
+.kusa-link .external {
+  font-size:12px;
+  opacity:.9;
+}
+
+.request-box {
+  margin-top:22px;
+  padding:18px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 8px 22px var(--shadow);
+}
+.request-box h2 {
+  margin:0 0 7px;
+  font-size:18px;
+  color:var(--deep);
+}
+.request-box p {
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+}
+.request-button {
+  display:block;
+  width:100%;
+  margin-top:14px;
+  border:0;
+  border-radius:14px;
+  padding:13px 16px;
+  font:inherit;
+  font-weight:800;
+  font-size:15px;
+  color:#fff;
+  text-align:center;
+  text-decoration:none;
+  background:linear-gradient(135deg,var(--green),var(--green2));
+  box-shadow:0 5px 14px rgba(61,135,42,.20);
+  cursor:pointer;
+  transition:transform .15s ease, filter .15s ease, box-shadow .15s ease;
+}
+.request-button:hover {
+  transform:translateY(-1px);
+  filter:brightness(1.03);
+  box-shadow:0 7px 18px rgba(61,135,42,.25);
+}
+.request-button:active {
+  transform:translateY(0);
+}
+.request-button:focus-visible {
+  outline:3px solid rgba(87,191,56,.25);
+  outline-offset:3px;
+}
+.request-sub {
+  display:block;
+  margin-top:9px;
+  text-align:center;
+  font-size:11px;
+  color:var(--muted);
+}
+.request-fallback {
+  color:var(--deep);
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+.admin-details{max-width:620px;margin:14px auto 10px;text-align:left;color:var(--muted);font-size:12px}
+.admin-details summary{display:inline-block;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--deep);background:var(--panel);cursor:pointer;list-style:none}
+.admin-details summary::-webkit-details-marker{display:none}
+.admin-details summary::before{content:'＋';margin-right:4px}
+.admin-details[open] summary::before{content:'−'}
+.admin-details summary:hover{background:var(--green3);border-color:var(--green2)}
+.admin-profile{margin:8px 0 0;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);line-height:1.8}
+.admin-profile p{margin:0}
+
+.news-card{margin-top:14px;padding:15px 16px;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 22px var(--shadow);overflow:hidden}
+.news-card-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px}
+.news-card h2{margin:0;color:var(--deep);font-size:18px}
+.news-date{color:var(--muted);font-size:11px;white-space:nowrap}
+.news-caption{margin:0 0 11px;color:var(--muted);font-size:12px;line-height:1.6}
+.news-ticker{overflow:hidden;border:1px solid var(--line);border-radius:12px;background:var(--panel-soft);padding:8px 0}
+.news-track{display:flex;width:max-content;gap:10px;padding:0 10px;transform:translate3d(0,0,0);will-change:transform;touch-action:pan-y;cursor:grab}
+.news-track.is-dragging{cursor:grabbing;user-select:none}
+.news-item{display:inline-flex;align-items:center;gap:7px;max-width:360px;border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:var(--panel);color:var(--ink);font:inherit;font-size:12px;text-align:left;cursor:pointer;white-space:nowrap}
+.news-item:hover{background:var(--green3);border-color:var(--green2)}
+.news-item:focus-visible{outline:3px solid rgba(87,191,56,.28);outline-offset:2px}
+.news-label{color:var(--deep);font-weight:900}
+.news-modal{position:fixed;inset:0;z-index:12;display:none;place-items:center;padding:18px;background:rgba(24,55,20,.42)}
+.news-modal.is-open{display:grid}
+.news-panel{width:min(620px,100%);max-height:min(760px,92vh);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 55px rgba(20,65,18,.25)}
+.news-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 18px;background:linear-gradient(90deg,var(--green3),var(--panel-soft));border-bottom:1px solid var(--line)}
+.news-panel-head h2{margin:0;color:var(--deep);font-size:20px;line-height:1.45}
+.news-panel-head p{margin:4px 0 0;color:var(--muted);font-size:11px}
+.news-panel-close{border:0;background:transparent;color:var(--deep);font-size:24px;line-height:1;cursor:pointer;padding:4px 7px;border-radius:9px}
+.news-panel-close:hover{background:var(--green4)}
+.news-panel-body{padding:18px;color:var(--ink)}
+.news-panel-body p{margin:0 0 13px;line-height:1.85;font-size:14px;white-space:pre-wrap}
+.news-source{color:var(--muted)!important;font-size:11px!important;border-top:1px dashed var(--line);padding-top:12px}
+
+@media (max-width:520px){
+  .hero-inner,.wrap{padding-left:13px;padding-right:13px}
+  .logo h1{font-size:23px}
+  .logo-mark{width:48px;height:48px;font-size:26px}
+  .intro-card{border-radius:16px}
+  .section{border-radius:16px}
+  .theme-button{padding:7px 9px;font-size:11px}
+  .explore-message{display:block;margin:8px 0 0}
+  .named-item{align-items:flex-start}
+  .type-badge{font-size:10px;padding:4px 6px}
+  .gacha-book-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
+  .scroll-reveal{opacity:1;transform:none}
+  .gacha-result-card::after{display:none}
+  .news-track{width:auto;flex-wrap:wrap;transform:none!important;cursor:default}
+  .news-item:nth-child(n+4){display:none}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="logo">
+        <div class="logo-mark" aria-hidden="true">🌿</div>
+        <div>
+        <h1>kusa事典</h1>
+          <p>kusaのネームド・用語・出来事・文化をまとめた非公式事典</p>
+        </div>
+      </div>
+      <button id="themeButton" class="theme-button" type="button" aria-pressed="false">🌙 夜の草むら</button>
+    </div>
+    <details class="admin-details">
+      <summary>管理人について</summary>
+      <div class="admin-profile">
+        <p><strong>作曲するガイジ。</strong><br>
+        kusaへの出現頻度は低め。<br>
+        低身長・陰キャ・コミュ力控えめの三拍子。ヴァイオリンのアイコンを高頻度で使用する。<br><br>
+        キモくて草</p>
+      </div>
+    </details>
+    <div class="grass-field" aria-hidden="true"><span>🌿</span><span>🌱</span><span>🌿</span><span>🌱</span><span>🌿</span><span>🌱</span><span>🌿</span><span>🌱</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro-card">
+    <p>
+      ここは、24時間で投稿やアカウントが消えていく匿名SNS「kusa」の
+      <strong>ネームド・用語・出来事・文化をまとめた非公式事典</strong>です。
+      kusaの運営者とは関係なく、現実の人物の身元特定や個人攻撃を目的としていません。
+    </p>
+    <div class="archive-console" aria-label="事典端末の状態">kusa FIELD ARCHIVE / 接続済み / 演出上の表示・リアルタイム監視なし</div>
+
+    <div class="kusa-link-wrap">
+      <a class="kusa-link"
+         href="https://kusa.open2ch.net/"
+         target="_blank"
+         rel="noopener noreferrer"
+         aria-label="kusaを新しいタブで開く">
+        <span aria-hidden="true">🌿</span>
+        <span>kusaを開く</span>
+        <span class="external" aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <div class="contact">
+      掲載内容の<strong>間違い・表記ゆれ</strong>、
+      <strong>新しい情報</strong>、または
+      <strong>掲載されていないネームド</strong>については、
+      ページ下部の<a href="#request-box"><strong>「要望BOX」</strong></a>からお知らせください。
+      内容を確認したうえで、kusa事典を修正・追加します。
+    </div>
+
+    <div class="stats">
+      <span class="stat-pill">🌱 ネームド <strong id="count">41</strong>名</span>
+      <span class="stat-pill">📚 50音順・分類別</span>
+      <span class="stat-pill">🍀 非公式事典</span>
+    </div>
+  </section>
+
+  <section class="policy-banner" aria-labelledby="policyBannerTitle">
+    <h2 id="policyBannerTitle">📌 この名鑑の掲載方針</h2>
+    <p>掲載しているネームド・コテハンは、サイト運営者がkusa上の公開投稿・返信・プロフィールなどを独自に調査し、整理したものです。kusaの運営とは関係ありません。</p>
+    <p>本サイトはkusaの文化や話題を記録することを目的としており、掲載者への攻撃・嫌がらせ・現実の身元特定・個人情報の収集を目的としていません。誤りや掲載を希望しない場合は、<a href="#request-box">要望BOX</a>からお知らせください。確認のうえ、訂正・追記・削除に柔軟に対応します。</p>
+  </section>
+
+  <section class="news-card" aria-labelledby="newsTitle">
+    <div class="news-card-head">
+      <h2 id="newsTitle">📰 草むら速報</h2>
+      <span class="news-date">2026年9月28日・試験版</span>
+    </div>
+    <p class="news-caption">公開投稿・返信・配信枠から確認できた話題を、個人の身元や匿名IDに依存しない形で中立的に要約しています。見出しをタップすると記事が開きます。</p>
+    <div class="news-ticker" aria-label="草むら速報の見出し">
+      <div id="newsTrack" class="news-track"></div>
+    </div>
+  </section>
+
+  <div class="search-box">
+    <input id="searchInput" type="search" placeholder="ネームド名を検索" autocomplete="off">
+  </div>
+  <div class="filter-bar" aria-label="分類フィルター">
+    <span class="detail-label" style="margin:0 4px 0 0">分類：</span>
+    <button class="filter-button is-active" type="button" data-filter="all">すべて</button>
+    <button class="filter-button" type="button" data-filter="交流型">交流型</button>
+    <button class="filter-button" type="button" data-filter="お絵描き型">お絵描き型</button>
+    <button class="filter-button" type="button" data-filter="音楽話題型">音楽話題型</button>
+    <button class="filter-button" type="button" data-filter="情報不足">情報不足</button>
+  </div>
+  <div class="type-filter-bar" aria-label="ネームドとコテハンの分類フィルター">
+    <span class="detail-label" style="margin:0 4px 0 0">呼ばれ方：</span>
+    <button class="filter-button is-active" type="button" data-type-filter="all">すべて</button>
+    <button class="filter-button" type="button" data-type-filter="named">🌿 ネームド</button>
+    <button class="filter-button" type="button" data-type-filter="handle">🏷️ コテハン</button>
+    <button class="filter-button" type="button" data-type-filter="both">🌿🏷️ 両方</button>
+    <button class="filter-button" type="button" data-type-filter="unknown">❔ 判定保留</button>
+  </div>
+  <button id="randomButton" class="random-button" type="button">🌿 草むらを適当に調べる</button>
+  <div class="explore-box">
+    <button id="exploreButton" class="explore-button" type="button">🍃 草むらを探索する</button>
+    <span id="exploreMessage" class="explore-message" aria-live="polite">葉音だけが聞こえます。</span>
+  </div>
+
+  <section class="gacha-card is-collapsed" id="kusa-gacha" aria-label="草ガチャ">
+    <button id="gachaToggle" class="gacha-toggle" type="button" aria-expanded="false" aria-controls="gachaPanel" aria-label="草ガチャを開く">🎴</button>
+    <span class="gacha-toggle-label">草ガチャ</span>
+    <div id="gachaPanel" class="gacha-panel" hidden>
+      <button id="gachaClose" class="gacha-close" type="button" aria-label="草ガチャを閉じる">×</button>
+      <p>6時間に1回、草むらからカードを1枚発見できます。抽選結果はこのブラウザ内にだけ保存されます。</p>
+      <button id="gachaButton" class="gacha-button" type="button">🌿 ガチャを引く</button>
+      <span id="gachaTimer" class="gacha-timer" aria-live="polite"></span>
+      <div id="gachaResult" class="gacha-result" aria-live="polite"></div>
+      <div class="gacha-book">
+        <div class="gacha-book-head"><span>カード図鑑</span><span id="gachaBookCount" class="gacha-book-count">0 / 0種</span></div>
+        <div id="gachaBookGrid" class="gacha-book-grid"></div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="site-map" aria-label="事典の案内">
+    <a href="#about-kusa">🌿 kusaとは</a>
+    <a href="#name-types">🏷️ ネームドとコテハン</a>
+    <a href="#kusa-history">📜 kusaの歴史</a>
+    <a href="#how-to-use">🧭 kusaの使い方</a>
+    <a href="#kusa-glossary">📖 用語集</a>
+  </nav>
+
+  <nav class="kana-nav" aria-label="50音ナビ">
+    <a href="#あ">あ行</a><a href="#か">か行</a><a href="#さ">さ行</a>
+    <a href="#た">た行</a><a href="#な">な行</a><a href="#は">は行</a>
+    <a href="#ま">ま行</a><a href="#や">や行</a><a href="#ら">ら行</a>
+    <a href="#わ">わ行</a>
+  </nav>
+
+  <section class="section" id="あ"><div class="section-title"><span>あ行</span><span class="mini-grass">🌿</span></div><ul class="name-list"><li class="named-item" data-name="荒特"><span class="leaf">🌱</span><span class="name">荒特</span></li><li class="named-item" data-name="アキネイター"><span class="leaf">🌱</span><span class="name">アキネイター</span></li><li class="named-item" data-name="ウザミク"><span class="leaf">🌱</span><span class="name">ウザミク</span></li><li class="named-item" data-name="笑顔族"><span class="leaf">🌱</span><span class="name">笑顔族</span></li><li class="named-item" data-name="おえちゃんonis"><span class="leaf">🌱</span><span class="name">おえちゃんonis</span></li></ul></section><section class="section" id="か"><div class="section-title"><span>か行</span><span class="mini-grass">🌿</span></div><ul class="name-list"><li class="named-item" data-name="香川"><span class="leaf">🌱</span><span class="name">香川</span></li><li class="named-item" data-name="顔晒し"><span class="leaf">🌱</span><span class="name">顔晒し</span></li><li class="named-item" data-name="きい"><span class="leaf">🌱</span><span class="name">きい</span></li><li class="named-item" data-name="キルリヤ大佐"><span class="leaf">🌱</span><span class="name">キルリヤ大佐</span></li><li class="named-item" data-name="ゴエモン"><span class="leaf">🌱</span><span class="name">ゴエモン</span></li><li class="named-item" data-name="ゴールドタイガー"><span class="leaf">🌱</span><span class="name">ゴールドタイガー</span></li></ul></section><section class="section" id="さ"><div class="section-title"><span>さ行</span><span class="mini-grass">🌿</span></div><ul class="name-list"><li class="named-item" data-name="サツヨコ"><span class="leaf">🌱</span><span class="name">サツヨコ</span></li><li class="named-item" data-name="小6"><span class="leaf">🌱</span><span class="name">小6</span></li><li class="named-item" data-name="しそういqr"><span class="leaf">🌱</span><span class="name">しそういQR</span></li><li class="named-item" data-name="擦り寄り"><span class="leaf">🌱</span><span class="name">擦り寄り</span></li><li class="named-item" data-name="全肯定"><span class="leaf">🌱</span><span class="name">全肯定</span></li></ul></section><section class="section" id="た"><div class="section-title"><span>た行</span><span class="mini-grass">🌿</span></div><ul class="name-list"><li class="named-item" data-name="拓也"><span class="leaf">🌱</span><span class="name">拓也</span></li><li class="named-item" data-name="千歳"><span class="leaf">🌱</span><span class="name">千歳</span></li><li class="named-item" data-name="中受"><span class="leaf">🌱</span><span class="name">中受</span></li><li class="named-item" data-name="チュバシャド"><span class="leaf">🌱</span><span class="name">チュバシャド</span></li><li class="named-item" data-name="チカブラバン"><span class="leaf">🌱</span><span class="name">チカブラバン</span></li><li class="named-item" data-name="デカキン"><span class="leaf">🌱</span><span class="name">デカキン</span></li></ul></section><section class="section" id="な"><div class="section-title"><span>な行</span><span class="mini-grass">🌿</span></div><ul class="name-list"><li class="named-item" data-name="長門"><span class="leaf">🌱</span><span class="name">長門</span></li><li class="named-item" data-name="虹神"><span class="leaf">🌱</span><span class="name">虹神</span></li><li class="named-item" data-name="にゃむ"><span class="leaf">🌱</span><span class="name">にゃむ</span></li><li class="named-item" data-name="猫jk"><span class="leaf">🌱</span><span class="name">猫jk</span></li><li class="named-item" data-name="ノープ"><span class="leaf">🌱</span><span class="name">ノープ</span></li></ul></section><section class="section" id="は"><div class="section-title"><span>は行</span><span class="mini-grass">🌿</span></div><ul class="name-list"><li class="named-item" data-name="バッドテト"><span class="leaf">🌱</span><span class="name">バッドテト</span></li><li class="named-item" data-name="兵庫受験生_pbだけど"><span class="leaf">🌱</span><span class="name">兵庫受験生_PBだけど</span></li><li class="named-item" data-name="ふぁぼふむ"><span class="leaf">🌱</span><span class="name">ふぁぼふむ</span></li><li class="named-item" data-name="ぷゆぷゆパンガイ"><span class="leaf">🌱</span><span class="name">ぷゆぷゆパンガイ</span></li><li class="named-item" data-name="ベータちゃん"><span class="leaf">🌱</span><span class="name">ベータちゃん</span></li><li class="named-item" data-name="ぺこら"><span class="leaf">🌱</span><span class="name">ぺこら</span></li><li class="named-item" data-name="ホイ卒包丁おじ"><span class="leaf">🌱</span><span class="name">ホイ卒包丁おじ</span></li></ul></section><section class="section" id="ま"><div class="section-title"><span>ま行</span><span class="mini-grass">🌿</span></div><ul class="name-list"><li class="named-item" data-name="ミク絵師"><span class="leaf">🌱</span><span class="name">ミク絵師</span></li></ul></section><section class="section" id="や"><div class="section-title"><span>や行</span><span class="mini-grass">🌿</span></div><ul class="name-list"><li class="named-item" data-name="ユニコーン"><span class="leaf">🌱</span><span class="name">ユニコーン</span></li></ul></section><section class="section" id="ら"><div class="section-title"><span>ら行</span><span class="mini-grass">🌿</span></div><ul class="name-list"><li class="named-item" data-name="らべんだーラテアート"><span class="leaf">🌱</span><span class="name">らべんだーラテアート</span></li><li class="named-item" data-name="霊王"><span class="leaf">🌱</span><span class="name">霊王</span></li><li class="named-item" data-name="ロゼ"><span class="leaf">🌱</span><span class="name">ロゼ</span></li><li class="named-item" data-name="ロリガイ"><span class="leaf">🌱</span><span class="name">ロリガイ</span></li></ul></section><section class="section" id="わ"><div class="section-title"><span>わ行</span><span class="mini-grass">🌿</span></div><ul class="name-list"><li class="named-item" data-name="ワイテjc"><span class="leaf">🌱</span><span class="name">ワイテjc</span></li></ul></section>
+  <section class="section" id="valokichi-source" hidden><ul class="name-list"><li class="named-item" data-name="ヴァロキチ"><span class="leaf">🌱</span><span class="name">ヴァロキチ</span></li></ul></section>
+  <section class="section" id="new-named-source" hidden><ul class="name-list">
+    <li class="named-item" data-name="一日五食ガイジ"><span class="leaf">🌱</span><span class="name">一日五食ガイジ</span></li>
+    <li class="named-item" data-name="コロッケガイジ"><span class="leaf">🌱</span><span class="name">コロッケガイジ</span></li>
+    <li class="named-item" data-name="ことわざバトルガイジ"><span class="leaf">🌱</span><span class="name">ことわざバトルガイジ</span></li>
+    <li class="named-item" data-name="タラタラガイジ"><span class="leaf">🌱</span><span class="name">タラタラガイジ</span></li>
+    <li class="named-item" data-name="カリカリガイジ"><span class="leaf">🌱</span><span class="name">カリカリガイジ</span></li>
+    <li class="named-item" data-name="ぷゆガイ"><span class="leaf">🌱</span><span class="name">ぷゆガイ</span></li>
+    <li class="named-item" data-name="全肯定おじ"><span class="leaf">🌱</span><span class="name">全肯定おじ</span></li>
+    <li class="named-item" data-name="全肯定お兄さん"><span class="leaf">🌱</span><span class="name">全肯定お兄さん</span></li>
+    <li class="named-item" data-name="赤ゆに"><span class="leaf">🌱</span><span class="name">赤ゆに</span></li>
+    <li class="named-item" data-name="サツヨコピングー"><span class="leaf">🌱</span><span class="name">サツヨコピングー</span></li>
+    <li class="named-item" data-name="しそニートだけど"><span class="leaf">🌱</span><span class="name">しそニートだけど</span></li>
+    <li class="named-item" data-name="チュパカブラ"><span class="leaf">🌱</span><span class="name">チュパカブラ</span></li>
+    <li class="named-item" data-name="きうい"><span class="leaf">🌱</span><span class="name">きうい</span></li>
+    <li class="named-item" data-name="ビビアミ"><span class="leaf">🌱</span><span class="name">ビビアミ</span></li>
+    <li class="named-item" data-name="エジプト壁画ガイジ"><span class="leaf">🌱</span><span class="name">エジプト壁画ガイジ</span></li>
+    <li class="named-item" data-name="リコーダーガイジ"><span class="leaf">🌱</span><span class="name">リコーダーガイジ</span></li>
+    <li class="named-item" data-name="クウガイジ"><span class="leaf">🌱</span><span class="name">クウガイジ</span></li>
+    <li class="named-item" data-name="ぷゆゆ特化の可愛い魔法シャドバンガイジ"><span class="leaf">🌱</span><span class="name">ぷゆゆ特化の可愛い魔法シャドバンガイジ</span></li>
+    <li class="named-item" data-name="矢言ニキ"><span class="leaf">🌱</span><span class="name">矢言ニキ</span></li>
+    <li class="named-item" data-name="むほほおじさん"><span class="leaf">🌱</span><span class="name">むほほおじさん</span></li>
+    <li class="named-item" data-name="シオン"><span class="leaf">🌱</span><span class="name">シオン</span></li>
+    <li class="named-item" data-name="トリッカル"><span class="leaf">🌱</span><span class="name">トリッカル</span></li>
+    <li class="named-item" data-name="ガチンコマン"><span class="leaf">🌱</span><span class="name">ガチンコマン</span></li>
+  </ul></section>
+  <div id="empty" class="empty">🌱 該当するネームドが見つかりません。</div>
+
+  <div id="encounterOverlay" class="encounter-overlay" role="status" aria-live="polite" aria-hidden="true">
+    <div id="encounterCopy" class="encounter-copy">草むらを調べています……</div>
+  </div>
+
+  <div id="detailModal" class="detail-modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <section class="detail-panel">
+      <div class="detail-head">
+        <div class="detail-title-wrap">
+          <h2 id="detailTitle">ネームド詳細</h2>
+          <span id="detailTypeBadge" class="type-badge detail-type-badge"></span>
+        </div>
+        <button class="detail-close" type="button" aria-label="詳細を閉じる">×</button>
+      </div>
+      <div class="detail-body">
+        <p class="detail-label">簡単な紹介</p>
+        <p id="detailDescription" class="detail-text"></p>
+        <p class="detail-label">kusaでよく見られる話題</p>
+        <p id="detailTopics" class="detail-text"></p>
+        <p class="detail-label">特徴・アイコンの傾向</p>
+        <p id="detailFeatures" class="detail-text"></p>
+      </div>
+    </section>
+  </div>
+
+  <div id="newsModal" class="news-modal" role="dialog" aria-modal="true" aria-labelledby="newsModalTitle" hidden>
+    <article class="news-panel">
+      <div class="news-panel-head">
+        <div><h2 id="newsModalTitle">草むら速報</h2><p id="newsModalDate"></p></div>
+        <button id="newsModalClose" class="news-panel-close" type="button" aria-label="記事を閉じる">×</button>
+      </div>
+      <div class="news-panel-body">
+        <p id="newsModalBody"></p>
+        <p id="newsModalSource" class="news-source"></p>
+      </div>
+    </article>
+  </div>
+
+  <section class="info-card" id="about-kusa" aria-labelledby="aboutKusaTitle">
+    <h2 id="aboutKusaTitle">kusaとは</h2>
+    <p>kusaは、短い投稿や返信で交流する匿名SNSです。投稿やアカウントが24時間で消えるため、一般的なSNSとは異なる一日限りの空気と、独特のネームド文化が生まれています。</p>
+    <p>詳しい仕様や利用は<a href="https://kusa.open2ch.net/" target="_blank" rel="noopener noreferrer">kusa</a>で確認してください。</p>
+  </section>
+
+  <section class="info-card" id="name-types" aria-labelledby="nameTypesTitle">
+    <h2 id="nameTypesTitle">ネームドとコテハンの違い</h2>
+    <div class="term-grid">
+      <div><strong>🌿 ネームド</strong>他の利用者から、その名前で呼ばれたネームド。</div>
+      <div><strong>🏷️ コテハン</strong>本人が自分で、その名前を名乗ったコテハン。</div>
+      <div><strong>🌿🏷️ 両方</strong>本人の名乗りと、他の利用者からの呼称の両方を確認できたもの。</div>
+      <div><strong>❔ 判定保留</strong>名前は確認できても、呼ばれ方・名乗り方の根拠が不足しているもの。</div>
+    </div>
+    <p style="margin-top:12px">この区分はkusa上での呼ばれ方を整理するためのもので、現実の人物の身元や属性を示すものではありません。</p>
+  </section>
+
+  <section class="info-card" id="kusa-history" aria-labelledby="historyTitle">
+    <h2 id="historyTitle">kusaの歴史</h2>
+    <div class="history-track">
+      <div class="era"><strong>2026年5月13日 — kusa誕生</strong><span>kusaが生まれた日。</span></div>
+      <div class="era"><strong>初期 — 草むらの形成</strong><span>短文投稿と返信を中心に、日々入れ替わる匿名の交流空間が形成される。</span></div>
+      <div class="era"><strong>発展期 — ネームド文化の成立</strong><span>独特のアイコン、話題、口調を持つネームドが認識され、呼び名が生まれていく。</span></div>
+      <div class="era"><strong>現在 — 消えること自体が文化になる</strong><span>投稿が残らないからこそ、その日の出来事やネームドの印象が草むらの伝承として語られる。</span></div>
+    </div>
+    <p class="detail-status" style="margin-top:14px">開設日は確定情報として記載しています。個々の出来事は、確認できた範囲と伝承を分けて整理します。</p>
+  </section>
+
+  <section class="info-card" id="how-to-use" aria-labelledby="howToUseTitle">
+    <h2 id="howToUseTitle">kusaの使い方</h2>
+    <p>kusaでは、タイムラインから投稿を読み、短い文章や画像を投稿し、返信欄で他のネームドと交流します。アイコンや話題が繰り返し認識されると、ネームドとして呼ばれることがあります。</p>
+    <div class="term-grid">
+      <div><strong>投稿を見る</strong>流れてくる草むらの様子を読む。</div>
+      <div><strong>返信する</strong>投稿にレスを付けて交流する。</div>
+      <div><strong>アイコンを設定する</strong>自分を見分ける目印になる。</div>
+      <div><strong>24時間リセット</strong>投稿やアカウントが消え、草むらが入れ替わる。</div>
+    </div>
+  </section>
+
+  <section class="info-card" id="kusa-glossary" aria-labelledby="glossaryTitle">
+    <h2 id="glossaryTitle">kusa用語集</h2>
+    <div class="term-grid">
+      <div><strong>ネームド</strong>アイコン、話題、口調などから継続して認識される存在。</div>
+      <div><strong>草むら</strong>その日に開かれているkusa全体を指す、この事典での比喩。</div>
+      <div><strong>個体</strong>特定の現実人物ではなく、kusa上の活動単位を指す表現。</div>
+      <div><strong>生態記録</strong>投稿・返信から見える活動傾向をまとめたもの。</div>
+      <div><strong>観察員メモ</strong>事実とネタを区別した、中立的な紹介文。</div>
+      <div><strong>観察信頼度</strong>本人の明言、複数の一致、他者の呼称などを総合した目安。</div>
+    </div>
+  </section>
+
+  <section class="info-card" id="confidence-guide" aria-labelledby="confidenceTitle">
+    <h2 id="confidenceTitle">観察信頼度について</h2>
+    <div class="term-grid">
+      <div><strong>確定</strong>本人の明言など、呼称との結び付きが明確な記録。</div>
+      <div><strong>有力</strong>複数の話題や呼びかけが一致している記録。</div>
+      <div><strong>暫定</strong>関連は考えられるが、根拠がまだ少ない記録。</div>
+      <div><strong>情報不足</strong>名前は一覧にあるが、紹介を作れるほどの記録がない状態。</div>
+    </div>
+  </section>
+
+  <section class="info-card" id="revision-history" aria-labelledby="revisionTitle">
+    <h2 id="revisionTitle">kusa事典の更新履歴</h2>
+    <div class="era"><strong>2026年9月28日</strong><span>サイト名を「kusa事典」に変更しました。kusaの用語、文化、出来事を整理する構成に更新しました。</span></div>
+    <div class="era"><strong>2026年9月28日</strong><span>ネームドとコテハンの違いを説明する項目を追加しました。判断できないものは「判定保留」として表示しています。</span></div>
+    <div class="era"><strong>2026年9月28日</strong><span>サイト内の案内、利用上の注意、削除・訂正依頼の説明を整理しました。</span></div>
+    <div class="era"><strong>2026年9月28日</strong><span>草ガチャと草むら速報を追加しました。草むら速報は、公開範囲で確認できた話題を簡潔にまとめる試験的な機能です。</span></div>
+  </section>
+
+  <section class="info-card" id="about-site" aria-labelledby="aboutSiteTitle">
+    <h2 id="aboutSiteTitle">このサイトについて</h2>
+    <p>kusa事典は、kusaで語られるネームド、用語、出来事、文化を整理する非公式サイトです。kusaの運営者とは関係ありません。紹介は、24時間で変わる匿名IDや個別URLに依存しない形でまとめています。</p>
+  </section>
+
+  <section class="info-card" id="usage-notes" aria-labelledby="usageNotesTitle">
+    <h2 id="usageNotesTitle">観察方針・利用上の注意</h2>
+    <p>掲載内容はkusa上で観察された活動上の特徴を、図鑑・事典風に整理したものです。掲載名やアイコンだけで同一人物・現実の人物とは断定しません。本人の現実の身元、年齢、住所、学校、職業、家族構成、人格などを特定・推測・断定するものではありません。</p>
+    <p>投稿や返信の一部だけを切り取って人格を判断せず、確認できた範囲と推測を区別して記載します。情報は調査時点のものであり、kusaの仕様上、現在の状況と異なる場合があります。</p>
+    <p>掲載内容の誤り、不都合、掲載を希望しない事情を見つけた場合は、<a href="#correction-request">削除・訂正依頼</a>からお知らせください。本人からの削除依頼を含め、掲載継続が適切でないと判断した場合は、原則として速やかに非表示・削除します。</p>
+    <p>掲載内容の転載・晒し・嫌がらせ目的での利用はお控えください。要望BOXには、本名・住所・電話番号・学校名・勤務先などの個人情報や、投稿の転載を送らないでください。</p>
+  </section>
+
+  <section class="info-card" id="privacy-policy" aria-labelledby="privacyTitle">
+    <h2 id="privacyTitle">プライバシーポリシー</h2>
+    <p>このページのHTMLでは、現時点でGoogle広告やアクセス解析のタグを設置していません。名鑑の検索入力はブラウザ内で処理し、このページから検索語を送信しません。</p>
+    <h3>外部サービスと送信される情報</h3>
+    <p>要望BOXはTallyのフォームへの通常リンクで開きます。フォームを開く・送信する際には入力内容がTallyに送信されます。本サイトではネームドのアイコン画像を表示せず、確認できた見た目の傾向だけを文章で記録しています。</p>
+    <h3>公開基盤</h3>
+    <p>本サイトをGitHub Pagesで公開する場合、GitHub Pagesの運用上、アクセス元のIPアドレス等がGitHub側で記録される場合があります。GitHub Pagesのプライバシーに関する説明もご確認ください。</p>
+    <h3>お問い合わせの利用</h3>
+    <p>要望BOXに寄せられた内容は、掲載の追加・訂正・削除への対応に利用します。本文に連絡先などを書いた場合、その情報もTallyへ送信されます。本名・住所・電話番号・学校名・勤務先などの個人情報は送らず、掲載名と理由だけを記入してください。</p>
+    <h3>広告を導入する場合</h3>
+    <p>将来Google広告を設置する場合は、広告によるCookie・識別子・IPアドレス等の収集と利用、必要な同意の取得方法を確認し、このポリシーを更新してから表示します。Googleの広告におけるデータ利用は<a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">Googleの説明</a>をご覧ください。</p>
+    <h3>訂正・削除と改定</h3>
+    <p>掲載内容の訂正・削除依頼は<a href="#correction-request">要望BOX</a>から受け付けます。このポリシーは使用するサービスや運営方法が変わった際に改定します。最終更新：2026年9月28日。</p>
+  </section>
+
+  <section class="info-card" id="correction-request" aria-labelledby="correctionTitle">
+    <h2 id="correctionTitle">削除・訂正依頼</h2>
+    <p>掲載名、訂正・削除したい箇所、理由を<a href="https://tally.so/r/ODv2XR" target="_blank" rel="noopener noreferrer">要望BOX</a>からお知らせください。公開情報を照合して対応します。本名・住所・電話番号・学校名・勤務先などの個人情報は送らず、掲載名と理由だけを記入してください。</p>
+  </section>
+
+  <section class="request-box" id="request-box" aria-labelledby="requestBoxTitle">
+    <h2 id="requestBoxTitle">🌱 要望BOX</h2>
+    <p>
+      ネームドの追加・名前の修正・掲載漏れ・削除依頼などがある場合は、
+      こちらから管理人「作曲家」へ匿名で情報を送れます。
+    </p>
+
+    <a class="request-button" href="https://tally.so/r/ODv2XR" target="_blank" rel="noopener noreferrer">
+      🌿 要望BOXを開く
+    </a>
+
+    <span class="request-sub">
+      ポップアップが開かない場合は
+      <a class="request-fallback" href="https://tally.so/r/ODv2XR" target="_blank" rel="noopener noreferrer">
+        要望BOXを別ページで開く
+      </a>
+    </span>
+  </section>
+
+  <div class="note">
+    ※ 本ページは非公式の一覧です。
+  </div>
+
+  <footer>
+    <div class="footer-grass">🌱🌿🌱</div>
+    <nav class="footer-links" aria-label="サイト案内">
+      <a href="#about-kusa">kusaとは</a>
+      <a href="#kusa-history">歴史</a>
+      <a href="#how-to-use">使い方</a>
+      <a href="#kusa-glossary">用語集</a>
+      <a href="#confidence-guide">信頼度</a>
+      <a href="#revision-history">更新履歴</a>
+      <a href="#privacy-policy">プライバシーポリシー</a>
+      <a href="#about-site">このサイトについて</a>
+      <a href="#correction-request">削除・訂正依頼</a>
+      <a href="#usage-notes">利用上の注意</a>
+    </nav>
+    kusa非公式サイト・kusa運営とは無関係
+  </footer>
+</main>
+
+<script>
+const input = document.getElementById('searchInput');
+const items = [...document.querySelectorAll('.named-item')];
+const sections = [...document.querySelectorAll('.section')];
+const filterButtons = [...document.querySelectorAll('[data-filter]')];
+const randomButton = document.getElementById('randomButton');
+const themeButton = document.getElementById('themeButton');
+const exploreButton = document.getElementById('exploreButton');
+const exploreMessage = document.getElementById('exploreMessage');
+const encounterOverlay = document.getElementById('encounterOverlay');
+const encounterCopy = document.getElementById('encounterCopy');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const count = document.getElementById('count');
+const empty = document.getElementById('empty');
+const detailModal = document.getElementById('detailModal');
+const detailPanel = document.querySelector('.detail-panel');
+const detailTitle = document.getElementById('detailTitle');
+const detailTypeBadge = document.getElementById('detailTypeBadge');
+const detailDescription = document.getElementById('detailDescription');
+const detailTopics = document.getElementById('detailTopics');
+const detailFeatures = document.getElementById('detailFeatures');
+const detailClose = document.querySelector('.detail-close');
+const gachaButton = document.getElementById('gachaButton');
+const gachaTimer = document.getElementById('gachaTimer');
+const gachaResult = document.getElementById('gachaResult');
+const gachaBookGrid = document.getElementById('gachaBookGrid');
+const gachaBookCount = document.getElementById('gachaBookCount');
+const gachaShell = document.getElementById('kusa-gacha');
+const gachaToggle = document.getElementById('gachaToggle');
+const gachaPanel = document.getElementById('gachaPanel');
+const gachaClose = document.getElementById('gachaClose');
+const newsTrack = document.getElementById('newsTrack');
+const newsModal = document.getElementById('newsModal');
+const newsModalTitle = document.getElementById('newsModalTitle');
+const newsModalDate = document.getElementById('newsModalDate');
+const newsModalBody = document.getElementById('newsModalBody');
+const newsModalSource = document.getElementById('newsModalSource');
+const newsModalClose = document.getElementById('newsModalClose');
+
+const newsItems = Object.freeze([
+  {
+    date: '2026年9月28日',
+    headline: 'ネームド一覧サイト作戦会議の配信が終了',
+    body: 'kusaの終了配信枠で、ネームド一覧サイトについて話し合う「ネームド一覧サイト作戦会議」が確認された。配信では、掲載情報の追加、シンプルで中立的な紹介、要望フォーム、カードやガチャなどのアイデアが話題になった。',
+    source: '確認範囲：公開されていた配信タイトルと配信内の公開コメント。匿名ID・個別の発言者情報は記事に記載していません。'
+  },
+  {
+    date: '2026年9月28日',
+    headline: 'ぬとらじをめぐる短いやり取りが発生',
+    body: '投稿欄で、ぬとらじが流行しているのかを尋ねる投稿があり、返信欄で配信文化について別の見方を示す反応が寄せられていた。また、配信枠にはぬとらじ関連のタイトルも表示されていた。',
+    source: '確認範囲：公開投稿・返信と、確認時点の配信枠一覧。流行の規模や因果関係を断定するものではありません。'
+  },
+  {
+    date: '2026年9月28日',
+    headline: 'お絵描き投稿と動画紹介がタイムラインに並ぶ',
+    body: 'タイムラインでは、#お絵描きの投稿やキャラクターを題材にした作品紹介、動画紹介が確認された。投稿への返信もあり、作品をきっかけにした短い交流が生まれていた。',
+    source: '確認範囲：公開タイムライン上の投稿・返信。作品の作者や投稿者の現実の属性は扱っていません。'
+  }
+]);
+
+function renderNewsTicker() {
+  newsTrack.replaceChildren();
+  newsItems.concat(newsItems).forEach((item, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'news-item';
+    button.dataset.newsIndex = String(index % newsItems.length);
+    const label = document.createElement('span');
+    label.className = 'news-label';
+    label.textContent = '速報';
+    const headline = document.createElement('span');
+    headline.textContent = item.headline;
+    button.append(label, headline);
+    button.addEventListener('click', () => openNews(index % newsItems.length));
+    newsTrack.appendChild(button);
+  });
+}
+
+function openNews(index) {
+  const item = newsItems[index];
+  if (!item) return;
+  newsModalTitle.textContent = item.headline;
+  newsModalDate.textContent = item.date;
+  newsModalBody.textContent = item.body;
+  newsModalSource.textContent = item.source;
+  newsModal.hidden = false;
+  newsModal.classList.add('is-open');
+}
+
+function closeNews() {
+  newsModal.classList.remove('is-open');
+  newsModal.hidden = true;
+}
+renderNewsTicker();
+
+let newsOffset = 0;
+let newsLastFrame = performance.now();
+let newsDragging = false;
+let newsPointerId = null;
+let newsDragStartX = 0;
+let newsDragStartOffset = 0;
+let newsDragMoved = false;
+let newsPressedButton = null;
+let newsSuppressClickUntil = 0;
+
+function newsCycleWidth() {
+  return newsTrack.scrollWidth / 2;
+}
+
+function normalizeNewsOffset() {
+  const cycle = newsCycleWidth();
+  if (!cycle) return;
+  while (newsOffset <= -cycle) newsOffset += cycle;
+  while (newsOffset > 0) newsOffset -= cycle;
+}
+
+function renderNewsOffset() {
+  newsTrack.style.transform = `translate3d(${newsOffset}px, 0, 0)`;
+}
+
+function animateNews(now) {
+  const elapsed = now - newsLastFrame;
+  newsLastFrame = now;
+  if (!reduceMotion && !newsDragging) {
+    newsOffset -= elapsed * 0.035;
+    normalizeNewsOffset();
+    renderNewsOffset();
+  }
+  window.requestAnimationFrame(animateNews);
+}
+
+function finishNewsDrag(allowClick) {
+  if (!newsDragging) return;
+  const clickedButton = allowClick && !newsDragMoved ? newsPressedButton : null;
+  newsDragging = false;
+  newsTrack.classList.remove('is-dragging');
+  newsLastFrame = performance.now();
+  if (newsDragMoved || clickedButton) newsSuppressClickUntil = Date.now() + 350;
+  if (newsPointerId !== null && newsTrack.hasPointerCapture(newsPointerId)) {
+    newsTrack.releasePointerCapture(newsPointerId);
+  }
+  newsPointerId = null;
+  newsPressedButton = null;
+  if (clickedButton) openNews(Number(clickedButton.dataset.newsIndex));
+}
+
+newsTrack.addEventListener('pointerdown', event => {
+  newsDragging = true;
+  newsPointerId = event.pointerId;
+  newsDragStartX = event.clientX;
+  newsDragStartOffset = newsOffset;
+  newsDragMoved = false;
+  newsPressedButton = event.target.closest('.news-item');
+  newsTrack.classList.add('is-dragging');
+  newsTrack.setPointerCapture(event.pointerId);
+});
+newsTrack.addEventListener('pointermove', event => {
+  if (!newsDragging || event.pointerId !== newsPointerId) return;
+  const delta = event.clientX - newsDragStartX;
+  if (Math.abs(delta) > 6) newsDragMoved = true;
+  if (newsDragMoved) {
+    event.preventDefault();
+    newsOffset = newsDragStartOffset + delta;
+    normalizeNewsOffset();
+    renderNewsOffset();
+  }
+});
+newsTrack.addEventListener('pointerup', () => finishNewsDrag(true));
+newsTrack.addEventListener('pointercancel', () => finishNewsDrag(false));
+newsTrack.addEventListener('click', event => {
+  if (Date.now() < newsSuppressClickUntil) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+}, true);
+window.requestAnimationFrame(animateNews);
+
+// kusaで確認できた情報だけをここへ追加する。未確認の名前は空のまま保持する。
+const namedDetails = Object.freeze({
+  '猫jk': {
+    description: '音ノ乃ののを好むことなど、音楽・Vtuberに関する自己紹介が記載されているネームド。',
+    classification: '音楽話題型・プロフィール型',
+    topics: '確認できたプロフィールでは、音ノ乃ののを中心としたVtuber・音楽の話題が見られる。',
+    preferences: '音ノ乃ののが好きだとプロフィールに記載している。その他の好き嫌いは継続した傾向として確認できていない。',
+    activity: '2026年9月頃から確認。過去の正確な開始時期は未確認。',
+    confidence: '確定（プロフィール記載）',
+    summary: '音楽やVtuberの話題を好み、プロフィールに自己紹介を掲載しているネームド。',
+    source: '公開プロフィールに記載された自己紹介をもとに整理。個別の匿名IDやURLは記録していない。'
+  },
+  'デカキン': {
+    description: 'kusa内でデカキンという呼称と結び付けられているネームド。呼びかけへの応答や継続した話題から、同じ人物として整理している。',
+    classification: '交流型・ネット文化型',
+    topics: '確認できた投稿・返信では、kusaの利用者との会話、イラスト、動画やネット文化、日常の出来事に触れている。',
+    preferences: 'ノープについて好意的に書いた投稿がある。その他の好き嫌いは継続した傾向としては確認できていない。',
+    activity: '2026年9月頃から確認。過去の正確な開始時期は未確認。',
+    confidence: '有力',
+    summary: 'ネット文化や日常の話題を交えながら、他の利用者と会話するタイプのネームド。',
+    iconTendency: '人物写真風の顔と紫髪のキャラクターを組み合わせた、ピンク背景のコラージュ系アイコン。',
+    source: '呼称・返信・投稿傾向を総合して整理。個別の匿名IDやURLは記録していない。'
+  },
+  '長門': {
+    description: '長門という呼称と、しまじろうカーなどの継続した話題が結び付いているネームド。',
+    classification: 'お絵描き型・アニメ話題型',
+    topics: '確認できた投稿では、しまじろうカー、アニメ・音楽、お絵描き、日常の出来事に触れている。',
+    preferences: 'しまじろうカーを「至高」と表現した投稿がある。苦手なものについて継続した傾向は確認できていない。',
+    activity: '2026年9月頃から確認。過去の正確な開始時期は未確認。',
+    confidence: '有力',
+    summary: 'キャラクターやアニメ、音楽、お絵描きなどの話題を中心に活動するネームド。',
+    iconTendency: '淡い紫髪と大きな目のアニメ調キャラクターを中心にした、きらめきのあるアイコン。',
+    source: '呼称・話題・プロフィール記載を総合して整理。個別の匿名IDやURLは記録していない。'
+  },
+  '霊王': {
+    description: '霊王という呼称を本人が用い、他の利用者からも継続して呼ばれているネームド。',
+    classification: '交流型・音楽話題型',
+    topics: '確認できた投稿では、日常の挨拶、音楽、アイコンについて触れている。',
+    preferences: '公開プロフィールの推しリストに楽曲を登録している。苦手なものについて継続した傾向は確認できていない。',
+    activity: '2026年9月頃から確認。過去の正確な開始時期は未確認。',
+    confidence: '確定',
+    summary: '日常の会話や音楽の話題、他のネームドとの交流が見られるネームド。',
+    iconTendency: '人物の肖像を虹色のグラデーションで表現した、色彩の強いアート系アイコン。',
+    source: '本人の明示的な名乗りと他者からの呼称を総合して整理。個別の匿名IDやURLは記録していない。'
+  },
+  'ロリガイ': {
+    description: 'ロリガイという呼称を本人が用い、他の利用者からも同じ名前で呼ばれているネームド。',
+    classification: '交流型・雑談型',
+    topics: '確認できた投稿・返信では、学校で流す音楽、アニメ、掲示板での交流などに触れている。短い冗談や意見の投稿も見られる。',
+    preferences: '好きなもの・苦手なものについて、継続した傾向を示すだけの根拠は確認できていない。',
+    activity: '2026年9月頃から確認。過去の正確な開始時期は未確認。',
+    confidence: '確定',
+    summary: '音楽、アニメ、掲示板内の交流などを話題にするネームド。',
+    iconTendency: '緑髪・緑目のアニメ調キャラクターがハンバーガーを持つ、食べ物モチーフのイラスト系アイコン。',
+    source: '本人の名乗りと他者からの呼称を総合して整理。個別の匿名IDやURLは記録していない。'
+  }
+});
+
+// 現時点で呼ばれ方の根拠を確定できるものだけ、ここへ個別登録する。
+// 未登録の名前はすべて「判定保留」として扱う。
+const typeByName = Object.freeze({});
+const typeMeta = Object.freeze({
+  named: { label: '🌿 ネームド', shortLabel: 'ネームド' },
+  handle: { label: '🏷️ コテハン', shortLabel: 'コテハン' },
+  both: { label: '🌿🏷️ 両方', shortLabel: '両方' },
+  unknown: { label: '❔ 判定保留', shortLabel: '判定保留' }
+});
+
+function getType(name) {
+  return typeMeta[typeByName[name]] ? typeByName[name] : 'unknown';
+}
+
+function addTypeBadges() {
+  items.forEach(item => {
+    const type = getType(item.dataset.name);
+    const badge = document.createElement('span');
+    badge.className = `type-badge type-${type}`;
+    badge.textContent = typeMeta[type].label;
+    badge.title = type === 'unknown' ? '呼ばれ方・名乗り方を確認中' : typeMeta[type].shortLabel;
+    item.classList.add(`type-${type}`);
+    item.appendChild(badge);
+  });
+}
+addTypeBadges();
+
+const gachaCooldown = 6 * 60 * 60 * 1000;
+const gachaStorageKey = 'kusa-jiten-gacha-v1';
+const rarityMeta = Object.freeze({
+  N: { label: 'N', name: '草むら' },
+  R: { label: 'R', name: '観測記録' },
+  SR: { label: 'SR', name: '珍種' },
+  SSR: { label: 'SSR', name: '希少種' },
+  UR: { label: 'UR', name: '幻の個体' }
+});
+const grassCards = Object.freeze([
+  { id: 'grass-001', rarity: 'N', kind: '雑草カード', emoji: '🌱', title: '若葉', text: '草むらの入口で見つかる、元気な若葉。' },
+  { id: 'grass-002', rarity: 'N', kind: '雑草カード', emoji: '🌿', title: '細葉', text: '風に揺れているだけの、平和な細葉。' },
+  { id: 'grass-003', rarity: 'N', kind: '雑草カード', emoji: '🍃', title: '飛んできた葉', text: 'どこからか飛んできた葉っぱ。情報量は少ない。' },
+  { id: 'grass-004', rarity: 'N', kind: '雑草カード', emoji: '☘️', title: '四つ葉ではない何か', text: '幸運かどうかは、まだ誰にも分からない。' },
+  { id: 'grass-005', rarity: 'N', kind: '雑草カード', emoji: '🌾', title: '草むらの穂', text: '今日も草むらは静かに揺れている。' }
+]);
+const glossaryCards = Object.freeze([
+  { id: 'glossary-001', rarity: 'N', kind: '用語カード', emoji: '📖', title: '24時間リセット', text: '投稿やアカウントが消え、草むらが入れ替わる仕組み。' },
+  { id: 'glossary-002', rarity: 'N', kind: '用語カード', emoji: '🏷️', title: 'コテハン', text: '本人が自ら名乗った名前。' },
+  { id: 'glossary-003', rarity: 'N', kind: '用語カード', emoji: '🌿', title: 'ネームド', text: '他の利用者から、その名前で呼ばれた存在。' },
+  { id: 'glossary-004', rarity: 'N', kind: '用語カード', emoji: '❔', title: '判定保留', text: '呼ばれ方や名乗り方の根拠がまだ不足している状態。' }
+]);
+const historyCards = Object.freeze([
+  { id: 'history-001', rarity: 'UR', kind: '歴史カード', emoji: '📜', title: 'kusa誕生', text: '2026年5月13日、kusaが生まれた日。' },
+  { id: 'history-002', rarity: 'UR', kind: '伝承カード', emoji: '🌌', title: '草むらの伝承', text: '消えていく投稿と、残っていく呼び名。' }
+]);
+
+function namedGachaCard(name, rarity) {
+  const detail = namedDetails[name];
+  const type = getType(name);
+  const typeLabel = typeMeta[type].shortLabel;
+  const description = detail?.description || 'このネームドについて、詳しい紹介はまだ整理中です。';
+  return {
+    id: `named-${rarity}-${name}`,
+    rarity,
+    kind: `${typeLabel}カード`,
+    emoji: type === 'handle' ? '🏷️' : type === 'named' ? '🌿' : '❔',
+    title: name,
+    text: description
+  };
+}
+
+function buildGachaPools() {
+  const names = items.map(item => item.dataset.name).filter(Boolean);
+  const knownNames = names.filter(name => namedDetails[name]);
+  const confirmedNames = knownNames.filter(name => ['確定', '確定（プロフィール記載）'].includes(namedDetails[name].confidence));
+  return {
+    grass: [...grassCards],
+    glossary: [...glossaryCards],
+    R: names.map(name => namedGachaCard(name, 'R')),
+    SR: knownNames.map(name => namedGachaCard(name, 'SR')),
+    SSR: confirmedNames.map(name => namedGachaCard(name, 'SSR')),
+    UR: [...historyCards]
+  };
+}
+
+function readGachaState() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(gachaStorageKey) || '{}');
+    return {
+      lastDrawAt: Number.isFinite(stored.lastDrawAt) ? stored.lastDrawAt : 0,
+      obtainedCards: Array.isArray(stored.obtainedCards) ? stored.obtainedCards.filter(card => typeof card === 'string') : [],
+      grassPoint: Number.isFinite(stored.grassPoint) ? stored.grassPoint : 0
+    };
+  } catch { return { lastDrawAt: 0, obtainedCards: [], grassPoint: 0 }; }
+}
+
+function saveGachaState(state) {
+  try { localStorage.setItem(gachaStorageKey, JSON.stringify(state)); } catch { /* 保存できない環境でも抽選は表示する */ }
+}
+
+function chooseWeightedRarity(pools) {
+  const weights = [['grass', 55], ['glossary', 15], ['R', 18], ['SR', 8], ['SSR', 3], ['UR', 1]];
+  const available = weights.filter(([group]) => pools[group]?.length);
+  const total = available.reduce((sum, [, weight]) => sum + weight, 0);
+  let roll = Math.random() * total;
+  for (const [group, weight] of available) {
+    roll -= weight;
+    if (roll < 0) return group;
+  }
+  return available[available.length - 1][0];
+}
+
+function chooseGachaCard(pools) {
+  const group = chooseWeightedRarity(pools);
+  const pool = pools[group] || pools.grass;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function formatRemaining(milliseconds) {
+  const totalSeconds = Math.max(0, Math.ceil(milliseconds / 1000));
+  const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+  const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+  const seconds = String(totalSeconds % 60).padStart(2, '0');
+  return `${hours}:${minutes}:${seconds}`;
+}
+
+function renderGachaCard(card, duplicate) {
+  gachaResult.replaceChildren();
+  const wrapper = document.createElement('article');
+  wrapper.className = `gacha-result-card rarity-${card.rarity}`;
+  if (!reduceMotion) wrapper.classList.add('is-revealing');
+  const meta = document.createElement('div');
+  const rarity = document.createElement('span');
+  rarity.className = 'gacha-rarity';
+  rarity.textContent = `${rarityMeta[card.rarity].label} ${rarityMeta[card.rarity].name}`;
+  const kind = document.createElement('span');
+  kind.className = 'gacha-kind';
+  kind.textContent = card.kind;
+  meta.append(rarity, kind);
+  const title = document.createElement('h3');
+  title.className = 'gacha-card-title';
+  title.textContent = `${card.emoji} ${card.title}`;
+  const textContent = document.createElement('p');
+  textContent.className = 'gacha-card-text';
+  textContent.textContent = card.text;
+  wrapper.append(meta, title, textContent);
+  if (duplicate) {
+    const duplicateMessage = document.createElement('p');
+    duplicateMessage.className = 'gacha-duplicate';
+    duplicateMessage.textContent = '重複カード。草ポイントを10pt獲得しました。';
+    wrapper.appendChild(duplicateMessage);
+  }
+  gachaResult.appendChild(wrapper);
+}
+
+function renderGachaBook(allCards, state) {
+  const obtained = new Set(state.obtainedCards);
+  const uniqueCount = allCards.filter(card => obtained.has(card.id)).length;
+  gachaBookCount.textContent = `${uniqueCount} / ${allCards.length}種`;
+  gachaBookGrid.replaceChildren();
+  allCards.forEach(card => {
+    const owned = obtained.has(card.id);
+    const item = document.createElement('div');
+    item.className = `gacha-book-item ${owned ? 'is-owned' : 'is-locked'}`;
+    const emoji = document.createElement('span');
+    emoji.className = 'gacha-book-emoji';
+    emoji.textContent = owned ? card.emoji : '？';
+    const name = document.createElement('span');
+    name.className = 'gacha-book-name';
+    name.textContent = owned ? card.title : '未発見';
+    item.append(emoji, name);
+    gachaBookGrid.appendChild(item);
+  });
+}
+
+function updateGachaAvailability() {
+  const state = readGachaState();
+  const remaining = state.lastDrawAt ? gachaCooldown - (Date.now() - state.lastDrawAt) : 0;
+  const available = remaining <= 0;
+  gachaButton.disabled = !available;
+  gachaTimer.textContent = available ? '抽選できます。' : `次回まで：あと ${formatRemaining(remaining)}`;
+  return state;
+}
+
+function setGachaOpen(open) {
+  gachaPanel.hidden = !open;
+  gachaShell.classList.toggle('is-collapsed', !open);
+  gachaToggle.setAttribute('aria-expanded', String(open));
+  gachaToggle.setAttribute('aria-label', open ? '草ガチャを閉じる' : '草ガチャを開く');
+}
+gachaToggle.addEventListener('click', () => setGachaOpen(gachaPanel.hidden));
+gachaClose.addEventListener('click', () => setGachaOpen(false));
+
+function initGacha() {
+  const pools = buildGachaPools();
+  const allCards = Object.values(pools).flat();
+  let state = updateGachaAvailability();
+  renderGachaBook(allCards, state);
+  gachaButton.addEventListener('click', () => {
+    state = updateGachaAvailability();
+    if (state.lastDrawAt && Date.now() - state.lastDrawAt < gachaCooldown) return;
+    const card = chooseGachaCard(pools);
+    const duplicate = state.obtainedCards.includes(card.id);
+    state.lastDrawAt = Date.now();
+    state.obtainedCards.push(card.id);
+    if (duplicate) state.grassPoint += 10;
+    saveGachaState(state);
+    renderGachaCard(card, duplicate);
+    renderGachaBook(allCards, state);
+    updateGachaAvailability();
+  });
+  window.setInterval(updateGachaAvailability, 1000);
+}
+
+function openDetail(name) {
+  const detail = namedDetails[name];
+  detailTitle.textContent = name;
+  const type = getType(name);
+  detailTypeBadge.className = `type-badge detail-type-badge type-${type}`;
+  detailTypeBadge.textContent = typeMeta[type].label;
+  detailTypeBadge.title = type === 'unknown' ? '呼ばれ方・名乗り方を確認中' : typeMeta[type].shortLabel;
+  detailDescription.textContent = detail?.description || 'kusa上で確認できた簡単な詳細はまだありません。';
+  detailTopics.textContent = detail?.topics || '確認できた話題はまだありません。';
+  const featureParts = [detail?.preferences, detail?.activity, detail?.iconTendency].filter(Boolean);
+  detailFeatures.textContent = featureParts.length
+    ? featureParts.join('\n')
+    : '確認できた特徴やアイコンの傾向はまだありません。';
+  detailModal.classList.add('is-open');
+  detailPanel.classList.remove('is-revealing');
+  if (!reduceMotion) requestAnimationFrame(() => detailPanel.classList.add('is-revealing'));
+}
+
+items.forEach(item => {
+  item.setAttribute('role', 'button');
+  item.setAttribute('tabindex', '0');
+  item.addEventListener('click', () => openDetail(item.dataset.name));
+  item.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openDetail(item.dataset.name); }
+  });
+});
+detailClose.addEventListener('click', () => detailModal.classList.remove('is-open'));
+detailModal.addEventListener('click', event => { if (event.target === detailModal) detailModal.classList.remove('is-open'); });
+newsModalClose.addEventListener('click', closeNews);
+newsModal.addEventListener('click', event => { if (event.target === newsModal) closeNews(); });
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    detailModal.classList.remove('is-open');
+    closeNews();
+  }
+});
+
+let activeFilter = 'all';
+let activeTypeFilter = 'all';
+
+function filterNames() {
+  const q = input.value.trim().toLowerCase();
+  let visible = 0;
+
+  items.forEach(item => {
+    const detail = namedDetails[item.dataset.name];
+    const categoryHit = activeFilter === 'all'
+      ? true
+      : activeFilter === '情報不足'
+        ? !detail
+        : Boolean(detail?.classification?.includes(activeFilter));
+    const typeHit = activeTypeFilter === 'all' || getType(item.dataset.name) === activeTypeFilter;
+    const hit = item.dataset.name.toLowerCase().includes(q) && categoryHit && typeHit;
+    item.style.display = hit ? '' : 'none';
+    if (hit) visible++;
+  });
+
+  sections.forEach(section => {
+    const anyVisible = [...section.querySelectorAll('.named-item')]
+      .some(item => item.style.display !== 'none');
+    section.style.display = anyVisible ? '' : 'none';
+  });
+
+  count.textContent = visible;
+  empty.style.display = visible === 0 ? 'block' : 'none';
+}
+
+input.addEventListener('input', filterNames);
+filterButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    activeFilter = button.dataset.filter || 'all';
+    filterButtons.forEach(candidate => candidate.classList.toggle('is-active', candidate === button));
+    filterNames();
+  });
+});
+const typeFilterButtons = [...document.querySelectorAll('[data-type-filter]')];
+typeFilterButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    activeTypeFilter = button.dataset.typeFilter || 'all';
+    typeFilterButtons.forEach(candidate => candidate.classList.toggle('is-active', candidate === button));
+    filterNames();
+  });
+});
+randomButton.addEventListener('click', () => {
+  const candidates = items.filter(item => item.style.display !== 'none');
+  if (!candidates.length) {
+    activeFilter = 'all';
+    activeTypeFilter = 'all';
+    input.value = '';
+    filterButtons.forEach(candidate => candidate.classList.toggle('is-active', candidate.dataset.filter === 'all'));
+    typeFilterButtons.forEach(candidate => candidate.classList.toggle('is-active', candidate.dataset.typeFilter === 'all'));
+    filterNames();
+  }
+  const available = items.filter(item => item.style.display !== 'none');
+  if (available.length) {
+    const name = available[Math.floor(Math.random() * available.length)].dataset.name;
+    encounter(name);
+  }
+});
+
+function encounter(name) {
+  if (reduceMotion) {
+    openDetail(name);
+    return;
+  }
+  encounterCopy.textContent = '草むらを調べています……\\n葉音を確認……\\n何かいる……';
+  encounterOverlay.classList.add('is-open');
+  encounterOverlay.setAttribute('aria-hidden', 'false');
+  window.setTimeout(() => {
+    encounterOverlay.classList.remove('is-open');
+    encounterOverlay.setAttribute('aria-hidden', 'true');
+    openDetail(name);
+  }, 850);
+}
+
+const explorationMessages = [
+  '葉っぱしか見つかりませんでした。',
+  '古い用語カードを発見しました。',
+  'ネームドの気配を感じます。',
+  '何もありません。今日は平和です。',
+  '返信欄の奥から物音がしました。',
+  'アイコンらしきものが一瞬見えました。'
+];
+exploreButton.addEventListener('click', () => {
+  const message = explorationMessages[Math.floor(Math.random() * explorationMessages.length)];
+  exploreMessage.textContent = message;
+});
+
+function setNightMode(night) {
+  document.documentElement.classList.toggle('night', night);
+  themeButton.textContent = night ? '☀️ 昼の草むら' : '🌙 夜の草むら';
+  themeButton.setAttribute('aria-pressed', String(night));
+}
+themeButton.addEventListener('click', () => setNightMode(!document.documentElement.classList.contains('night')));
+
+document.querySelectorAll('.info-card,.section').forEach(element => element.classList.add('scroll-reveal'));
+if ('IntersectionObserver' in window && !reduceMotion) {
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.08});
+  document.querySelectorAll('.scroll-reveal').forEach(element => revealObserver.observe(element));
+} else {
+  document.querySelectorAll('.scroll-reveal').forEach(element => element.classList.add('is-visible'));
+}
+const valokichi = document.querySelector('.named-item[data-name="ヴァロキチ"]');
+const haRow = document.querySelector('#は .name-list');
+if (valokichi && haRow) {
+  haRow.insertBefore(valokichi, haRow.firstElementChild);
+  document.getElementById('valokichi-source')?.remove();
+}
+const newNamedGroups = {
+  'あ': ['一日五食ガイジ', '赤ゆに', 'エジプト壁画ガイジ'],
+  'か': ['コロッケガイジ', 'ことわざバトルガイジ', 'カリカリガイジ', 'きうい', 'クウガイジ', 'ガチンコマン'],
+  'さ': ['全肯定おじ', '全肯定お兄さん', 'サツヨコピングー', 'しそニートだけど', 'シオン'],
+  'た': ['タラタラガイジ', 'チュパカブラ', 'トリッカル'],
+  'は': ['ぷゆガイ', 'ビビアミ', 'ぷゆゆ特化の可愛い魔法シャドバンガイジ'],
+  'ま': ['むほほおじさん'],
+  'や': ['矢言ニキ'],
+  'ら': ['リコーダーガイジ']
+};
+Object.entries(newNamedGroups).forEach(([group, names]) => {
+  const row = document.querySelector(`#${group} .name-list`);
+  names.forEach(name => {
+    const item = document.querySelector(`.named-item[data-name="${name}"]`);
+    if (item && row) row.appendChild(item);
+  });
+});
+document.getElementById('new-named-source')?.remove();
+const japaneseOrder = new Intl.Collator('ja', { sensitivity: 'base' });
+document.querySelectorAll('.name-list').forEach(row => {
+  [...row.children]
+    .sort((a, b) => japaneseOrder.compare(a.dataset.name || '', b.dataset.name || ''))
+    .forEach(item => row.appendChild(item));
+});
+initGacha();
+filterNames();
+</script>
+</body>
+</html>
+
