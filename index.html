@@ -253,8 +253,11 @@ footer{margin-top:30px;text-align:center;color:var(--muted);font-size:11px}
 .gacha-book-head{display:flex;justify-content:space-between;gap:10px;align-items:baseline;color:var(--deep);font-weight:800;font-size:14px}
 .gacha-book-count{color:var(--muted);font-size:11px;font-weight:400}
 .gacha-book-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:10px}
-.gacha-book-item{min-height:70px;padding:8px 6px;border:1px solid var(--line);border-radius:10px;background:var(--panel-soft);text-align:center;font-size:11px;color:var(--muted)}
+.gacha-book-item{width:100%;min-height:70px;padding:8px 6px;border:1px solid var(--line);border-radius:10px;background:var(--panel-soft);color:var(--muted);font:inherit;font-size:11px;text-align:center;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,transform .15s ease}
 .gacha-book-item.is-owned{color:var(--deep);font-weight:700}
+.gacha-book-item.is-owned:hover{background:var(--green3);border-color:var(--green2);transform:translateY(-1px)}
+.gacha-book-item.is-owned:focus-visible{outline:3px solid rgba(87,191,56,.28);outline-offset:2px}
+.gacha-book-item:disabled{cursor:default}
 .gacha-book-emoji{display:block;font-size:20px;line-height:1.2;margin-bottom:4px}
 .gacha-book-name{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .gacha-book-item.is-locked{filter:grayscale(1);opacity:.65}
@@ -554,6 +557,22 @@ body,
     </div>
   </section>
 
+  <div id="gachaDetailModal" class="detail-modal" role="dialog" aria-modal="true" aria-labelledby="gachaDetailTitle" hidden>
+    <section class="detail-panel">
+      <div class="detail-head">
+        <div class="detail-title-wrap">
+          <h2 id="gachaDetailTitle">カード詳細</h2>
+          <span id="gachaDetailRarity" class="gacha-rarity"></span>
+        </div>
+        <button id="gachaDetailClose" class="detail-close" type="button" aria-label="カード詳細を閉じる">×</button>
+      </div>
+      <div class="detail-body">
+        <p id="gachaDetailKind" class="detail-label"></p>
+        <p id="gachaDetailText" class="detail-text"></p>
+      </div>
+    </section>
+  </div>
+
   <nav class="site-map" aria-label="事典の案内">
     <a href="#about-kusa">🌿 kusaとは</a>
     <a href="#name-types">🏷️ ネームドとコテハン</a>
@@ -848,6 +867,12 @@ const gachaShell = document.getElementById('kusa-gacha');
 const gachaToggle = document.getElementById('gachaToggle');
 const gachaPanel = document.getElementById('gachaPanel');
 const gachaClose = document.getElementById('gachaClose');
+const gachaDetailModal = document.getElementById('gachaDetailModal');
+const gachaDetailTitle = document.getElementById('gachaDetailTitle');
+const gachaDetailRarity = document.getElementById('gachaDetailRarity');
+const gachaDetailKind = document.getElementById('gachaDetailKind');
+const gachaDetailText = document.getElementById('gachaDetailText');
+const gachaDetailClose = document.getElementById('gachaDetailClose');
 const newsTrack = document.getElementById('newsTrack');
 const newsModal = document.getElementById('newsModal');
 const newsModalTitle = document.getElementById('newsModalTitle');
@@ -1267,7 +1292,9 @@ function renderGachaBook(allCards, state) {
   gachaBookGrid.replaceChildren();
   allCards.forEach(card => {
     const owned = obtained.has(card.id);
-    const item = document.createElement('div');
+    const item = document.createElement('button');
+    item.type = 'button';
+    item.disabled = !owned;
     item.className = `gacha-book-item ${owned ? 'is-owned' : 'is-locked'}`;
     const emoji = document.createElement('span');
     emoji.className = 'gacha-book-emoji';
@@ -1276,8 +1303,23 @@ function renderGachaBook(allCards, state) {
     name.className = 'gacha-book-name';
     name.textContent = owned ? card.title : '未発見';
     item.append(emoji, name);
+    if (owned) item.addEventListener('click', () => openGachaCardDetail(card));
     gachaBookGrid.appendChild(item);
   });
+}
+
+function openGachaCardDetail(card) {
+  gachaDetailTitle.textContent = `${card.emoji} ${card.title}`;
+  gachaDetailRarity.textContent = `${rarityMeta[card.rarity].label} ${rarityMeta[card.rarity].name}`;
+  gachaDetailKind.textContent = card.kind;
+  gachaDetailText.textContent = card.text;
+  gachaDetailModal.hidden = false;
+  gachaDetailModal.classList.add('is-open');
+}
+
+function closeGachaCardDetail() {
+  gachaDetailModal.classList.remove('is-open');
+  gachaDetailModal.hidden = true;
 }
 
 function updateGachaAvailability() {
@@ -1297,6 +1339,8 @@ function setGachaOpen(open) {
 }
 gachaToggle.addEventListener('click', () => setGachaOpen(gachaPanel.hidden));
 gachaClose.addEventListener('click', () => setGachaOpen(false));
+gachaDetailClose.addEventListener('click', closeGachaCardDetail);
+gachaDetailModal.addEventListener('click', event => { if (event.target === gachaDetailModal) closeGachaCardDetail(); });
 
 function initGacha() {
   const pools = buildGachaPools();
@@ -1358,6 +1402,7 @@ newsModal.addEventListener('click', event => { if (event.target === newsModal) c
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape') {
     detailModal.classList.remove('is-open');
+    closeGachaCardDetail();
     closeNews();
   }
 });
