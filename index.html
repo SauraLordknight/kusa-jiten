@@ -197,6 +197,8 @@ footer{margin-top:30px;text-align:center;color:var(--muted);font-size:11px}
 .era strong{display:block;color:var(--deep);margin-bottom:4px}
 .term-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
 .term-grid div{padding:10px 11px;border:1px dashed var(--line);border-radius:10px;background:var(--panel-soft);font-size:12px;line-height:1.6}
+.term-grid a{display:block;padding:10px 11px;border:1px dashed var(--line);border-radius:10px;background:var(--panel-soft);color:var(--ink);font-size:12px;line-height:1.6;text-decoration:none}
+.term-grid a:hover{background:var(--green3);border-color:var(--green2)}
 .term-grid strong{display:block;color:var(--deep);font-size:13px}
 .filter-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0 4px}
 .type-filter-bar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:8px 0 4px}
@@ -520,6 +522,16 @@ body,
     </div>
   </section>
 
+  <section class="info-card newcomer-guide" aria-labelledby="newcomerGuideTitle">
+    <h2 id="newcomerGuideTitle">初めての方へ</h2>
+    <p>この事典を初めて見る方は、まずkusaの概要と使い方を確認し、そのあと草むら速報やネームド一覧をご覧ください。</p>
+    <div class="term-grid">
+      <a href="#about-kusa"><strong>🌿 kusaとは</strong>kusaの概要を知る</a>
+      <a href="#how-to-use"><strong>🧭 使い方</strong>ホーム画面や投稿方法を見る</a>
+      <a href="#name-types"><strong>🏷️ 名前の種類</strong>ネームドとコテハンの違いを見る</a>
+    </div>
+  </section>
+
   <section class="policy-banner" aria-labelledby="policyBannerTitle">
     <h2 id="policyBannerTitle">📌 この名鑑の掲載方針</h2>
     <p>掲載しているネームド・コテハンは、サイト運営者がkusa上の公開投稿・返信・プロフィールなどを独自に調査し、整理したものです。kusaの運営とは関係ありません。</p>
@@ -723,12 +735,11 @@ body,
 
   <section class="info-card" id="how-to-use" aria-labelledby="howToUseTitle">
     <h2 id="howToUseTitle">kusaの使い方</h2>
-    <p>kusaでは、タイムラインから投稿を読み、短い文章や画像を投稿し、返信欄で他のネームドと交流します。アイコンや話題が繰り返し認識されると、ネームドとして呼ばれることがあります。</p>
     <div class="term-grid">
-      <div><strong>投稿を見る</strong>流れてくる草むらの様子を読む。</div>
-      <div><strong>返信する</strong>投稿にレスを付けて交流する。</div>
-      <div><strong>アイコンを設定する</strong>自分を見分ける目印になる。</div>
-      <div><strong>24時間リセット</strong>投稿やアカウントが消え、草むらが入れ替わる。</div>
+      <div><strong>kusaの概要</strong>kusaは、短い文章や画像、音声などを投稿して楽しむ匿名SNSです。投稿やアカウントは毎日リセットされるため、その日に見た投稿や返信を、その日の流れとして楽しむサービスです。</div>
+      <div><strong>ホーム画面の見方</strong>ホーム画面では、全体の投稿を見る「みんな」、自分が追っている投稿を見る「フォロー中」、反応の多い投稿を見る「ランキング」などを切り替えられます。「最新スレ」や「最新レス」から、新しく投稿された話題を探すこともできます。配信枠やメディアから、その時点で公開されている配信・画像などを探すこともできます。</div>
+      <div><strong>投稿・返信の方法</strong>投稿を読むだけでなく、文章を投稿したり、画像・お絵かき・音声を追加したり、他の投稿へ返信したりできます。気になる話題を見つけたら、返信欄からその投稿に反応できます。</div>
+      <div><strong>毎日リセットされる仕組み</strong>投稿やアカウントは毎日リセットされるため、気になる投稿を見つけても後から確認できない場合があります。その時々の草むらの流れを、その日のうちに楽しむサービスです。</div>
     </div>
   </section>
 
@@ -736,21 +747,9 @@ body,
     <h2 id="glossaryTitle">kusa用語集</h2>
     <div class="term-grid">
       <div><strong>ネームド</strong>アイコン、話題、口調などから継続して認識される存在。</div>
+      <div><strong>コテハン</strong>本人が自分で名乗っている名前。</div>
+      <div><strong>雑草</strong>ネームドでもコテハンでもない、初期アイコンのままのアカウント。</div>
       <div><strong>草むら</strong>その日に開かれているkusa全体を指す、この事典での比喩。</div>
-      <div><strong>個体</strong>特定の現実人物ではなく、kusa上の活動単位を指す表現。</div>
-      <div><strong>生態記録</strong>投稿・返信から見える活動傾向をまとめたもの。</div>
-      <div><strong>観察員メモ</strong>事実とネタを区別した、中立的な紹介文。</div>
-      <div><strong>観察信頼度</strong>本人の明言、複数の一致、他者の呼称などを総合した目安。</div>
-    </div>
-  </section>
-
-  <section class="info-card" id="confidence-guide" aria-labelledby="confidenceTitle">
-    <h2 id="confidenceTitle">観察信頼度について</h2>
-    <div class="term-grid">
-      <div><strong>確定</strong>本人の明言など、呼称との結び付きが明確な記録。</div>
-      <div><strong>有力</strong>複数の話題や呼びかけが一致している記録。</div>
-      <div><strong>暫定</strong>関連は考えられるが、根拠がまだ少ない記録。</div>
-      <div><strong>情報不足</strong>名前は一覧にあるが、紹介を作れるほどの記録がない状態。</div>
     </div>
   </section>
 
@@ -827,7 +826,6 @@ body,
       <a href="#kusa-history">歴史</a>
       <a href="#how-to-use">使い方</a>
       <a href="#kusa-glossary">用語集</a>
-      <a href="#confidence-guide">信頼度</a>
       <a href="#revision-history">更新履歴</a>
       <a href="#privacy-policy">プライバシーポリシー</a>
       <a href="#about-site">このサイトについて</a>
@@ -1198,15 +1196,15 @@ const namedDetails = Object.freeze({
     source: '呼称・話題・プロフィール記載を総合して整理。個別の匿名IDやURLは記録していない。'
   },
   '霊王': {
-    description: '霊王という呼称を本人が用い、他の利用者からも継続して呼ばれているネームド。',
+    description: '霊王を自ら名乗って活動しているコテハン。',
     classification: '交流型・音楽話題型',
     topics: '確認できた投稿では、日常の挨拶、音楽、アイコンについて触れている。',
     preferences: '公開プロフィールの推しリストに楽曲を登録している。苦手なものについて継続した傾向は確認できていない。',
-    activity: '2026年9月頃から確認。過去の正確な開始時期は未確認。',
+    activity: '2026年8月中旬から確認されている。',
     confidence: '確定',
-    summary: '日常の会話や音楽の話題、他のネームドとの交流が見られるネームド。',
+    summary: '日常の会話や音楽の話題、他の利用者との交流が見られるコテハン。',
     iconTendency: '人物の肖像を虹色のグラデーションで表現した、色彩の強いアート系アイコン。',
-    source: '本人の明示的な名乗りと他者からの呼称を総合して整理。個別の匿名IDやURLは記録していない。'
+    source: '本人が用いている名前や公開プロフィール、投稿・返信をもとに整理。個別の匿名IDやURLは記録していない。'
   },
   'ロリガイ': {
     description: 'kusa初期の2026年5月から確認されているネームド。ロリガイという呼称を本人が用い、他の利用者からも同じ名前で呼ばれている。',
@@ -1223,7 +1221,7 @@ const namedDetails = Object.freeze({
 
 // 現時点で呼ばれ方の根拠を確定できるものだけ、ここへ個別登録する。
 // 未登録の名前はすべて「判定保留」として扱う。
-const typeByName = Object.freeze({});
+const typeByName = Object.freeze({ '霊王': 'handle' });
 const typeMeta = Object.freeze({
   named: { label: '🌿 ネームド', shortLabel: 'ネームド' },
   handle: { label: '🏷️ コテハン', shortLabel: 'コテハン' },
@@ -1664,6 +1662,46 @@ document.querySelectorAll('.name-list').forEach(row => {
     .sort((a, b) => japaneseOrder.compare(a.dataset.name || '', b.dataset.name || ''))
     .forEach(item => row.appendChild(item));
 });
+
+function arrangePageForFirstVisit() {
+  const main = document.querySelector('main.wrap');
+  if (!main) return;
+  const kanaSections = ['あ', 'か', 'さ', 'た', 'な', 'は', 'ま', 'や', 'ら', 'わ']
+    .map(id => document.getElementById(id));
+  const orderedBlocks = [
+    main.querySelector('.intro-card'),
+    main.querySelector('.newcomer-guide'),
+    main.querySelector('.news-card'),
+    main.querySelector('.site-map'),
+    document.getElementById('kusa-gacha'),
+    document.getElementById('gachaDetailModal'),
+    main.querySelector('.search-box'),
+    main.querySelector('.filter-bar'),
+    main.querySelector('.type-filter-bar'),
+    document.getElementById('randomButton'),
+    main.querySelector('.explore-box'),
+    main.querySelector('.kana-nav'),
+    ...kanaSections,
+    document.getElementById('empty'),
+    document.getElementById('about-kusa'),
+    document.getElementById('name-types'),
+    document.getElementById('kusa-history'),
+    document.getElementById('how-to-use'),
+    document.getElementById('kusa-glossary'),
+    main.querySelector('.policy-banner'),
+    document.getElementById('revision-history'),
+    document.getElementById('about-site'),
+    document.getElementById('usage-notes'),
+    document.getElementById('privacy-policy'),
+    document.getElementById('correction-request'),
+    document.getElementById('request-box'),
+    main.querySelector('.note'),
+    main.querySelector('footer')
+  ];
+  orderedBlocks.filter(Boolean).forEach(block => main.appendChild(block));
+}
+arrangePageForFirstVisit();
+
 initGacha();
 filterNames();
 </script>
