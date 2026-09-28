@@ -588,8 +588,10 @@ body,
     <li class="named-item" data-name="エジプト壁画ガイジ"><span class="leaf">🌱</span><span class="name">エジプト壁画ガイジ</span></li>
     <li class="named-item" data-name="リコーダーガイジ"><span class="leaf">🌱</span><span class="name">リコーダーガイジ</span></li>
     <li class="named-item" data-name="クウガイジ"><span class="leaf">🌱</span><span class="name">クウガイジ</span></li>
+    <li class="named-item" data-name="きんたま奇数個ガイジ"><span class="leaf">🌱</span><span class="name">きんたま奇数個ガイジ</span></li>
     <li class="named-item" data-name="ぷゆゆ特化の可愛い魔法シャドバンガイジ"><span class="leaf">🌱</span><span class="name">ぷゆゆ特化の可愛い魔法シャドバンガイジ</span></li>
-    <li class="named-item" data-name="矢言ニキ"><span class="leaf">🌱</span><span class="name">矢言ニキ</span></li>
+    <li class="named-item" data-name="失言ニキ"><span class="leaf">🌱</span><span class="name">失言ニキ</span></li>
+    <li class="named-item" data-name="ショタコン"><span class="leaf">🌱</span><span class="name">ショタコン</span></li>
     <li class="named-item" data-name="むほほおじさん"><span class="leaf">🌱</span><span class="name">むほほおじさん</span></li>
     <li class="named-item" data-name="シオン"><span class="leaf">🌱</span><span class="name">シオン</span></li>
     <li class="named-item" data-name="トリッカル"><span class="leaf">🌱</span><span class="name">トリッカル</span></li>
@@ -1150,7 +1152,7 @@ const namedCardEmoji = Object.freeze({
   '中受': '📚', 'バッドテト': '🖤', '兵庫受験生': '📝', 'pb': '🅿️', 'ふぁぼ': '❤️',
   'ふむ': '🤔', 'ぷゆガイ': '🍀', 'ぷゆゆパン': '🍞', 'ぷゆゆ特化の可愛い魔法': '✨',
   'ホイ卒': '🍼', '包丁おじ': '🔪', 'ビビアミ': '🎮', 'ベータちゃん': '🧪', 'ぺこら': '🐰',
-  'ミク絵師': '🎨', 'むほほおじさん': '😏', 'ユニコーン': '🦄', '矢言ニキ': '🗣️',
+  'ミク絵師': '🎨', 'むほほおじさん': '😏', 'ユニコーン': '🦄', '失言ニキ': '🗣️',
   '霊王': '👻', 'ロゼ': '🌹', 'ロリガイ': '🧸', 'ラベンダー': '💜', 'ラテアート': '☕',
   'リコーダーガイジ': '🎵', 'ワイテjc': '🎓', 'ヴァロキチ': '🎯',
   '一日五食ガイジ': '🍽️', '赤ゆに': '🔴', 'エジプト壁画ガイジ': '🏺',
@@ -1480,13 +1482,13 @@ if (valokichi && haRow) {
 }
 const newNamedGroups = {
   'あ': ['一日五食ガイジ', '赤ゆに', 'エジプト壁画ガイジ', 'おえちゃん', 'onjs'],
-  'か': ['コロッケガイジ', 'ことわざバトルガイジ', 'カリカリガイジ', 'きぃうぃ', 'クウガイジ', 'QR', 'ガチシコマン'],
-  'さ': ['全肯定おじ', '全肯定お兄さん', 'サツヨコピングー', 'シオン', 'しそ', 'シャドバンガイジ'],
+  'か': ['コロッケガイジ', 'ことわざバトルガイジ', 'カリカリガイジ', 'きぃうぃ', 'クウガイジ', 'きんたま奇数個ガイジ', 'QR', 'ガチシコマン'],
+  'さ': ['全肯定おじ', '全肯定お兄さん', 'サツヨコピングー', 'シオン', 'しそ', 'シャドバンガイジ', 'ショタコン', '失言ニキ'],
   'た': ['タラタラガイジ', 'チュパカブラ', 'トリッカル'],
   'な': ['ニートだけど'],
   'は': ['ぷゆガイ', 'ビビアミ', '兵庫受験生', 'pb', 'ふぁぼ', 'ふむ', 'ぷゆゆパン', 'ぷゆゆ特化の可愛い魔法', 'ホイ卒', '包丁おじ'],
   'ま': ['むほほおじさん'],
-  'や': ['矢言ニキ'],
+  'や': [],
   'ら': ['リコーダーガイジ', 'ラベンダー', 'ラテアート']
 };
 Object.entries(newNamedGroups).forEach(([group, names]) => {
