@@ -397,6 +397,22 @@ body,
 .news-card h2{margin:0;color:var(--deep);font-size:18px}
 .news-date{color:var(--muted);font-size:11px;white-space:nowrap}
 .news-caption{margin:0 0 11px;color:var(--muted);font-size:12px;line-height:1.6}
+.news-lead{margin:0 0 12px;padding:16px;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:14px;background:var(--panel);box-shadow:0 6px 18px var(--shadow)}
+.news-lead-kicker{display:inline-flex;align-items:center;gap:6px;color:var(--deep);font-size:11px;font-weight:900;letter-spacing:.04em}
+.news-lead-kicker::before{content:"●";color:var(--green)}
+.news-lead h3{margin:7px 0 5px;color:var(--deep);font-size:19px;line-height:1.45}
+.news-lead-summary{margin:0;color:var(--ink);font-size:13px;line-height:1.75}
+.news-lead-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:11px;color:var(--muted);font-size:11px}
+.news-category{display:inline-flex;padding:3px 7px;border-radius:999px;background:var(--green3);color:var(--deep);font-weight:800}
+.news-confidence{display:inline-flex;padding:3px 7px;border-radius:999px;background:var(--panel-soft);border:1px solid var(--line);color:var(--muted)}
+.news-lead-button{margin-top:12px;border:1px solid var(--green2);border-radius:9px;padding:8px 11px;background:var(--green3);color:var(--deep);font:inherit;font-size:12px;font-weight:800;cursor:pointer}
+.news-lead-button:hover{background:var(--green4)}
+.news-lead-button:focus-visible{outline:3px solid rgba(87,191,56,.28);outline-offset:2px}
+.news-filter-bar{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:0 0 10px}
+.news-filter-label{color:var(--muted);font-size:11px;font-weight:700}
+.news-filter-button{border:1px solid var(--line);border-radius:999px;padding:5px 9px;background:var(--panel);color:var(--deep);font:inherit;font-size:11px;cursor:pointer}
+.news-filter-button:hover,.news-filter-button.is-active{background:var(--green3);border-color:var(--green2);font-weight:800}
+.news-filter-button:focus-visible{outline:3px solid rgba(87,191,56,.28);outline-offset:2px}
 .news-ticker{overflow:hidden;border:1px solid var(--line);border-radius:12px;background:var(--panel-soft);padding:8px 0}
 .news-track{display:flex;width:max-content;gap:10px;padding:0 10px;transform:translate3d(0,0,0);will-change:transform;touch-action:pan-y;cursor:grab}
 .news-track.is-dragging{cursor:grabbing;user-select:none}
@@ -414,6 +430,11 @@ body,
 .news-panel-close:hover{background:var(--green4)}
 .news-panel-body{padding:18px;color:var(--ink)}
 .news-panel-body p{margin:0 0 13px;line-height:1.85;font-size:14px;white-space:pre-wrap}
+.news-modal-meta{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 13px!important;color:var(--muted);font-size:11px!important;white-space:normal!important}
+.news-editorial{padding:10px 11px;border-radius:10px;background:var(--panel-soft);color:var(--muted)!important;font-size:11px!important}
+.news-related{display:flex;gap:7px;flex-wrap:wrap;margin-top:2px}
+.news-related a{display:inline-flex;padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:var(--green3);color:var(--deep);font-size:11px;font-weight:800;text-decoration:none}
+.news-related a:hover{background:var(--green4)}
 .news-source{color:var(--muted)!important;font-size:11px!important;border-top:1px dashed var(--line);padding-top:12px}
 
 @media (max-width:520px){
@@ -511,6 +532,20 @@ body,
       <span class="news-date">2026年9月29日・観測版</span>
     </div>
     <p class="news-caption">公開投稿・返信・配信枠から確認できた話題を、個人の身元や匿名IDに依存しない形で中立的に要約しています。見出しをタップすると記事が開きます。</p>
+    <article class="news-lead" aria-labelledby="newsLeadTitle">
+      <span class="news-lead-kicker">本日の注目</span>
+      <h3 id="newsLeadTitle">草むら速報を読み込み中</h3>
+      <p id="newsLeadSummary" class="news-lead-summary"></p>
+      <div class="news-lead-meta"><span id="newsLeadCategory" class="news-category"></span><span id="newsLeadConfidence" class="news-confidence"></span><span id="newsLeadDate"></span></div>
+      <button id="newsLeadButton" class="news-lead-button" type="button">記事を読む</button>
+    </article>
+    <div class="news-filter-bar" aria-label="草むら速報の絞り込み">
+      <span class="news-filter-label">表示：</span>
+      <button class="news-filter-button is-active" type="button" data-news-filter="all">すべて</button>
+      <button class="news-filter-button" type="button" data-news-filter="注目">注目</button>
+      <button class="news-filter-button" type="button" data-news-filter="話題">話題</button>
+      <button class="news-filter-button" type="button" data-news-filter="小ネタ">小ネタ</button>
+    </div>
     <div class="news-ticker" aria-label="草むら速報の見出し">
       <div id="newsTrack" class="news-track"></div>
     </div>
@@ -649,7 +684,10 @@ body,
         <button id="newsModalClose" class="news-panel-close" type="button" aria-label="記事を閉じる">×</button>
       </div>
       <div class="news-panel-body">
+        <p id="newsModalMeta" class="news-modal-meta"></p>
         <p id="newsModalBody"></p>
+        <p class="news-editorial">編集メモ：公開範囲で確認できた内容を、個人の身元や匿名IDに依存しない形で要約しています。断定できない情報は観測事項として扱います。</p>
+        <div id="newsModalRelated" class="news-related" aria-label="関連記事"></div>
         <p id="newsModalSource" class="news-source"></p>
       </div>
     </article>
@@ -857,7 +895,7 @@ const detailTypeBadge = document.getElementById('detailTypeBadge');
 const detailDescription = document.getElementById('detailDescription');
 const detailTopics = document.getElementById('detailTopics');
 const detailFeatures = document.getElementById('detailFeatures');
-const detailClose = document.querySelector('.detail-close');
+const detailClose = document.querySelector('#detailModal .detail-close');
 const gachaButton = document.getElementById('gachaButton');
 const gachaTimer = document.getElementById('gachaTimer');
 const gachaResult = document.getElementById('gachaResult');
@@ -877,9 +915,17 @@ const newsTrack = document.getElementById('newsTrack');
 const newsModal = document.getElementById('newsModal');
 const newsModalTitle = document.getElementById('newsModalTitle');
 const newsModalDate = document.getElementById('newsModalDate');
+const newsModalMeta = document.getElementById('newsModalMeta');
 const newsModalBody = document.getElementById('newsModalBody');
 const newsModalSource = document.getElementById('newsModalSource');
+const newsModalRelated = document.getElementById('newsModalRelated');
 const newsModalClose = document.getElementById('newsModalClose');
+const newsLeadTitle = document.getElementById('newsLeadTitle');
+const newsLeadSummary = document.getElementById('newsLeadSummary');
+const newsLeadCategory = document.getElementById('newsLeadCategory');
+const newsLeadConfidence = document.getElementById('newsLeadConfidence');
+const newsLeadDate = document.getElementById('newsLeadDate');
+const newsLeadButton = document.getElementById('newsLeadButton');
 
 const newsItems = Object.freeze([
   {
@@ -932,30 +978,87 @@ const newsItems = Object.freeze([
   }
 ]);
 
+function getNewsCategory(item) {
+  if (item.headline.includes('配信')) return '配信';
+  if (item.headline.includes('ランキング')) return '外部話題';
+  if (item.headline.includes('ガチャ')) return 'サイト情報';
+  if (item.headline.includes('名鑑') || item.headline.includes('表記')) return '更新情報';
+  if (item.headline.includes('返信') || item.headline.includes('呼称') || item.headline.includes('案内')) return '返信';
+  return 'TL観測';
+}
+
+function getNewsImportance(item, index = newsItems.indexOf(item)) {
+  if (index === 0) return '注目';
+  if (item.headline.includes('配信') || item.headline.includes('呼称')) return '小ネタ';
+  return '話題';
+}
+
+function getNewsRelated(item) {
+  const related = [];
+  if (item.headline.includes('名鑑') || item.headline.includes('表記')) related.push({label: 'ネームド名鑑', href: '#あ'});
+  if (item.headline.includes('ガチャ')) related.push({label: '草ガチャ', href: '#kusa-gacha'});
+  if (item.headline.includes('配信')) related.push({label: 'kusaとは', href: '#about-kusa'});
+  if (item.headline.includes('ランキング') || item.headline.includes('創作')) related.push({label: 'kusaとは', href: '#about-kusa'});
+  return related;
+}
+
+function renderNewsLead() {
+  const item = newsItems[0];
+  if (!item) return;
+  newsLeadTitle.textContent = item.headline;
+  newsLeadSummary.textContent = `${item.body.split('。')[0]}。`;
+  newsLeadCategory.textContent = getNewsCategory(item);
+  newsLeadConfidence.textContent = '公開範囲で確認';
+  newsLeadDate.textContent = `${item.date}・観測版`;
+}
+
 function renderNewsTicker() {
   newsTrack.replaceChildren();
-  newsItems.concat(newsItems).forEach((item, index) => {
+  const filteredItems = activeNewsFilter === 'all'
+    ? newsItems
+    : newsItems.filter((item, index) => getNewsImportance(item, index) === activeNewsFilter);
+  if (!filteredItems.length) return;
+  filteredItems.concat(filteredItems).forEach((item, index) => {
+    const sourceIndex = newsItems.indexOf(item);
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'news-item';
-    button.dataset.newsIndex = String(index % newsItems.length);
+    button.dataset.newsIndex = String(sourceIndex);
     const label = document.createElement('span');
     label.className = 'news-label';
-    label.textContent = '速報';
+    label.textContent = `${getNewsImportance(item, sourceIndex)}・${getNewsCategory(item)}`;
     const headline = document.createElement('span');
     headline.textContent = item.headline;
     button.append(label, headline);
-    button.addEventListener('click', () => openNews(index % newsItems.length));
+    button.addEventListener('click', () => openNews(sourceIndex));
     newsTrack.appendChild(button);
   });
 }
+
+renderNewsLead();
+newsLeadButton.addEventListener('click', () => openNews(0));
 
 function openNews(index) {
   const item = newsItems[index];
   if (!item) return;
   newsModalTitle.textContent = item.headline;
-  newsModalDate.textContent = item.date;
+  newsModalDate.textContent = `${item.date}・観測版`;
+  newsModalMeta.replaceChildren();
+  [getNewsImportance(item, index), getNewsCategory(item)].forEach(labelText => {
+    const label = document.createElement('span');
+    label.className = 'news-category';
+    label.textContent = labelText;
+    newsModalMeta.appendChild(label);
+  });
   newsModalBody.textContent = item.body;
+  newsModalRelated.replaceChildren();
+  getNewsRelated(item).forEach(related => {
+    const link = document.createElement('a');
+    link.href = related.href;
+    link.textContent = `関連記事：${related.label}`;
+    link.addEventListener('click', closeNews);
+    newsModalRelated.appendChild(link);
+  });
   newsModalSource.textContent = item.source;
   newsModal.hidden = false;
   newsModal.classList.add('is-open');
@@ -965,6 +1068,17 @@ function closeNews() {
   newsModal.classList.remove('is-open');
   newsModal.hidden = true;
 }
+let activeNewsFilter = 'all';
+const newsFilterButtons = [...document.querySelectorAll('[data-news-filter]')];
+newsFilterButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    activeNewsFilter = button.dataset.newsFilter || 'all';
+    newsFilterButtons.forEach(candidate => candidate.classList.toggle('is-active', candidate === button));
+    renderNewsTicker();
+    newsOffset = 0;
+    renderNewsOffset();
+  });
+});
 renderNewsTicker();
 
 let newsOffset = 0;
@@ -1555,4 +1669,3 @@ filterNames();
 </script>
 </body>
 </html>
-
