@@ -859,12 +859,26 @@ function applyRequestedNameSplits() {
     'ら': ['ラベンダー', 'ラテアート']
   };
   [
-    'おえちゃんonis', 'しそういqr', '兵庫受験生_pbだけど', 'ふぁぼふむ',
+    'きい', 'おえちゃんonis', 'しそういqr', '兵庫受験生_pbだけど', 'ふぁぼふむ',
     'ぷゆぷゆパンガイ', 'ぷゆゆ特化の可愛い魔法シャドバンガイジ',
     'ホイ卒包丁おじ', 'らべんだーラテアート', 'ガチンコマン'
   ].forEach(name => {
     document.querySelectorAll(`.named-item[data-name="${name}"]`).forEach(item => item.remove());
   });
+  const pencilArtistRow = document.querySelector('#あ .name-list');
+  if (pencilArtistRow && !pencilArtistRow.querySelector('.named-item[data-name="鉛筆ブラシ絵師（仮称）"]')) {
+    const item = document.createElement('li');
+    item.className = 'named-item';
+    item.dataset.name = '鉛筆ブラシ絵師（仮称）';
+    const leaf = document.createElement('span');
+    leaf.className = 'leaf';
+    leaf.textContent = '🌱';
+    const label = document.createElement('span');
+    label.className = 'name';
+    label.textContent = '鉛筆ブラシ絵師（仮称）';
+    item.append(leaf, label);
+    pencilArtistRow.appendChild(item);
+  }
   Object.entries(replacements).forEach(([group, names]) => {
     const list = document.querySelector(`#${group} .name-list`);
     if (!list) return;
@@ -1228,12 +1242,48 @@ const namedDetails = Object.freeze({
     summary: '音楽、アニメ、掲示板内の交流などを話題にするネームド。',
     iconTendency: '緑髪・緑目のアニメ調キャラクターがハンバーガーを持つ、食べ物モチーフのイラスト系アイコン。',
     source: '本人の名乗りと他者からの呼称を総合して整理。個別の匿名IDやURLは記録していない。'
+  },
+  'にゃむ': {
+    description: '音楽や弾き語りに関する活動が確認されているネームド。kusa内では配信や他の利用者との交流が見られる。',
+    classification: '音楽話題型・配信型',
+    topics: 'ぬとらじなどでの弾き語り、音楽に関する投稿・配信。',
+    preferences: '音楽や弾き語りに関する活動が確認されている。その他の好き嫌いは継続した傾向として確認できていない。',
+    activity: '調査時点で確認。正確な開始時期は未確認。',
+    confidence: '有力',
+    summary: '音楽や弾き語りの配信を中心に活動するネームド。',
+    iconTendency: '確認できるアイコン傾向は未整理。',
+    source: '公開投稿・配信に関する情報をもとに整理。個別の匿名IDやURLは記録していない。'
+  },
+  'ロゼ': {
+    description: 'ロゼという名前のほか、「生首」という別称でも呼ばれるネームド。',
+    classification: '呼称整理中',
+    topics: 'ロゼや生首という呼称、アイコンに関する言及が確認されている。',
+    preferences: '継続した好き嫌いは未確認。',
+    activity: '調査時点で確認。正確な開始時期は未確認。',
+    confidence: '有力',
+    summary: '「ロゼ」と「生首」という別称で整理されているネームド。',
+    iconTendency: 'ロゼの顔部分を用いたアイコンが話題になっている。',
+    source: '公開投稿での呼称をもとに整理。個別の匿名IDやURLは記録していない。'
+  },
+  '鉛筆ブラシ絵師（仮称）': {
+    description: '鉛筆ブラシを使った絵を継続的に投稿・再掲しているネームド。投稿では、鉛筆ブラシを使った表現へのこだわりが見られる。現在は仮称であり、正式名称を募集中。確認できた範囲では、以下の自己紹介文を複数回使用している。\n\n「なまらまたーり\n自分の描いた絵が(・∀・)ｲｲ!と思った方へ。自分はお絵描きVIP板をすみかにしているので、もしよければお越しください。一緒に絵を描いたり、絵が描けなくても感想を書くなどして既存のスレを盛り上げてくれると嬉しいです。\nhttps://open.open2ch.net/oekaki/」',
+    classification: 'お絵描き型・再掲型',
+    topics: '鉛筆ブラシを使ったイラスト、お絵描き、作品の再掲など。',
+    preferences: '鉛筆ブラシを使った表現へのこだわりが投稿から見られる。その他の嗜好は未確認。',
+    activity: '調査時点で継続的な投稿が確認されている。正確な開始時期は未確認。',
+    confidence: '有力',
+    summary: '鉛筆ブラシを使った絵を継続的に投稿しているネームド。',
+    iconTendency: 'アイコンを設定していない状態が確認されている。',
+    source: '公開投稿と公開プロフィールの固定自己紹介文をもとに整理。個別の匿名IDやURLは記録していない。'
   }
 });
 
 // 現時点で呼ばれ方の根拠を確定できるものだけ、ここへ個別登録する。
 // 未登録の名前はすべて「判定保留」として扱う。
-const typeByName = Object.freeze({ '霊王': 'handle' });
+const typeByName = Object.freeze({
+  '霊王': 'handle',
+  '鉛筆ブラシ絵師（仮称）': 'named'
+});
 const typeMeta = Object.freeze({
   named: { label: '🌿 ネームド', shortLabel: 'ネームド' },
   handle: { label: '🏷️ コテハン', shortLabel: 'コテハン' },
@@ -1289,7 +1339,7 @@ const historyCards = Object.freeze([
 
 const namedCardEmoji = Object.freeze({
   '荒特': '🌪️', 'アキネイター': '🔮', 'ウザミク': '🎤', '笑顔族': '😄',
-  '香川': '🍜', '顔晒し': '📸', 'きい': '🟡', 'キルリヤ大佐': '🎖️',
+  '香川': '🍜', '顔晒し': '📸', 'キルリヤ大佐': '🎖️',
   'ゴエモン': '🪙', 'ゴールドタイガー': '🐯', 'QR': '🔳', 'ガチシコマン': '🥊',
   'きぃうぃ': '🥝', 'クウガイジ': '🦸', 'カリカリガイジ': '🍘', 'コロッケガイジ': '🥔',
   'ことわざバトルガイジ': '⚔️', 'サツヨコ': '🏹', 'サツヨコピングー': '🐧',
@@ -1650,7 +1700,7 @@ if (valokichi && haRow) {
   document.getElementById('valokichi-source')?.remove();
 }
 const newNamedGroups = {
-  'あ': ['一日五食ガイジ', '赤ゆに', 'エジプト壁画ガイジ', 'おえちゃん', 'onjs'],
+  'あ': ['一日五食ガイジ', '赤ゆに', '鉛筆ブラシ絵師（仮称）', 'エジプト壁画ガイジ', 'おえちゃん', 'onjs'],
   'か': ['コロッケガイジ', 'ことわざバトルガイジ', 'カリカリガイジ', 'きぃうぃ', 'クウガイジ', 'きんたま奇数個ガイジ', 'QR', 'ガチシコマン'],
   'さ': ['全肯定おじ', '全肯定お兄さん', 'サツヨコピングー', 'シオン', 'しそ', 'シャドバンガイジ', 'ショタコン', '失言ニキ'],
   'た': ['タラタラガイジ', 'チュパカブラ', 'トリッカル'],

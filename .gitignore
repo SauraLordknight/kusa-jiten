@@ -11,3 +11,6 @@ Desktop.ini
 # Source icon files are intentionally excluded; the site stores only text descriptions.
 assets/icons/
 
+# Previous local HTML versions are kept for rollback, not for publication.
+archive/
+
