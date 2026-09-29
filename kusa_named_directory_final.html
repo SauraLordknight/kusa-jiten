@@ -849,6 +849,17 @@ body,
 </main>
 
 <script>
+// 共有リンクに付く計測用UTMだけを整理する。ページのパスや未知のクエリは変更しない。
+function cleanTrackingParameters() {
+  const currentUrl = new URL(window.location.href);
+  const trackingKeys = [...currentUrl.searchParams.keys()].filter(key => /^utm_/i.test(key));
+  if (!trackingKeys.length || !window.history?.replaceState) return;
+  trackingKeys.forEach(key => currentUrl.searchParams.delete(key));
+  const cleanUrl = `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`;
+  window.history.replaceState(window.history.state, document.title, cleanUrl);
+}
+cleanTrackingParameters();
+
 function applyRequestedNameSplits() {
   const replacements = {
     'あ': ['おえちゃん', 'onjs'],
@@ -859,7 +870,7 @@ function applyRequestedNameSplits() {
     'ら': ['ラベンダー', 'ラテアート']
   };
   [
-    'きい', 'おえちゃんonis', 'しそういqr', '兵庫受験生_pbだけど', 'ふぁぼふむ',
+    'きい', 'チカブラバン', 'ユニコーン', 'おえちゃんonis', 'しそういqr', '兵庫受験生_pbだけど', 'ふぁぼふむ',
     'ぷゆぷゆパンガイ', 'ぷゆゆ特化の可愛い魔法シャドバンガイジ',
     'ホイ卒包丁おじ', 'らべんだーラテアート', 'ガチンコマン'
   ].forEach(name => {
@@ -1282,7 +1293,14 @@ const namedDetails = Object.freeze({
 // 未登録の名前はすべて「判定保留」として扱う。
 const typeByName = Object.freeze({
   '霊王': 'handle',
-  '鉛筆ブラシ絵師（仮称）': 'named'
+  '鉛筆ブラシ絵師（仮称）': 'named',
+  'onjs': 'handle',
+  'アキネイター': 'handle',
+  'ウザミク': 'named',
+  'エジプト壁画ガイジ': 'handle',
+  'おえちゃん': 'named',
+  '荒特': 'named',
+  '赤ゆに': 'handle'
 });
 const typeMeta = Object.freeze({
   named: { label: '🌿 ネームド', shortLabel: 'ネームド' },
