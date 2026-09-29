@@ -35,7 +35,7 @@
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;color-scheme:light}
-body{margin:0;background:var(--page);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+body{margin:0;background:var(--page);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
 html.night{color-scheme:dark}
 body::before{
   content:"";
@@ -245,6 +245,27 @@ footer{margin-top:30px;text-align:center;color:var(--muted);font-size:11px}
 .gacha-result-card.rarity-SSR{border-color:#d9ae3c;box-shadow:0 0 0 3px rgba(217,174,60,.12)}
 .gacha-result-card.rarity-UR{border-color:#c36bc5;box-shadow:0 0 0 3px rgba(195,107,197,.14)}
 .gacha-result-card.rarity-GOD{border-color:#e5a51f;box-shadow:0 0 0 4px rgba(229,165,31,.2),0 0 24px rgba(255,207,77,.24);background:linear-gradient(135deg,#fff8d9,#fff1b8)}
+.gacha-god-overlay{position:fixed;inset:0;z-index:80;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at center,rgba(255,248,205,.98) 0%,rgba(255,208,61,.94) 28%,rgba(111,55,0,.97) 100%);color:#fffdf1;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s ease}
+.gacha-god-overlay.is-open{opacity:1;pointer-events:auto}
+.gacha-god-overlay::before{content:"";position:absolute;inset:-35%;background:conic-gradient(from 0deg,transparent 0 8%,rgba(255,255,255,.72) 10%,transparent 13% 25%,rgba(255,245,170,.65) 28%,transparent 32% 45%,rgba(255,255,255,.55) 48%,transparent 52% 70%,rgba(255,236,125,.7) 74%,transparent 78%);animation:god-rays 3s linear infinite}
+.gacha-god-overlay::after{content:"";position:absolute;inset:12%;border:2px solid rgba(255,255,220,.72);border-radius:50%;box-shadow:0 0 0 18px rgba(255,239,137,.16),0 0 70px 20px rgba(255,255,220,.45);animation:god-pulse 1.1s ease-in-out infinite alternate}
+.gacha-god-copy{position:relative;z-index:2;padding:28px 22px;text-shadow:0 3px 0 rgba(105,57,0,.38),0 0 24px rgba(255,255,220,.9);animation:god-arrival .8s cubic-bezier(.2,.85,.25,1) both}
+.gacha-god-eyebrow{margin:0 0 12px;font-size:clamp(14px,4vw,22px);font-weight:900;letter-spacing:.18em}
+.gacha-god-emoji{margin:0;font-size:clamp(74px,24vw,170px);line-height:1;filter:drop-shadow(0 8px 16px rgba(104,50,0,.38))}
+.gacha-god-title{margin:18px 0 6px;font-size:clamp(36px,12vw,86px);font-weight:1000;letter-spacing:.08em}
+.gacha-god-subtitle{margin:0;font-size:clamp(16px,4.5vw,28px);font-weight:900}
+.gacha-god-hint{margin:24px 0 0;font-size:12px;opacity:.86}
+.gacha-god-particle{position:absolute;top:-12vh;z-index:3;font-size:clamp(22px,7vw,48px);animation:god-fall var(--fall-duration) linear var(--fall-delay) both;filter:drop-shadow(0 4px 4px rgba(77,40,0,.3));user-select:none}
+@keyframes god-rays{to{transform:rotate(360deg)}}
+@keyframes god-pulse{to{transform:scale(1.08);opacity:.6}}
+@keyframes god-arrival{from{opacity:0;transform:scale(.55) translateY(24px)}to{opacity:1;transform:none}}
+@keyframes god-fall{from{transform:translate3d(0,-12vh,0) rotate(0deg);opacity:0}12%{opacity:1}to{transform:translate3d(var(--fall-drift),120vh,0) rotate(360deg);opacity:.92}}
+@media (prefers-reduced-motion:reduce){
+  .gacha-god-overlay{transition:none}
+  .gacha-god-overlay::before,.gacha-god-overlay::after,.gacha-god-copy,.gacha-god-particle{animation:none}
+  .gacha-god-overlay::before{opacity:.35}
+  .gacha-god-particle{top:12%;opacity:.8}
+}
 .gacha-rarity{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900;background:var(--green3);color:var(--deep)}
 .rarity-R .gacha-rarity{background:#eaf3ff;color:#235f9e}.rarity-SR .gacha-rarity{background:#f2ebff;color:#6840a1}.rarity-SSR .gacha-rarity{background:#fff5d7;color:#8b6500}.rarity-UR .gacha-rarity{background:linear-gradient(90deg,#e9f8ff,#fff1ff);color:#85458c}.rarity-GOD .gacha-rarity{background:#ffe28a;color:#7c4d00}
 .gacha-kind{margin-left:6px;color:var(--muted);font-size:11px}
@@ -440,6 +461,10 @@ body,
 .news-source{color:var(--muted)!important;font-size:11px!important;border-top:1px dashed var(--line);padding-top:12px}
 
 @media (max-width:520px){
+  .hero-top{align-items:flex-start;flex-wrap:wrap;gap:10px}
+  .logo{min-width:0;flex:1 1 230px}
+  .logo > div:last-child{min-width:0}
+  .logo p{max-width:250px;line-height:1.45}
   .hero-inner,.wrap{padding-left:13px;padding-right:13px}
   .logo h1{font-size:23px}
   .logo-mark{width:48px;height:48px;font-size:26px}
@@ -449,6 +474,7 @@ body,
   .explore-message{display:block;margin:8px 0 0}
   .named-item{align-items:flex-start}
   .type-badge{font-size:10px;padding:4px 6px}
+  .site-map,.term-grid{grid-template-columns:1fr}
   .gacha-book-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media (prefers-reduced-motion:reduce){
@@ -1587,6 +1613,7 @@ function renderGachaCard(card, duplicate) {
     wrapper.appendChild(duplicateMessage);
   }
   gachaResult.appendChild(wrapper);
+  if (card.rarity === 'GOD') showGodGachaEffect(card);
 }
 
 function renderGachaBook(allCards, state) {
@@ -1619,6 +1646,33 @@ function openGachaCardDetail(card) {
   gachaDetailText.textContent = card.text;
   gachaDetailModal.hidden = false;
   gachaDetailModal.classList.add('is-open');
+}
+
+function showGodGachaEffect(card) {
+  document.querySelector('.gacha-god-overlay')?.remove();
+  const overlay = document.createElement('div');
+  overlay.className = 'gacha-god-overlay';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-label', `${card.title} GOD RARE 排出演出`);
+  const copy = document.createElement('div');
+  copy.className = 'gacha-god-copy';
+  copy.innerHTML = '<p class="gacha-god-eyebrow">草むらが震えている……</p><p class="gacha-god-emoji">💩</p><h2 class="gacha-god-title">さとる</h2><p class="gacha-god-subtitle">GOD RARE ・ 神話級カード</p><p class="gacha-god-hint">GODカードが降臨しました</p>';
+  overlay.appendChild(copy);
+  const particleTypes = ['🌿', '✨', '💩'];
+  for (let i = 0; i < 24; i += 1) {
+    const particle = document.createElement('span');
+    particle.className = 'gacha-god-particle';
+    particle.textContent = particleTypes[i % particleTypes.length];
+    particle.style.left = `${(i * 41) % 103 - 2}%`;
+    particle.style.setProperty('--fall-delay', `${(i % 8) * 0.11}s`);
+    particle.style.setProperty('--fall-duration', `${2.3 + (i % 5) * 0.24}s`);
+    particle.style.setProperty('--fall-drift', `${(i % 7 - 3) * 18}px`);
+    overlay.appendChild(particle);
+  }
+  const close = () => overlay.remove();
+  document.body.appendChild(overlay);
+  requestAnimationFrame(() => overlay.classList.add('is-open'));
+  window.setTimeout(close, reduceMotion ? 1500 : 3800);
 }
 
 function closeGachaCardDetail() {
