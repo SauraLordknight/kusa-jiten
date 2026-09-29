@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#62c83a">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>kusa事典</title>
+<link rel="stylesheet" href="kusa-pachi.css">
 <style>
 :root {
   --green:#57bf38;
@@ -614,14 +615,19 @@ body,
     <span id="exploreMessage" class="explore-message" aria-live="polite">葉音だけが聞こえます。</span>
   </div>
 
+  <div class="kusa-play-corner">
   <section class="gacha-card is-collapsed" id="kusa-gacha" aria-label="草ガチャ">
     <button id="gachaToggle" class="gacha-toggle" type="button" aria-expanded="false" aria-controls="gachaPanel" aria-label="草ガチャを開く">🎴</button>
     <span class="gacha-toggle-label">草ガチャ</span>
     <div id="gachaPanel" class="gacha-panel" hidden>
       <button id="gachaClose" class="gacha-close" type="button" aria-label="草ガチャを閉じる">×</button>
       <p>6時間に1回、草むらからカードを1枚発見できます。抽選結果はこのブラウザ内にだけ保存されます。</p>
-      <button id="gachaButton" class="gacha-button" type="button">🌿 ガチャを引く</button>
+      <button id="gachaButton" class="gacha-button" type="button">🌿 無料ガチャを引く</button>
       <span id="gachaTimer" class="gacha-timer" aria-live="polite"></span>
+      <div class="gacha-ticket-row">
+        <span>🎟️ 所持ガチャ券 <strong id="gachaTicketCount">0</strong>枚</span>
+        <button id="gachaTicketButton" type="button" disabled>券で1回引く</button>
+      </div>
       <div id="gachaResult" class="gacha-result" aria-live="polite"></div>
       <div class="gacha-book">
         <div class="gacha-book-head"><span>カード図鑑</span><span id="gachaBookCount" class="gacha-book-count">0 / 0種</span></div>
@@ -629,6 +635,65 @@ body,
       </div>
     </div>
   </section>
+
+  <section class="pachi-card is-collapsed" id="kusa-pachi" aria-label="草パチ">
+    <button id="pachiToggle" class="pachi-toggle" type="button" aria-expanded="false" aria-controls="pachiPanel" aria-label="草パチを開く">🎰</button>
+    <span class="pachi-toggle-label">草パチ</span>
+    <div id="pachiPanel" class="pachi-panel" hidden>
+      <button id="pachiClose" class="pachi-close" type="button" aria-label="草パチを閉じる">×</button>
+      <div class="pachi-heading"><span class="pachi-kicker">KUSA AMUSEMENT</span><h2>🌿 草パチ <small>FACE BALL EDITION</small></h2><p>顔の球が釘を跳ねながら落ちていく、草むらのパチンコ台。</p></div>
+      <div id="pachiEntry" class="pachi-entry">
+        <label for="pachiName">プレイヤーネーム</label>
+        <div class="pachi-entry-row"><input id="pachiName" type="text" maxlength="20" autocomplete="nickname" placeholder="名前を入力"><button id="pachiStart" type="button">プレイ開始</button></div>
+        <p id="pachiEntryMessage" class="pachi-entry-message" role="status">初回は250球。名前ごとに球数と記録をこのブラウザに保存します。</p>
+        <div id="pachiProfiles" class="pachi-profiles"></div>
+      </div>
+      <div id="pachiGame" class="pachi-game" hidden>
+        <div class="pachi-player-row"><span>PLAYER <strong id="pachiPlayer"></strong></span><div class="pachi-player-actions"><button id="pachiRename" type="button">名前変更</button><button id="pachiShareOpen" type="button">記録をシェア</button><button id="pachiSwitch" type="button">プレイヤー変更</button></div></div>
+        <fieldset class="pachi-wager" id="pachiWager"><legend>掛け金を選ぶ</legend><label><input type="radio" name="pachiWager" value="1" checked><span>1草パチ</span></label><label><input type="radio" name="pachiWager" value="5"><span>5草パチ</span></label><label><input type="radio" name="pachiWager" value="10"><span>10草パチ</span></label><small id="pachiWagerNote">1発1球消費・残り250発</small></fieldset>
+        <div class="pachi-machine" id="pachiMachine">
+          <div class="pachi-marquee"><span class="pachi-bulb">✦</span><div><small>草むら遊技場 一号機</small><strong>KUSA PACHI</strong></div><span class="pachi-bulb">✦</span></div>
+          <div class="pachi-display">
+            <div class="pachi-display-top"><span id="pachiMode">通常モード</span><span id="pachiSignal">🌱 チャンスを待とう</span></div>
+            <div id="pachiAnnouncement" class="pachi-announcement" aria-live="polite">中央のスタートチャッカーを狙おう！</div>
+          </div>
+          <div class="pachi-stats"><div><small>持ち球</small><strong id="pachiBalls">250</strong></div><div><small>総回転数</small><strong id="pachiSpins">0</strong></div><div><small>大当たり</small><strong id="pachiHits">0</strong></div><div><small>連チャン</small><strong id="pachiStreak">0</strong></div></div>
+          <div id="pachiJackpot" class="pachi-jackpot" hidden aria-live="off">
+            <div class="pachi-jackpot-title"><span>👑 JACKPOT 👑</span><strong id="pachiJackpotTitle">発射1球につき2,000球！</strong></div>
+            <div class="pachi-jackpot-stream" aria-hidden="true"><span>😄</span><span>😎</span><span>🥳</span><span>🤩</span><span>😆</span><span>😊</span><span>😺</span><span>😋</span></div>
+            <div class="pachi-jackpot-meter"><span>発射で獲得</span><strong id="pachiJackpotPaid">0</strong><span> / <span id="pachiJackpotTotal">100,000</span>球</span></div>
+            <progress id="pachiJackpotBar" max="100000" value="0" aria-label="ジャックポット賞球の払い出し"></progress>
+          </div>
+          <div class="pachi-board-wrap"><canvas id="pachiCanvas" width="440" height="570" role="img" aria-label="中央のスロット役物を囲む釘の間を、顔の絵文字の球が跳ねて落ちる草パチ盤面"></canvas><canvas id="pachiBallsCanvas" class="pachi-balls-canvas" width="440" height="570" aria-hidden="true"></canvas><div class="pachi-center-slot"><div class="pachi-center-slot-label"><span>✦</span>KUSA SLOT<span>✦</span></div><div id="pachiReels" class="pachi-reels" aria-hidden="true"><span>🌱</span><span>🌿</span><span>🍀</span></div><div class="pachi-center-slot-foot">STARTでリール回転</div></div><div id="pachiBoardFlash" class="pachi-board-flash" aria-hidden="true"></div></div>
+          <div class="pachi-controls"><div class="pachi-control-main"><button id="pachiFire" class="pachi-fire" type="button">😄 発射 <small>押し続けて連射</small></button><label class="pachi-power-label" for="pachiPower">ハンドル <strong id="pachiPowerValue">65%</strong><input id="pachiPower" type="range" min="35" max="95" value="65"></label></div><div class="pachi-control-sub"><button id="pachiSound" type="button" aria-pressed="true">🔊 効果音 ON</button><button id="pachiDaily" type="button">🎁 今日の補充 +50球</button></div></div>
+        </div>
+        <section class="pachi-exchange" aria-labelledby="pachiExchangeTitle">
+          <div class="pachi-exchange-head"><h3 id="pachiExchangeTitle">🌿 草の交換所</h3><span>ガチャ券 <strong id="pachiExchangeTickets">0</strong>枚（ブラウザ共通）</span></div>
+          <div class="pachi-wallet"><span>持ち球 <strong id="pachiWalletBalls">0</strong>球</span><span>所持草 <strong id="pachiWalletGrass">0</strong>草</span></div>
+          <p>1球＝1草。持ち球と草を、好きな数だけ相互に交換できます。</p>
+          <label class="pachi-exchange-label" for="pachiGrassAmount">草に交換する球数</label>
+          <div class="pachi-convert-row"><input id="pachiGrassAmount" type="number" min="1" step="1" inputmode="numeric" placeholder="球数を入力"><button id="pachiConvertButton" type="button" disabled>草に交換</button></div>
+          <div class="pachi-quick-amounts"><button type="button" data-pachi-amount="100">100球</button><button type="button" data-pachi-amount="1000">1,000球</button><button type="button" data-pachi-amount="half">半分</button><button type="button" data-pachi-amount="all">全部</button></div>
+          <p id="pachiConvertPreview" class="pachi-convert-preview">交換する球数を入力してください。</p>
+          <div class="pachi-reverse-exchange"><label class="pachi-exchange-label" for="pachiBallAmount">球に戻す草の数</label>
+          <div class="pachi-convert-row"><input id="pachiBallAmount" type="number" min="1" step="1" inputmode="numeric" placeholder="草の数を入力"><button id="pachiReturnButton" type="button" disabled>球に交換</button></div>
+          <div class="pachi-quick-amounts"><button type="button" data-pachi-return="100">100草</button><button type="button" data-pachi-return="1000">1,000草</button><button type="button" data-pachi-return="half">半分</button><button type="button" data-pachi-return="all">全部</button></div>
+          <p id="pachiReturnPreview" class="pachi-convert-preview">球に戻す草の数を入力してください。</p></div>
+          <p>15,000草でガチャ券1枚。6時間ごとの無料ガチャも引き続き利用できます。</p>
+          <div class="pachi-exchange-count"><span>所持草 <strong id="pachiExchangeProgress">0</strong> / 15,000草</span><span>あと <strong id="pachiExchangeRemaining">15,000</strong>草</span></div>
+          <progress id="pachiExchangeBar" max="15000" value="0" aria-label="草がガチャ券の交換に必要な15,000草へ達するまで"></progress>
+          <button id="pachiExchangeButton" class="pachi-exchange-button" type="button" disabled>15,000草でガチャ券1枚</button>
+          <p id="pachiExchangeMessage" class="pachi-exchange-message" role="status"></p>
+          <div class="pachi-backup"><button id="pachiBackupButton" type="button">バックアップを書き出す</button><label for="pachiRestoreFile">保存した記録を読み込む</label><input id="pachiRestoreFile" type="file" accept=".json,application/json"></div>
+        </section>
+        <div class="pachi-rule"><strong>遊び方</strong><span>1・5・10草パチを選択。1発の消費球と通常賞球が倍率に応じて変わります。中央「START」で図柄が1回転。1草パチの入賞は2球、大当たり80球、超大当たり250球。大当たり後は10回転の草ラッシュ！ ジャックポットはSTART入賞時に共通で1/20,000。1草パチは10万球、5草パチは30万球、10草パチは50万球を50発で払い出します。残りの賞球は次回も持ち越せます。</span></div>
+        <p id="pachiSaveMessage" class="pachi-save-message" role="status">持ち球・草・ガチャ券は自動保存されます。端末のデータを消す前にバックアップを残してください。</p>
+      </div>
+      <div id="pachiShareModal" class="pachi-share-modal" role="dialog" aria-modal="true" aria-labelledby="pachiShareTitle" hidden><div class="pachi-share-panel"><div class="pachi-share-head"><h3 id="pachiShareTitle">草パチの記録をシェア</h3><button id="pachiShareClose" type="button" aria-label="シェア画面を閉じる">×</button></div><label class="pachi-share-name-option"><input id="pachiShareName" type="checkbox" checked>画像にプレイヤー名を載せる</label><canvas id="pachiShareCanvas" width="1080" height="1080" role="img" aria-label="持ち球・所持草・草パチの掛け金を表示したシェア用画像"></canvas><p id="pachiShareSummary"></p><div class="pachi-share-actions"><button id="pachiShareDownload" type="button">画像を保存</button><button id="pachiShareNative" type="button">共有する</button></div><p id="pachiShareMessage" role="status"></p></div></div>
+      <details class="pachi-credits"><summary>効果音の出典</summary><p>球の音は<a href="https://freesound.org/people/swordofkings128/sounds/566080/" target="_blank" rel="noopener noreferrer">鋼球が転がる録音</a>（swordofkings128）と<a href="https://freesound.org/people/Ryanz-Official/sounds/639754/" target="_blank" rel="noopener noreferrer">短い金属打音</a>（Ryanz-Official）を軽く編集しました。大当たり音は<a href="https://freesound.org/people/schafferdavid/sounds/450268/" target="_blank" rel="noopener noreferrer">実機の得点機構</a>（schafferdavid）です。いずれもCC0。音楽はありません。</p></details>
+    </div>
+  </section>
+  </div>
 
   <div id="gachaDetailModal" class="detail-modal" role="dialog" aria-modal="true" aria-labelledby="gachaDetailTitle" hidden>
     <section class="detail-panel">
@@ -829,6 +894,8 @@ body,
     </ul>
   </section>
 
+
+
   <section class="info-card" id="correction-request" aria-labelledby="correctionTitle">
     <h2 id="correctionTitle">削除・訂正依頼</h2>
     <p>掲載名、訂正・削除したい箇所、理由を<a href="https://tally.so/r/ODv2XR" target="_blank" rel="noopener noreferrer">要望BOX</a>からお知らせください。公開情報を照合して対応します。本名・住所・電話番号・学校名・勤務先などの個人情報は送らず、掲載名と理由だけを記入してください。</p>
@@ -874,6 +941,7 @@ body,
   </footer>
 </main>
 
+<script src="kusa-rewards.js"></script>
 <script>
 // 共有リンクに付く計測用UTMだけを整理する。ページのパスや未知のクエリは変更しない。
 function cleanTrackingParameters() {
@@ -972,6 +1040,8 @@ const detailTopics = document.getElementById('detailTopics');
 const detailFeatures = document.getElementById('detailFeatures');
 const detailClose = document.querySelector('#detailModal .detail-close');
 const gachaButton = document.getElementById('gachaButton');
+const gachaTicketButton = document.getElementById('gachaTicketButton');
+const gachaTicketCount = document.getElementById('gachaTicketCount');
 const gachaTimer = document.getElementById('gachaTimer');
 const gachaResult = document.getElementById('gachaResult');
 const gachaBookGrid = document.getElementById('gachaBookGrid');
@@ -1479,7 +1549,7 @@ function addTypeBadges() {
 addTypeBadges();
 
 const gachaCooldown = 6 * 60 * 60 * 1000;
-const gachaStorageKey = 'kusa-jiten-gacha-v1';
+const gachaStorageKey = window.KusaRewards.gachaKey;
 const rarityMeta = Object.freeze({
   N: { label: 'N', name: '草むら' },
   R: { label: 'R', name: '観測記録' },
@@ -1570,7 +1640,8 @@ function readGachaState() {
 }
 
 function saveGachaState(state) {
-  try { localStorage.setItem(gachaStorageKey, JSON.stringify(state)); } catch { /* 保存できない環境でも抽選は表示する */ }
+  try { localStorage.setItem(gachaStorageKey, JSON.stringify(state)); return true; }
+  catch { return false; }
 }
 
 function chooseWeightedRarity(pools, obtained) {
@@ -1694,12 +1765,18 @@ function closeGachaCardDetail() {
   gachaDetailModal.hidden = true;
 }
 
+let gachaAllCards = [];
 function updateGachaAvailability() {
   const state = readGachaState();
+  const obtained = new Set(state.obtainedCards);
+  const complete = gachaAllCards.length > 0 && gachaAllCards.every(card => obtained.has(card.id));
   const remaining = state.lastDrawAt ? gachaCooldown - (Date.now() - state.lastDrawAt) : 0;
   const available = remaining <= 0;
-  gachaButton.disabled = !available;
-  gachaTimer.textContent = available ? '抽選できます。' : `次回まで：あと ${formatRemaining(remaining)}`;
+  const tickets = window.KusaRewards.read().tickets;
+  gachaButton.disabled = !available || complete;
+  gachaTicketButton.disabled = tickets < 1 || complete;
+  gachaTicketCount.textContent = tickets.toLocaleString('ja-JP');
+  gachaTimer.textContent = complete ? '図鑑コンプリート済み' : available ? '無料分を引けます。' : `無料分の次回まで：あと ${formatRemaining(remaining)}`;
   return state;
 }
 
@@ -1717,26 +1794,42 @@ gachaDetailModal.addEventListener('click', event => { if (event.target === gacha
 function initGacha() {
   const pools = buildGachaPools();
   const allCards = Object.values(pools).flat();
+  gachaAllCards = allCards;
   let state = updateGachaAvailability();
   renderGachaBook(allCards, state);
-  gachaButton.addEventListener('click', () => {
+  function draw(useTicket) {
     state = updateGachaAvailability();
-    if (state.lastDrawAt && Date.now() - state.lastDrawAt < gachaCooldown) return;
+    if (useTicket ? gachaTicketButton.disabled : gachaButton.disabled) return;
     const card = chooseGachaCard(pools, new Set(state.obtainedCards));
     if (!card) {
       gachaResult.textContent = 'カード図鑑をコンプリートしました。草むらの全種を発見済みです。';
-      gachaButton.disabled = true;
-      gachaTimer.textContent = 'コンプリート済み';
+      updateGachaAvailability();
       return;
     }
     const duplicate = false;
-    state.lastDrawAt = Date.now();
+    if (!useTicket) state.lastDrawAt = Date.now();
     state.obtainedCards.push(card.id);
     if (duplicate) state.grassPoint += 10;
-    saveGachaState(state);
+    if (!saveGachaState(state)) {
+      gachaResult.textContent = '記録を保存できないため、ガチャを引けません。ブラウザの保存設定を確認してください。';
+      return;
+    }
+    if (useTicket && !window.KusaRewards.spendTicket()) {
+      gachaResult.textContent = 'カードは保存されましたが、券の更新に失敗しました。保存設定を確認してください。';
+      renderGachaBook(allCards, state);
+      updateGachaAvailability();
+      return;
+    }
     renderGachaCard(card, duplicate);
     renderGachaBook(allCards, state);
     updateGachaAvailability();
+  }
+  gachaButton.addEventListener('click', () => draw(false));
+  gachaTicketButton.addEventListener('click', () => draw(true));
+  window.addEventListener('kusa-rewards-changed', updateGachaAvailability);
+  window.addEventListener('storage', event => {
+    if (event.key === gachaStorageKey) renderGachaBook(allCards, updateGachaAvailability());
+    else if (event.key === window.KusaRewards.key) updateGachaAvailability();
   });
   window.setInterval(updateGachaAvailability, 1000);
 }
@@ -1934,7 +2027,7 @@ function arrangePageForFirstVisit() {
     main.querySelector('.newcomer-guide'),
     main.querySelector('.news-card'),
     main.querySelector('.site-map'),
-    document.getElementById('kusa-gacha'),
+    main.querySelector('.kusa-play-corner'),
     document.getElementById('gachaDetailModal'),
     main.querySelector('.search-box'),
     main.querySelector('.filter-bar'),
@@ -1967,5 +2060,6 @@ arrangePageForFirstVisit();
 initGacha();
 filterNames();
 </script>
+<script src="kusa-pachi.js"></script>
 </body>
 </html>

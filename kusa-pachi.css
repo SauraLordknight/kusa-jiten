@@ -1,0 +1,154 @@
+.kusa-play-corner{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+.kusa-play-corner .gacha-card{margin-top:0}
+.kusa-play-corner .gacha-card:not(.is-collapsed),.kusa-play-corner .pachi-card:not(.is-collapsed){grid-column:1/-1}
+.pachi-card{padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 22px var(--shadow);min-width:0}
+.pachi-card.is-collapsed{display:flex;align-items:center;justify-content:center;padding:10px}
+.pachi-toggle{display:inline-grid;place-items:center;width:52px;height:52px;border:1px solid #97d492;border-radius:16px;background:linear-gradient(135deg,#e8ffdf,#fff9d5);font-size:29px;cursor:pointer;box-shadow:0 4px 12px rgba(60,120,40,.12);transition:transform .15s ease}
+.pachi-toggle:hover{transform:translateY(-2px)}
+.pachi-toggle-label{margin-left:9px;color:var(--deep);font-size:13px;font-weight:800}
+.pachi-toggle:focus-visible,.pachi-card button:focus-visible,.pachi-card input:focus-visible{outline:3px solid #f5b727;outline-offset:3px}
+.pachi-panel{width:100%;color:var(--ink)}
+.pachi-close{float:right;border:0;background:transparent;color:var(--deep);font-size:26px;line-height:1;cursor:pointer;padding:2px 7px}
+.pachi-heading{margin-bottom:14px}
+.pachi-kicker{color:#ab6d08;font-size:10px;font-weight:900;letter-spacing:.25em}
+.pachi-heading h2{margin:3px 0 4px;font-size:24px;color:var(--deep)}
+.pachi-heading h2 small{font-size:10px;letter-spacing:.13em;color:#a9761c;vertical-align:middle}
+.pachi-heading p,.pachi-entry-message,.pachi-save-message{margin:0;color:var(--muted);font-size:12px;line-height:1.7}
+.pachi-entry{padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--panel-soft)}
+.pachi-entry label{display:block;margin-bottom:8px;color:var(--deep);font-weight:800;font-size:13px}
+.pachi-entry-row{display:flex;gap:8px}
+.pachi-entry-row input{flex:1;min-width:0;border:2px solid var(--line);border-radius:10px;padding:11px 12px;background:var(--panel);color:var(--ink);font:inherit;font-size:16px}
+.pachi-entry-row button{border:0;border-radius:10px;padding:10px 16px;background:linear-gradient(135deg,#368d39,#73c74d);color:#fff;font:inherit;font-weight:900;cursor:pointer}
+.pachi-entry-message{margin-top:9px}
+.pachi-profiles{display:grid;gap:6px;max-height:220px;overflow-y:auto;margin-top:10px}
+.pachi-profiles:empty{display:none}
+.pachi-profile-item{display:flex;gap:6px;min-width:0}
+.pachi-profiles button{border:1px solid var(--line);border-radius:9px;padding:7px 10px;background:var(--panel);color:var(--deep);font:inherit;font-size:11px;cursor:pointer}
+.pachi-profiles .pachi-profile-select{flex:1;min-width:0;text-align:left;overflow-wrap:anywhere}
+.pachi-profiles .pachi-profile-delete{flex:none;border-color:#dfa9a0;color:#9b3430;font-weight:800}
+.pachi-player-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px;color:var(--muted);font-size:11px;letter-spacing:.07em}
+.pachi-player-row strong{color:var(--deep);font-size:15px;letter-spacing:0;word-break:break-all}
+.pachi-player-row button,.pachi-control-sub button{border:1px solid #a3d29a;border-radius:9px;padding:8px 11px;background:#ecffe9;color:#27622d;font:inherit;font-weight:800;font-size:11px;cursor:pointer}
+.pachi-player-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.pachi-wager{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 12px;padding:9px;border:1px solid var(--line);border-radius:12px;background:var(--panel-soft)}
+.pachi-wager legend{padding:0 5px;color:var(--deep);font-size:12px;font-weight:900}
+.pachi-wager label{cursor:pointer}
+.pachi-wager input{position:absolute;opacity:0;width:1px;height:1px}
+.pachi-wager label span{display:block;padding:7px 10px;border:1px solid #9fca93;border-radius:9px;background:var(--panel);color:var(--deep);font-size:12px;font-weight:800}
+.pachi-wager input:checked+span{background:#317d44;border-color:#317d44;color:#fff}
+.pachi-wager input:focus-visible+span{outline:3px solid #eaa936;outline-offset:2px}
+.pachi-wager:disabled label{opacity:.6;cursor:not-allowed}
+.pachi-wager small{color:var(--muted);font-size:11px;flex-basis:100%}
+.pachi-machine{width:min(530px,100%);margin:0 auto;padding:12px;border:5px solid #b98026;border-radius:30px 30px 22px 22px;background:linear-gradient(110deg,#19402f,#327142 5%,#ecc471 9%,#765220 12%,#713b27 88%,#e2b95b 92%,#285d35 97%);box-shadow:0 14px 0 #51351f,0 22px 28px rgba(23,46,25,.3),inset 0 0 0 3px #f7d780}
+.pachi-marquee{display:flex;align-items:center;justify-content:space-around;gap:8px;min-height:69px;border:3px solid #edbb5d;border-radius:19px 19px 8px 8px;background:radial-gradient(circle at 50% 10%,#62dd8d,#17643d 63%,#103a2e);color:#ffebae;text-align:center;box-shadow:inset 0 0 16px #123e34,0 4px 6px #593b27}
+.pachi-marquee small{display:block;color:#c8ffcf;font-size:9px;letter-spacing:.15em}
+.pachi-marquee strong{display:block;font-size:clamp(22px,6vw,33px);letter-spacing:.16em;line-height:1.15;text-shadow:0 3px 0 #144e35,0 0 10px #ffde82}
+.pachi-bulb{font-size:28px;color:#ffe897;animation:pachi-glow 1.5s ease-in-out infinite alternate}
+.pachi-bulb:last-child{animation-delay:.75s}
+@keyframes pachi-glow{to{color:#fff;filter:drop-shadow(0 0 8px #fff1a9)}}
+.pachi-display{margin:10px 3px 8px;padding:8px 10px;border:4px ridge #dfb653;border-radius:13px;background:radial-gradient(ellipse at center,#316a54,#133e33 72%);color:#ecffdc;text-align:center;box-shadow:inset 0 0 18px #071e17}
+.pachi-display-top{display:flex;justify-content:space-between;gap:8px;color:#dfff9c;font-size:10px;font-weight:800}
+.pachi-display-top span:last-child{color:#ffdc82}
+.pachi-reels{display:flex;justify-content:center;gap:4px;width:100%;margin:5px auto 4px}
+.pachi-reels span{display:grid;place-items:center;flex:1;min-width:0;aspect-ratio:1;border:2px solid #d1eac0;border-radius:6px;background:linear-gradient(#faffef,#c7efca);font-size:clamp(17px,4vw,28px);box-shadow:inset 0 2px 3px #fff,0 3px 0 #0b3126}
+.pachi-reels.is-spinning span{animation:pachi-reel .14s linear infinite alternate}
+.pachi-reels.is-spinning span:nth-child(2){animation-delay:.05s}
+.pachi-reels.is-spinning span:nth-child(3){animation-delay:.09s}
+@keyframes pachi-reel{to{transform:translateY(3px);filter:blur(1px)}}
+.pachi-announcement{min-height:17px;color:#ffe9a9;font-size:11px;font-weight:800;line-height:1.4}
+.pachi-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin:0 3px 7px}
+.pachi-stats div{padding:5px 3px 4px;border:2px solid #a97433;border-radius:6px;background:#102d25;text-align:center;color:#fff8c9;font-variant-numeric:tabular-nums}
+.pachi-stats small{display:block;font-size:9px;color:#c6e3be}
+.pachi-stats strong{display:block;font:800 clamp(16px,4vw,22px)/1.2 ui-monospace,Consolas,monospace}
+.pachi-jackpot{margin:6px 3px 9px;padding:9px 11px 7px;border:3px solid #ffe57f;border-radius:14px;background:linear-gradient(110deg,#6e1237,#b53b29 48%,#702344);color:#fff9bd;text-align:center;box-shadow:inset 0 0 16px #ff9b4e,0 0 14px #ffd963}
+.pachi-jackpot[hidden]{display:none}
+.pachi-jackpot-title{display:grid;gap:1px;font-weight:1000;letter-spacing:.08em;text-shadow:0 0 8px #ffe67d}
+.pachi-jackpot-title span{font-size:clamp(16px,5vw,23px)}
+.pachi-jackpot-title strong{font-size:12px}
+.pachi-jackpot-stream{position:relative;height:42px;overflow:hidden;border-radius:8px;background:linear-gradient(180deg,#442138,#d65b30 75%,#ffe392);box-shadow:inset 0 -4px 7px #6d2929}
+.pachi-jackpot-stream span{position:absolute;top:-25px;font-size:23px;animation:pachi-payout-ball 1.05s linear infinite;animation-play-state:paused}
+.pachi-machine.is-firing-jp .pachi-jackpot-stream span{animation-play-state:running}
+.pachi-jackpot-stream span:nth-child(1){left:7%;animation-delay:0s}.pachi-jackpot-stream span:nth-child(2){left:18%;animation-delay:-.14s}.pachi-jackpot-stream span:nth-child(3){left:29%;animation-delay:-.28s}.pachi-jackpot-stream span:nth-child(4){left:40%;animation-delay:-.42s}.pachi-jackpot-stream span:nth-child(5){left:51%;animation-delay:-.56s}.pachi-jackpot-stream span:nth-child(6){left:62%;animation-delay:-.70s}.pachi-jackpot-stream span:nth-child(7){left:73%;animation-delay:-.84s}.pachi-jackpot-stream span:nth-child(8){left:84%;animation-delay:-.98s}
+@keyframes pachi-payout-ball{to{transform:translate3d(0,75px,0) rotate(35deg)}}
+.pachi-jackpot-meter{display:flex;justify-content:center;align-items:baseline;gap:6px;margin-top:5px;font-size:11px;font-weight:900;font-variant-numeric:tabular-nums}
+.pachi-jackpot-meter strong{color:#fff;font:1000 22px/1 ui-monospace,Consolas,monospace;text-shadow:0 0 9px #fff}
+.pachi-jackpot progress{display:block;width:100%;height:8px;margin:5px 0 0;accent-color:#ffe680}
+.pachi-machine.is-jackpot{animation:pachi-jackpot-cabinet .35s steps(2,end) infinite alternate}
+.pachi-machine.is-jackpot .pachi-marquee,.pachi-machine.is-jackpot .pachi-display,.pachi-machine.is-jackpot .pachi-board-wrap{animation:pachi-jackpot-lights .48s steps(2,end) infinite alternate}
+.pachi-machine.is-jackpot .pachi-bulb{animation:pachi-glow .2s ease-in-out infinite alternate}
+.pachi-machine.is-jackpot .pachi-stats div{background:#6c203b;color:#fff}
+@keyframes pachi-jackpot-cabinet{to{box-shadow:0 14px 0 #51351f,0 0 14px 5px #fff0a0,0 0 30px 12px #fb4b8e,inset 0 0 0 3px #fff}}
+@keyframes pachi-jackpot-lights{to{border-color:#fff;box-shadow:0 0 17px 7px #ffe78d,inset 0 0 13px #fff}}
+.pachi-board-wrap{position:relative;max-width:440px;margin:auto;overflow:hidden;border:7px ridge #dfbb69;border-radius:45% 45% 12px 12px / 10% 10% 12px 12px;background:#103c30;box-shadow:inset 0 0 20px #14291d,0 2px 8px #443221}
+.pachi-board-wrap canvas{display:block;width:100%;height:auto;touch-action:none}
+.pachi-board-wrap .pachi-balls-canvas{position:absolute;z-index:1;inset:0;width:100%;height:100%;pointer-events:none}
+.pachi-center-slot{position:absolute;z-index:2;left:50%;top:48.6%;transform:translate(-50%,-50%);box-sizing:border-box;width:43%;padding:7px 8px 9px;border:4px ridge #f0d182;border-radius:22px;background:radial-gradient(ellipse at 50% 35%,#285b55,#092d2d 78%);color:#ffe69b;text-align:center;pointer-events:none;box-shadow:inset 0 0 0 2px #593d21,inset 0 0 16px #051d1d,0 5px 10px #061b18,0 0 12px #f4ca62}
+.pachi-center-slot-label{display:flex;justify-content:space-between;align-items:center;gap:2px;font-size:clamp(7px,1.8vw,10px);font-weight:1000;letter-spacing:.1em;white-space:nowrap;text-shadow:0 0 7px #ffdb77}
+.pachi-center-slot-label span{color:#fff3b4;font-size:12px}
+.pachi-center-slot-foot{font-size:clamp(7px,1.7vw,9px);font-weight:800;letter-spacing:.05em;white-space:nowrap;color:#b6e7b4}
+.pachi-machine.is-jackpot .pachi-center-slot{box-shadow:inset 0 0 0 2px #fff,inset 0 0 18px #ff7e5c,0 0 18px 8px #ffe573}
+.pachi-board-flash{position:absolute;z-index:3;inset:0;pointer-events:none;opacity:0;background:radial-gradient(circle,#fffbd1 0%,#ffd756 35%,transparent 75%)}
+.pachi-board-flash.is-flashing{animation:pachi-flash .7s ease-out}
+@keyframes pachi-flash{15%{opacity:.85}to{opacity:0}}
+.pachi-controls{padding:13px 5px 4px}
+.pachi-control-main{display:flex;align-items:center;gap:14px}
+.pachi-fire{flex:0 0 44%;min-height:64px;border:3px solid #fff4b3;border-radius:19px;background:linear-gradient(#feab5e,#db5237);color:#fff;font-family:inherit;font-size:18px;font-weight:900;line-height:1.2;cursor:pointer;box-shadow:0 5px 0 #9b3929,0 7px 9px #1f291d;text-shadow:0 1px 2px #813020;touch-action:none;user-select:none}
+.pachi-fire small{display:block;font-size:10px;font-weight:700}
+.pachi-machine.is-jackpot .pachi-fire{background:linear-gradient(#ffe880,#f18436);color:#5f260d;box-shadow:0 5px 0 #9b4c21,0 0 15px #ffe087;text-shadow:0 1px #fff2ad}
+.pachi-fire:active{transform:translateY(3px);box-shadow:0 2px 0 #9b3929}
+.pachi-fire:disabled{filter:grayscale(.8);cursor:not-allowed}
+.pachi-power-label{flex:1;min-width:0;color:#fff5ca;font-size:12px;font-weight:800}
+.pachi-power-label strong{float:right;font-variant-numeric:tabular-nums}
+.pachi-power-label input{display:block;width:100%;margin:10px 0 0;accent-color:#ffd66b;cursor:pointer}
+.pachi-control-sub{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.pachi-control-sub button:disabled{opacity:.5;cursor:not-allowed}
+.gacha-ticket-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel-soft);color:var(--deep);font-size:13px;font-weight:800}
+.gacha-ticket-row strong{font-variant-numeric:tabular-nums}
+.gacha-ticket-row button{border:0;border-radius:9px;padding:9px 12px;background:linear-gradient(135deg,#c58d32,#f0c46b);color:#332208;font:inherit;font-size:12px;font-weight:900;cursor:pointer}
+.gacha-ticket-row button:disabled{opacity:.5;cursor:not-allowed}
+.pachi-exchange{width:min(530px,100%);margin:20px auto 0;padding:15px;border:2px solid #d5b268;border-radius:15px;background:linear-gradient(135deg,var(--panel-soft),var(--panel));box-shadow:0 5px 16px var(--shadow)}
+.pachi-exchange-head,.pachi-exchange-count{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pachi-exchange-head h3{margin:0;color:var(--deep);font-size:17px}
+.pachi-exchange-head span{padding:5px 8px;border-radius:8px;background:#fff0be;color:#59400b;font-size:12px;font-weight:800}
+.pachi-exchange p{margin:9px 0;color:var(--muted);font-size:12px;line-height:1.6}
+.pachi-wallet{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.pachi-wallet span{flex:1;min-width:120px;padding:12px;border:1px solid #b6d6a0;border-radius:10px;background:#effbe9;color:var(--deep);font-size:12px;font-weight:800}
+.pachi-wallet strong{display:block;font-size:22px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.pachi-exchange-label{display:block;margin:12px 0 5px;color:var(--deep);font-size:12px;font-weight:800}
+.pachi-convert-row{display:flex;gap:6px}
+.pachi-convert-row input{flex:1;min-width:0;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--panel);font:inherit;font-size:16px}
+.pachi-convert-row button{border:0;border-radius:9px;padding:8px 12px;background:#35884b;color:#fff;font:inherit;font-size:12px;font-weight:900;cursor:pointer}
+.pachi-convert-row button:disabled{opacity:.5;cursor:not-allowed}
+.pachi-quick-amounts{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.pachi-quick-amounts button{border:1px solid var(--line);border-radius:8px;padding:5px 9px;background:var(--panel);color:var(--deep);font:inherit;font-size:11px;cursor:pointer}
+.pachi-exchange .pachi-convert-preview{margin:6px 0 12px;color:#276d37;font-weight:800}
+.pachi-reverse-exchange{margin-top:12px;padding-top:4px;border-top:1px dashed var(--line)}
+.pachi-exchange-count{margin-top:12px;color:var(--deep);font-size:12px;font-weight:800;font-variant-numeric:tabular-nums}
+.pachi-exchange progress{display:block;width:100%;height:14px;margin:7px 0 12px;accent-color:#68ae47}
+.pachi-exchange-button{width:100%;border:0;border-radius:11px;padding:12px 15px;background:linear-gradient(135deg,#329846,#7bc95c);color:#fff;font:inherit;font-size:14px;font-weight:900;cursor:pointer}
+.pachi-exchange-button:disabled{opacity:.5;cursor:not-allowed}
+.pachi-exchange .pachi-exchange-message{min-height:1.5em;margin:8px 0 0;color:var(--deep);font-weight:800}
+.pachi-backup{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:9px;padding-top:10px;border-top:1px dashed var(--line)}
+.pachi-backup button,.pachi-backup label{border:1px solid var(--line);border-radius:8px;padding:7px 9px;background:var(--panel);color:var(--deep);font:inherit;font-size:11px;font-weight:800;cursor:pointer}
+.pachi-backup input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.pachi-rule{display:grid;gap:4px;margin:18px auto 6px;padding:12px 14px;width:min(530px,100%);border:1px solid var(--line);border-radius:12px;background:var(--panel-soft);font-size:12px;line-height:1.7}
+.pachi-rule strong{color:var(--deep)}
+.pachi-save-message{text-align:center}
+.pachi-credits{margin-top:12px;font-size:11px;color:var(--muted)}
+.pachi-credits summary{cursor:pointer}
+.pachi-credits p{line-height:1.7}
+.pachi-credits a{color:var(--deep)}
+.pachi-share-modal{position:fixed;z-index:1200;inset:0;display:grid;place-items:center;padding:15px;background:rgba(3,21,15,.78)}
+.pachi-share-panel{box-sizing:border-box;width:min(500px,100%);max-height:95vh;overflow-y:auto;padding:16px;border:2px solid #d6b865;border-radius:16px;background:var(--panel);box-shadow:0 16px 50px #061d18;color:var(--deep)}
+.pachi-share-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pachi-share-head h3{margin:0;font-size:17px}
+.pachi-share-head button{border:0;background:transparent;color:var(--deep);font-size:26px;cursor:pointer}
+.pachi-share-name-option{display:block;margin:10px 0;font-size:12px;font-weight:800}
+.pachi-share-panel canvas{display:block;width:100%;height:auto;aspect-ratio:1;border-radius:12px}
+.pachi-share-panel p{font-size:12px;line-height:1.5}
+.pachi-share-actions{display:flex;gap:8px}
+.pachi-share-actions button{flex:1;border:0;border-radius:10px;padding:11px 8px;background:#31814a;color:white;font:inherit;font-size:12px;font-weight:900;cursor:pointer}
+.pachi-share-actions button:last-child{background:#b58634}
+.pachi-card[hidden],.pachi-panel[hidden],.pachi-entry[hidden],.pachi-game[hidden],.pachi-share-modal[hidden]{display:none!important}
+@media(max-width:560px){.kusa-play-corner{gap:8px}.pachi-card,.gacha-card{padding:13px}.pachi-entry-row{flex-direction:column}.pachi-entry-row button{width:100%}.pachi-player-row{align-items:flex-start}.pachi-player-actions{max-width:65%}.pachi-machine{padding:8px;border-width:4px}.pachi-marquee{min-height:57px}.pachi-board-wrap{border-width:5px}.pachi-control-main{gap:8px}.pachi-fire{flex-basis:45%;font-size:15px;min-height:57px}.gacha-ticket-row{align-items:stretch;flex-direction:column}.pachi-exchange-count{align-items:flex-start;flex-direction:column;gap:3px}}
+@media(prefers-reduced-motion:reduce){.pachi-bulb,.pachi-reels.is-spinning span,.pachi-board-flash.is-flashing,.pachi-machine.is-jackpot,.pachi-machine.is-jackpot .pachi-marquee,.pachi-machine.is-jackpot .pachi-display,.pachi-machine.is-jackpot .pachi-board-wrap,.pachi-jackpot-stream span{animation:none}.pachi-jackpot-stream span{top:8px}}
