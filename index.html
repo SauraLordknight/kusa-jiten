@@ -753,6 +753,8 @@ body,
     <li class="named-item" data-name="シオン"><span class="leaf">🌱</span><span class="name">シオン</span></li>
     <li class="named-item" data-name="トリッカル"><span class="leaf">🌱</span><span class="name">トリッカル</span></li>
     <li class="named-item" data-name="ガチンコマン"><span class="leaf">🌱</span><span class="name">ガチンコマン</span></li>
+    <li class="named-item" data-name="従来型コーディングガイジ"><span class="leaf">🌱</span><span class="name">従来型コーディングガイジ</span></li>
+    <li class="named-item" data-name="バイブコーディングガイジ"><span class="leaf">🌱</span><span class="name">バイブコーディングガイジ</span></li>
   </ul></section>
   <div id="empty" class="empty">🌱 該当するネームドが見つかりません。</div>
 
@@ -971,20 +973,6 @@ function applyRequestedNameSplits() {
   ].forEach(name => {
     document.querySelectorAll(`.named-item[data-name="${name}"]`).forEach(item => item.remove());
   });
-  const pencilArtistRow = document.querySelector('#あ .name-list');
-  if (pencilArtistRow && !pencilArtistRow.querySelector('.named-item[data-name="鉛筆ブラシ絵師（仮称）"]')) {
-    const item = document.createElement('li');
-    item.className = 'named-item';
-    item.dataset.name = '鉛筆ブラシ絵師（仮称）';
-    const leaf = document.createElement('span');
-    leaf.className = 'leaf';
-    leaf.textContent = '🌱';
-    const label = document.createElement('span');
-    label.className = 'name';
-    label.textContent = '鉛筆ブラシ絵師（仮称）';
-    item.append(leaf, label);
-    pencilArtistRow.appendChild(item);
-  }
   Object.entries(replacements).forEach(([group, names]) => {
     const list = document.querySelector(`#${group} .name-list`);
     if (!list) return;
@@ -1527,16 +1515,27 @@ const namedDetails = Object.freeze({
     iconTendency: '二つのアイコンを使用している。',
     source: '公開投稿での呼称と提供情報をもとに整理。個別の匿名IDやURLは記録していない。'
   },
-  '鉛筆ブラシ絵師（仮称）': {
-    description: '鉛筆ブラシを使った絵を継続的に投稿・再掲しているネームド。投稿では、鉛筆ブラシを使った表現へのこだわりが見られる。現在は仮称であり、正式名称を募集中。確認できた範囲では、以下の自己紹介文を複数回使用している。\n\n「なまらまたーり\n自分の描いた絵が(・∀・)ｲｲ!と思った方へ。自分はお絵描きVIP板をすみかにしているので、もしよければお越しください。一緒に絵を描いたり、絵が描けなくても感想を書くなどして既存のスレを盛り上げてくれると嬉しいです。\nhttps://open.open2ch.net/oekaki/」',
-    classification: 'お絵描き型・再掲型',
-    topics: '鉛筆ブラシを使ったイラスト、お絵描き、作品の再掲など。',
-    preferences: '鉛筆ブラシを使った表現へのこだわりが投稿から見られる。その他の嗜好は未確認。',
-    activity: '調査時点で継続的な投稿が確認されている。正確な開始時期は未確認。',
-    confidence: '有力',
-    summary: '鉛筆ブラシを使った絵を継続的に投稿しているネームド。',
-    iconTendency: 'アイコンを設定していない状態が確認されている。',
-    source: '公開投稿と公開プロフィールの固定自己紹介文をもとに整理。個別の匿名IDやURLは記録していない。'
+  '従来型コーディングガイジ': {
+    description: '公開プロフィールには「セイキン」の一言のみが記載されている。その他の情報は未確認。',
+    classification: 'プロフィール型',
+    topics: 'プロフィールに記載された「セイキン」という表記。',
+    preferences: '好き嫌いは未確認。',
+    activity: '調査時点で確認。正確な開始時期は未確認。',
+    confidence: '確定（プロフィール記載）',
+    summary: 'プロフィールに「セイキン」とだけ記載しているネームド。',
+    iconTendency: '継続したアイコン傾向は未確認。',
+    source: '公開プロフィールの表記のみをもとに整理。'
+  },
+  'バイブコーディングガイジ': {
+    description: '公開プロフィールには「デカキン」の一言のみが記載されている。その他の情報は未確認。',
+    classification: 'プロフィール型',
+    topics: 'プロフィールに記載された「デカキン」という表記。',
+    preferences: '好き嫌いは未確認。',
+    activity: '調査時点で確認。正確な開始時期は未確認。',
+    confidence: '確定（プロフィール記載）',
+    summary: 'プロフィールに「デカキン」とだけ記載しているネームド。',
+    iconTendency: '継続したアイコン傾向は未確認。',
+    source: '公開プロフィールの表記のみをもとに整理。'
   }
 });
 
@@ -1556,7 +1555,6 @@ const typeByName = Object.freeze({
   'ふぁぼ': 'named',
   'チュパカブラ': 'handle',
   'PB': 'named',
-  '鉛筆ブラシ絵師（仮称）': 'named',
   'onjs': 'handle',
   'アキネイター': 'handle',
   'ウザミク': 'named',
@@ -1638,7 +1636,7 @@ const namedCardEmoji = Object.freeze({
   '霊王': '👻', '生首': '🗿', 'ロゼ': '🌹', 'ロリガイ': '🧸', 'らべんだー': '💜', 'ラテアート': '☕',
   'リコーダーガイジ': '🎵', 'ワイテルズjc': '🎓', 'ヴァロキチ': '🎯',
   '一日五食ガイジ': '🍽️', '赤ゆに': '🔴', 'エジプト壁画ガイジ': '🏺',
-  'おえちゃん': '🎁', 'onjs': '⚡'
+  'おえちゃん': '🎁', 'onjs': '⚡', '従来型コーディングガイジ': '⌨️', 'バイブコーディングガイジ': '🤖'
 });
 
 function namedGachaCard(name, rarity) {
@@ -1671,14 +1669,27 @@ function buildGachaPools() {
   };
 }
 
+const removedGachaCardIds = new Set([
+  'named-R-鉛筆ブラシ絵師（仮称）',
+  'named-SR-鉛筆ブラシ絵師（仮称）',
+  'named-SSR-鉛筆ブラシ絵師（仮称）'
+]);
+
 function readGachaState() {
   try {
     const stored = JSON.parse(localStorage.getItem(gachaStorageKey) || '{}');
-    return {
+    const obtainedCards = Array.isArray(stored.obtainedCards)
+      ? stored.obtainedCards.filter(card => typeof card === 'string' && !removedGachaCardIds.has(card))
+      : [];
+    const state = {
       lastDrawAt: Number.isFinite(stored.lastDrawAt) ? stored.lastDrawAt : 0,
-      obtainedCards: Array.isArray(stored.obtainedCards) ? stored.obtainedCards.filter(card => typeof card === 'string') : [],
+      obtainedCards,
       grassPoint: Number.isFinite(stored.grassPoint) ? stored.grassPoint : 0
     };
+    if (Array.isArray(stored.obtainedCards) && obtainedCards.length !== stored.obtainedCards.length) {
+      try { localStorage.setItem(gachaStorageKey, JSON.stringify(state)); } catch { /* 保存できない環境でも表示は継続する */ }
+    }
+    return state;
   } catch { return { lastDrawAt: 0, obtainedCards: [], grassPoint: 0 }; }
 }
 
@@ -2035,12 +2046,12 @@ if (valokichi && aRow && aRowNext) {
   document.getElementById('ヴァ')?.remove();
 }
 const newNamedGroups = {
-  'あ': ['一日五食ガイジ', '赤ゆに', '鉛筆ブラシ絵師（仮称）', 'エジプト壁画ガイジ', 'おえちゃん', 'onjs'],
+  'あ': ['一日五食ガイジ', '赤ゆに', 'エジプト壁画ガイジ', 'おえちゃん', 'onjs'],
   'か': ['かねる', 'ゲイ', 'コロッケガイジ', 'ことわざバトルガイジ', 'カリカリガイジ', 'きぃうぃ', 'クウガイジ', 'きんたま奇数個ガイジ', 'QR', 'ガチシコマン'],
-  'さ': ['全肯定おじ', '全肯定お兄さん', 'サツヨコピングー', 'しそ', 'シャドバンガイジ', 'ショタコン', '失言ニキ'],
+  'さ': ['全肯定おじ', '全肯定お兄さん', 'サツヨコピングー', 'しそ', 'シャドバンガイジ', 'ショタコン', '失言ニキ', '従来型コーディングガイジ'],
   'た': ['タラタラガイジ', 'チュパカブラ', 'トリッカル'],
   'な': ['虹神全', 'ニートだけど'],
-  'は': ['ぷゆガイ', 'ビビアミ', 'PB', 'ふぁぼ', 'ふむ', 'ぷゆゆパン', 'ぷゆゆ特化の可愛い魔法', 'ホイ卒', '包丁おじ'],
+  'は': ['ぷゆガイ', 'ビビアミ', 'PB', 'バイブコーディングガイジ', 'ふぁぼ', 'ふむ', 'ぷゆゆパン', 'ぷゆゆ特化の可愛い魔法', 'ホイ卒', '包丁おじ'],
   'ま': ['むほほおじさん'],
   'や': [],
   'ら': ['リコーダーガイジ', 'らべんだー', 'ラテアート', 'ロリガイ・フォン・ゼートゥーア']
