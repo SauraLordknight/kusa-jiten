@@ -42,7 +42,7 @@
   padding:clamp(18px,18%,28px) clamp(12px,12%,20px);
 }
 .detail-panel.gacha-framed{
-  --gacha-detail-size:min(520px,calc(100vw - 48px),74vh);
+  --gacha-detail-size:min(520px,calc(var(--gacha-detail-viewport-width,100vw) - 48px),calc(var(--gacha-detail-viewport-height,100vh) - 48px));
   box-sizing:border-box;
   display:flex;
   flex-direction:column;

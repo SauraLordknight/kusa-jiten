@@ -175,6 +175,8 @@ footer{margin-top:30px;text-align:center;color:var(--muted);font-size:11px}
 .detail-type-badge{font-size:11px}
 .detail-modal{position:fixed;inset:0;z-index:10;display:none;place-items:center;padding:18px;background:rgba(24,55,20,.42)}
 .detail-modal.is-open{display:grid}
+#gachaDetailModal{inset:auto;left:var(--gacha-detail-viewport-left,0px);top:var(--gacha-detail-viewport-top,0px);width:var(--gacha-detail-viewport-width,100vw);height:var(--gacha-detail-viewport-height,100vh);overflow:auto;overscroll-behavior:contain}
+#gachaDetailModal .detail-panel:not(.gacha-framed){max-height:calc(var(--gacha-detail-viewport-height,100vh) - 36px)}
 .detail-panel{width:min(620px,100%);max-height:min(760px,92vh);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 55px rgba(20,65,18,.25)}
 .detail-panel.is-revealing{animation:card-reveal .45s cubic-bezier(.2,.8,.2,1) both}
 @keyframes card-reveal{from{opacity:0;transform:perspective(900px) rotateX(-10deg) translateY(18px) scale(.97)}to{opacity:1;transform:perspective(900px) rotateX(0) translateY(0) scale(1)}}
@@ -2031,9 +2033,24 @@ function openGachaCardDetail(card) {
   gachaDetailRarity.textContent = gachaRarityText(card.rarity);
   gachaDetailKind.textContent = card.kind;
   gachaDetailText.textContent = card.text;
+  gachaDetailPanel.querySelector('.detail-body').scrollTop = 0;
   gachaDetailModal.hidden = false;
+  syncGachaDetailViewport();
   gachaDetailModal.classList.add('is-open');
 }
+
+function syncGachaDetailViewport() {
+  if (gachaDetailModal.hidden) return;
+  const viewport = window.visualViewport;
+  if (!viewport) return;
+  gachaDetailModal.style.setProperty('--gacha-detail-viewport-left', `${viewport.offsetLeft}px`);
+  gachaDetailModal.style.setProperty('--gacha-detail-viewport-top', `${viewport.offsetTop}px`);
+  gachaDetailModal.style.setProperty('--gacha-detail-viewport-width', `${viewport.width}px`);
+  gachaDetailModal.style.setProperty('--gacha-detail-viewport-height', `${viewport.height}px`);
+}
+window.visualViewport?.addEventListener('resize', syncGachaDetailViewport);
+window.visualViewport?.addEventListener('scroll', syncGachaDetailViewport);
+window.addEventListener('resize', syncGachaDetailViewport);
 
 let closeActiveOmegaGachaEffect = null;
 function showOmegaGachaEffect(card) {
@@ -2417,7 +2434,6 @@ function arrangePageForFirstVisit() {
     main.querySelector('.news-card'),
     main.querySelector('.site-map'),
     main.querySelector('.kusa-play-corner'),
-    document.getElementById('gachaDetailModal'),
     main.querySelector('.search-box'),
     main.querySelector('.filter-bar'),
     main.querySelector('.type-filter-bar'),
@@ -2445,6 +2461,7 @@ function arrangePageForFirstVisit() {
   orderedBlocks.filter(Boolean).forEach(block => main.appendChild(block));
 }
 arrangePageForFirstVisit();
+document.body.appendChild(gachaDetailModal);
 
 initGacha();
 filterNames();
