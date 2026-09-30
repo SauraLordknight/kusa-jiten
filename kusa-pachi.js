@@ -73,6 +73,8 @@
   const activeSounds = new Set();
   let soundContext = null;
   let soundContextUnavailable = false;
+  let pageSuspended = document.hidden;
+  let audioResumeToken = 0;
   let firing = false;
   let fireTimer = 0;
   let lastFire = 0;
@@ -136,9 +138,18 @@
     catch { soundContextUnavailable = true; }
     return soundContext;
   }
+  function canPlaySound() {
+    return soundOn && !pageSuspended && !document.hidden && !panel.hidden && !$('pachiGame').hidden;
+  }
   function unlockAudio() {
+    if (!canPlaySound()) return;
     const ac = getSoundContext();
-    if (soundOn && ac && ac.state !== 'running') ac.resume().catch(() => {});
+    if (ac && ac.state !== 'running') {
+      const token = ++audioResumeToken;
+      ac.resume().then(() => {
+        if (token !== audioResumeToken || !canPlaySound()) ac.suspend().catch(() => {});
+      }).catch(() => {});
+    }
   }
   function initAudio() {
     const ac = getSoundContext();
@@ -166,12 +177,13 @@
     };
   }
   function playSound(kind, volume = .22) {
-    if (!soundOn) return;
+    if (!canPlaySound()) return;
     const ac = getSoundContext();
     const buffer = audioBuffers[kind];
     const rate = kind.startsWith('peg') ? 1.02 + Math.random() * .13
       : kind === 'launch' ? 1.02 + Math.random() * .06 : 1;
     if (ac && buffer) {
+      if (ac.state !== 'running') return;
       if (kind.startsWith('peg')) {
         if (activeSounds.size >= (mobileLite ? 5 : 8)) return;
         let pegVoices = 0;
@@ -190,6 +202,7 @@
       } catch { /* 音声が無効でもゲームは続ける */ }
       return;
     }
+    if (ac && ac.state !== 'running') return;
     if (audioLoading[kind]) return;
     try {
       const audio = fallbackAudio[kind] ||= new Audio(`pachi-sounds/${soundFiles[kind]}`);
@@ -202,16 +215,25 @@
   }
   function stopSounds() {
     for (const {source, gain} of activeSounds) {
+      source.onended = null;
       try { source.stop(); } catch { /* 再生終了済み */ }
       source.disconnect(); gain.disconnect();
     }
     activeSounds.clear();
-    Object.values(fallbackAudio).forEach(audio => audio.pause());
+    Object.values(fallbackAudio).forEach(audio => {
+      audio.pause();
+      try { audio.currentTime = 0; } catch { /* 読み込み前の音声 */ }
+    });
+  }
+  function suspendAudio() {
+    audioResumeToken++;
+    stopSounds();
+    if (soundContext && soundContext.state === 'running') soundContext.suspend().catch(() => {});
   }
   function playTick(frequency = 820, volume = .035) {
-    if (!soundOn) return;
+    if (!canPlaySound()) return;
     const ac = getSoundContext();
-    if (!ac) return;
+    if (!ac || ac.state !== 'running') return;
     try {
       const oscillator = ac.createOscillator(), gain = ac.createGain();
       oscillator.type = 'square'; oscillator.frequency.value = frequency;
@@ -222,9 +244,9 @@
     } catch { /* 音声合成が使えない場合は実機録音だけ流す */ }
   }
   function playChime(premium = false) {
-    if (!soundOn) return;
+    if (!canPlaySound()) return;
     const ac = getSoundContext();
-    if (!ac) return;
+    if (!ac || ac.state !== 'running') return;
     try {
       const notes = premium ? [523, 659, 784, 1047] : [523, 659, 784];
       notes.forEach((frequency, i) => {
@@ -339,13 +361,13 @@
   function startPlayer() {
     const name = $('pachiName').value.trim().replace(/\s+/g, ' ').slice(0, 20);
     if (!name) { $('pachiEntryMessage').textContent = 'プレイヤーネームを入力してください。'; $('pachiName').focus(); return; }
-    unlockAudio();
     const existing = profiles.find(p => p.name === name);
     player = existing || {name, balls: 250, grass: 0, wager: 1, spins: 0, hits: 0, streak: 0, bestStreak: 0, rushLeft: 0, lastBonusDay: '', inFlight: 0, inFlightValue: 0, pendingJackpot: 0, jackpotRate: 1, jackpotTotal: 0};
     if (!existing) profiles.push(player);
     if (player.inFlight) { player.balls += player.inFlightValue; player.inFlight = 0; player.inFlightValue = 0; }
     $('pachiEntry').hidden = true;
     $('pachiGame').hidden = false;
+    unlockAudio();
     $('pachiGrassAmount').value = '';
     $('pachiBallAmount').value = '';
     balls = [];
@@ -368,6 +390,8 @@
     closeShare();
     pausePayout();
     clearTimeout(spinTimer); clearInterval(reelTimer);
+    stopLoop();
+    suspendAudio();
     if (player) {
       player.balls += balls.reduce((total, ball) => total + ball.wager, 0);
       player.inFlight = 0;
@@ -381,7 +405,7 @@
     renderProfiles();
   }
   function fire() {
-    if (!player || (player.balls < player.wager && player.pendingJackpot <= 0) || (player.pendingJackpot > 0 && !payoutActive) || payoutFinishTimer || balls.length >= 22 || panel.hidden) {
+    if (!player || pageSuspended || document.hidden || (player.balls < player.wager && player.pendingJackpot <= 0) || (player.pendingJackpot > 0 && !payoutActive) || payoutFinishTimer || balls.length >= 22 || panel.hidden) {
       if (player && ((player.balls < player.wager && player.pendingJackpot <= 0) || (player.pendingJackpot > 0 && !payoutActive) || payoutFinishTimer)) stopFiring();
       return;
     }
@@ -411,7 +435,7 @@
     }
   }
   function startFiring() {
-    if (firing) return;
+    if (firing || pageSuspended || document.hidden) return;
     unlockAudio();
     firing = true;
     if (player?.pendingJackpot > 0) $('pachiMachine').classList.add('is-firing-jp');
@@ -663,7 +687,7 @@
     updateUI();
   }
   function runSpin() {
-    if (spinning || payoutActive || payoutFinishTimer || !spinQueue.length || !player) return;
+    if (spinning || pageSuspended || document.hidden || panel.hidden || payoutActive || payoutFinishTimer || !spinQueue.length || !player) return;
     spinning = true;
     updateUI();
     const result = spinQueue.shift();
@@ -806,8 +830,17 @@
     }
     ctx.textBaseline = 'alphabetic';
   }
+  function restoreCanvases() {
+    canvas.width = W;
+    canvas.height = H;
+    $('pachiBallsCanvas').width = W;
+    $('pachiBallsCanvas').height = H;
+    ballSprites.clear();
+    drawBoardScenery();
+    drawBoard();
+  }
   function frame(time) {
-    if (panel.hidden || $('pachiGame').hidden) { frameId = 0; lastFrame = 0; return; }
+    if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) { frameId = 0; lastFrame = 0; return; }
     if (!lastFrame) lastFrame = time - frameInterval;
     if (time - lastFrame < frameInterval * .9) {
       frameId = requestAnimationFrame(frame);
@@ -822,14 +855,49 @@
     if (!balls.length) { frameId = 0; lastFrame = 0; return; }
     frameId = requestAnimationFrame(frame);
   }
-  function startLoop() { if (!frameId && !panel.hidden && !$('pachiGame').hidden) frameId = requestAnimationFrame(frame); }
+  function stopLoop() {
+    if (frameId) cancelAnimationFrame(frameId);
+    frameId = 0;
+    lastFrame = 0;
+  }
+  function startLoop() { if (!pageSuspended && !document.hidden && !frameId && !panel.hidden && !$('pachiGame').hidden) frameId = requestAnimationFrame(frame); }
+  function pauseSpin() {
+    clearTimeout(spinTimer); clearInterval(reelTimer);
+    spinTimer = 0; reelTimer = 0;
+    spinning = false; spinQueue = [];
+    $('pachiReels').classList.remove('is-spinning');
+    $('pachiBoardFlash').classList.remove('is-flashing');
+    if (!player?.pendingJackpot) {
+      ['🌱', '🌿', '🍀'].forEach((face, i) => { $('pachiReels').children[i].textContent = face; });
+    }
+  }
+  function pauseForBackground() {
+    pageSuspended = true;
+    stopFiring();
+    pauseSpin();
+    pausePayout();
+    stopLoop();
+    suspendAudio();
+    if (player) saveProfiles();
+  }
+  function resumeFromBackground() {
+    if (document.hidden) return;
+    pageSuspended = false;
+    restoreCanvases();
+    requestAnimationFrame(() => { if (!pageSuspended && !document.hidden) restoreCanvases(); });
+    if (player) {
+      updateUI();
+      if (!panel.hidden && player.pendingJackpot > 0) startPayout();
+      startLoop();
+    }
+  }
   function setOpen(open) {
     panel.hidden = !open;
     shell.classList.toggle('is-collapsed', !open);
     $('pachiToggle').setAttribute('aria-expanded', String(open));
     $('pachiToggle').setAttribute('aria-label', open ? '草パチを閉じる' : '草パチを開く');
     if (open) { unlockAudio(); startLoop(); if (player?.pendingJackpot > 0) startPayout(); }
-    else { closeShare(); stopFiring(); pausePayout(); stopSounds(); }
+    else { closeShare(); stopFiring(); pauseSpin(); pausePayout(); stopLoop(); suspendAudio(); }
   }
   function drawShareCard() {
     if (!player) return;
@@ -1105,10 +1173,19 @@
     saveProfiles(); updateUI(); announce('🎁 今日の補充！ 50球追加しました。', 2400); playChime();
   });
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { stopFiring(); pausePayout(); stopSounds(); }
-    else { startLoop(); if (player?.pendingJackpot > 0) startPayout(); }
+    if (document.hidden) pauseForBackground();
+    else resumeFromBackground();
   });
-  window.addEventListener('pagehide', () => { stopFiring(); pausePayout(); stopSounds(); if (player) saveProfiles(); });
+  window.addEventListener('pagehide', pauseForBackground);
+  window.addEventListener('pageshow', resumeFromBackground);
+  window.addEventListener('blur', pauseForBackground);
+  window.addEventListener('focus', resumeFromBackground);
+  document.addEventListener('freeze', pauseForBackground);
+  document.addEventListener('resume', resumeFromBackground);
+  canvas.addEventListener('contextlost', event => event.preventDefault());
+  canvas.addEventListener('contextrestored', restoreCanvases);
+  $('pachiBallsCanvas').addEventListener('contextlost', event => event.preventDefault());
+  $('pachiBallsCanvas').addEventListener('contextrestored', restoreCanvases);
   window.addEventListener('kusa-rewards-changed', () => updateExchangeUI());
   window.addEventListener('storage', event => { if (event.key === rewards.key) updateExchangeUI(); });
   initAudio(); renderProfiles(); drawBoardScenery();
