@@ -62,6 +62,11 @@
 .pachi-stats strong{display:block;font:800 clamp(16px,4vw,22px)/1.2 ui-monospace,Consolas,monospace}
 .pachi-jackpot{margin:6px 3px 9px;padding:9px 11px 7px;border:3px solid #ffe57f;border-radius:14px;background:linear-gradient(110deg,#6e1237,#b53b29 48%,#702344);color:#fff9bd;text-align:center;box-shadow:inset 0 0 16px #ff9b4e,0 0 14px #ffd963}
 .pachi-jackpot[hidden]{display:none}
+.pachi-board-wrap > .pachi-jackpot{position:absolute;z-index:2;left:6%;right:6%;bottom:4%;margin:0;padding:7px 9px 6px;pointer-events:none}
+.pachi-board-wrap > .pachi-jackpot .pachi-jackpot-stream{height:28px}
+.pachi-board-wrap > .pachi-jackpot .pachi-jackpot-meter{margin-top:3px}
+.pachi-board-wrap > .pachi-jackpot .pachi-jackpot-meter strong{font-size:18px}
+.pachi-board-wrap > .pachi-jackpot progress{height:6px;margin-top:3px}
 .pachi-jackpot-title{display:grid;gap:1px;font-weight:1000;letter-spacing:.08em;text-shadow:0 0 8px #ffe67d}
 .pachi-jackpot-title span{font-size:clamp(16px,5vw,23px)}
 .pachi-jackpot-title strong{font-size:12px}
@@ -151,4 +156,14 @@
 .pachi-share-actions button:last-child{background:#b58634}
 .pachi-card[hidden],.pachi-panel[hidden],.pachi-entry[hidden],.pachi-game[hidden],.pachi-share-modal[hidden]{display:none!important}
 @media(max-width:560px){.kusa-play-corner{gap:8px}.pachi-card,.gacha-card{padding:13px}.pachi-entry-row{flex-direction:column}.pachi-entry-row button{width:100%}.pachi-player-row{align-items:flex-start}.pachi-player-actions{max-width:65%}.pachi-machine{padding:8px;border-width:4px}.pachi-marquee{min-height:57px}.pachi-board-wrap{border-width:5px}.pachi-control-main{gap:8px}.pachi-fire{flex-basis:45%;font-size:15px;min-height:57px}.gacha-ticket-row{align-items:stretch;flex-direction:column}.pachi-exchange-count{align-items:flex-start;flex-direction:column;gap:3px}}
+@media(max-width:600px),(pointer:coarse){
+  .pachi-status-grid{height:96px}
+  .pachi-status-cell{height:100%;overflow:auto}
+  .pachi-announcement{height:46px;overflow:auto}
+  #pachiMachine .pachi-combo{display:grid;grid-template-columns:1fr;align-content:center;gap:2px;height:56px;padding:4px 8px;overflow:hidden}
+  #pachiMachine #pachiPocketNote{display:flex;align-items:center;height:58px;overflow:hidden}
+  .pachi-wager small{min-height:2.6em}
+  .pachi-board-wrap > .pachi-jackpot .pachi-jackpot-title span{font-size:16px}
+  .pachi-board-wrap > .pachi-jackpot .pachi-jackpot-title strong{font-size:10px}
+}
 @media(prefers-reduced-motion:reduce){.pachi-bulb,.pachi-reels.is-spinning span,.pachi-board-flash.is-flashing,.pachi-machine.is-jackpot,.pachi-machine.is-jackpot .pachi-marquee,.pachi-machine.is-jackpot .pachi-display,.pachi-machine.is-jackpot .pachi-board-wrap,.pachi-jackpot-stream span{animation:none}.pachi-jackpot-stream span{top:8px}}

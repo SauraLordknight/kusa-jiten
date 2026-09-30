@@ -675,6 +675,22 @@ body,
 .pachi-rule-list li::marker{color:#438b43}
 .pachi-rule-list strong{display:inline;color:var(--deep)}
 @media(max-width:520px){.pachi-result-grid,.pachi-title-list{grid-template-columns:1fr}.pachi-result-panel{padding:13px}}
+@keyframes pachi-reel-mobile{to{transform:translateY(3px)}}
+@media(max-width:600px),(pointer:coarse){
+  .pachi-machine[data-scene="night"] .pachi-board-wrap,
+  .pachi-machine[data-scene="festival"] .pachi-board-wrap,
+  .pachi-machine[data-scene="grass-festival"] .pachi-board-wrap,
+  .pachi-machine[data-scene="yaminabe"] .pachi-board-wrap{filter:none}
+  .pachi-machine[data-scene="puyuyu"] #pachiCanvas{filter:none}
+  .pachi-lcd{transition:none}
+  .pachi-machine .pachi-lcd::before,.pachi-machine.is-omen-3 .pachi-lcd::before,.pachi-machine.is-jackpot .pachi-lcd::before{animation:none}
+  .pachi-reels.is-spinning span{animation-name:pachi-reel-mobile}
+  .pachi-mode-transition:not([hidden]),.pachi-mode-transition:not([hidden])::before,.pachi-burst:not([hidden]),.pachi-board-flash.is-flashing{will-change:opacity,transform}
+  .pachi-machine.is-jackpot,
+  .pachi-machine.is-jackpot .pachi-marquee,
+  .pachi-machine.is-jackpot .pachi-display,
+  .pachi-machine.is-jackpot .pachi-board-wrap{animation:none}
+}
 </style>
 </head>
 <body>
@@ -854,17 +870,17 @@ body,
           <div class="pachi-stats"><div><small>持ち球</small><strong id="pachiBalls">250</strong></div><div><small>総回転数</small><strong id="pachiSpins">0</strong></div><div><small>大当たり</small><strong id="pachiHits">0</strong></div><div><small>連チャン</small><strong id="pachiStreak">0</strong></div></div>
           <div class="pachi-combo"><span id="pachiCombo">STARTコンボ 0</span><span id="pachiComboEffect">3・5・10・20で演出解放</span></div>
           <div class="pachi-combo" id="pachiPocketNote" aria-live="off">サイド +2球 ／ START +2球</div>
-          <div id="pachiJackpot" class="pachi-jackpot" hidden aria-live="off">
-            <div class="pachi-jackpot-title"><span>👑 JACKPOT 👑</span><strong id="pachiJackpotTitle">発射1球につき2,000球！</strong></div>
-            <div class="pachi-jackpot-stream" aria-hidden="true"><span>😄</span><span>😎</span><span>🥳</span><span>🤩</span><span>😆</span><span>😊</span><span>😺</span><span>😋</span></div>
-            <div class="pachi-jackpot-meter"><span>発射で獲得</span><strong id="pachiJackpotPaid">0</strong><span> / <span id="pachiJackpotTotal">100,000</span>球</span></div>
-            <progress id="pachiJackpotBar" max="100000" value="0" aria-label="ジャックポット賞球の払い出し"></progress>
-          </div>
           <div class="pachi-board-wrap">
             <div id="pachiLcd" class="pachi-lcd" aria-hidden="true">
               <div id="pachiBoardFlash" class="pachi-board-flash"></div>
               <div id="pachiModeTransition" class="pachi-mode-transition" hidden><div class="pachi-transition-lamps"><i></i><i></i><i></i><i></i></div><div class="pachi-transition-reels"><span>🌱</span><span>🌿</span><span>🍀</span></div><strong id="pachiModeTransitionLabel"></strong><small>MODE CHANGE</small></div>
               <div id="pachiBurst" class="pachi-burst" hidden></div>
+            </div>
+            <div id="pachiJackpot" class="pachi-jackpot" hidden aria-live="off">
+              <div class="pachi-jackpot-title"><span>👑 JACKPOT 👑</span><strong id="pachiJackpotTitle">発射1球につき2,000球！</strong></div>
+              <div class="pachi-jackpot-stream" aria-hidden="true"><span>😄</span><span>😎</span><span>🥳</span><span>🤩</span><span>😆</span><span>😊</span><span>😺</span><span>😋</span></div>
+              <div class="pachi-jackpot-meter"><span>発射で獲得</span><strong id="pachiJackpotPaid">0</strong><span> / <span id="pachiJackpotTotal">100,000</span>球</span></div>
+              <progress id="pachiJackpotBar" max="100000" value="0" aria-label="ジャックポット賞球の払い出し"></progress>
             </div>
             <canvas id="pachiCanvas" width="440" height="570" role="img" aria-label="液晶演出の手前にある釘の間を、顔の絵文字の球が跳ねて落ちる草パチ盤面"></canvas>
             <canvas id="pachiBallsCanvas" class="pachi-balls-canvas" width="440" height="570" aria-hidden="true"></canvas>
@@ -2626,6 +2642,9 @@ filterNames();
   let modeTransitionTimer = 0;
   let burstTimer = 0;
   let stageFlashTimer = 0;
+  let modeTransitionFrame = 0;
+  let burstFrame = 0;
+  let boardFlashFrame = 0;
   let boardAwardKey = '';
 
   function readProfiles() {
@@ -2788,39 +2807,56 @@ filterNames();
     const side = sideAwardFor();
     const start = startAwardFor();
     const range = player.scene === 'yaminabe' ? `〜${start + 2 * player.wager}` : '';
-    $('pachiPocketNote').textContent = `入賞賞球｜サイド +${side}球 ／ START +${start}${range}球${comboIsLive() && player.comboCount >= 3 ? '（コンボ込み）' : ''}`;
+    $('pachiPocketNote').textContent = mobileLite
+      ? `サイド +${side}球 / START +${start}${range}球${comboIsLive() && player.comboCount >= 3 ? ' / コンボ込み' : ''}`
+      : `入賞賞球｜サイド +${side}球 ／ START +${start}${range}球${comboIsLive() && player.comboCount >= 3 ? '（コンボ込み）' : ''}`;
     const key = `${side}/${start}/${range}`;
     if (key !== boardAwardKey) { boardAwardKey = key; drawBoardScenery(); }
   }
   function stopStageEffects() {
     clearTimeout(modeTransitionTimer); clearTimeout(burstTimer); clearTimeout(stageFlashTimer);
+    cancelAnimationFrame(modeTransitionFrame); cancelAnimationFrame(burstFrame); cancelAnimationFrame(boardFlashFrame);
     modeTransitionTimer = burstTimer = stageFlashTimer = 0;
+    modeTransitionFrame = burstFrame = boardFlashFrame = 0;
     $('pachiModeTransition').hidden = true;
     $('pachiBurst').hidden = true;
+    $('pachiBoardFlash').classList.remove('is-flashing');
     $('pachiMachine').classList.remove('is-stage-flash');
   }
   function showModeTransition(label, tone = activeScene()) {
     if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
     const layer = $('pachiModeTransition');
     clearTimeout(modeTransitionTimer);
+    cancelAnimationFrame(modeTransitionFrame);
     $('pachiModeTransitionLabel').textContent = label;
     layer.dataset.tone = tone;
     layer.hidden = true;
-    void layer.offsetWidth;
-    layer.hidden = false;
-    modeTransitionTimer = setTimeout(() => { layer.hidden = true; modeTransitionTimer = 0; }, 1300);
+    modeTransitionFrame = requestAnimationFrame(() => {
+      modeTransitionFrame = requestAnimationFrame(() => {
+        modeTransitionFrame = 0;
+        if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
+        layer.hidden = false;
+        modeTransitionTimer = setTimeout(() => { layer.hidden = true; modeTransitionTimer = 0; }, 1300);
+      });
+    });
     playSound('modeEnter', .24);
   }
   function showBurst(label, tone = 'grass', duration = 850) {
     if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
     const burst = $('pachiBurst');
     clearTimeout(burstTimer);
+    cancelAnimationFrame(burstFrame);
     burst.textContent = label;
     burst.dataset.tone = tone;
     burst.hidden = true;
-    void burst.offsetWidth;
-    burst.hidden = false;
-    burstTimer = setTimeout(() => { burst.hidden = true; burstTimer = 0; }, duration);
+    burstFrame = requestAnimationFrame(() => {
+      burstFrame = requestAnimationFrame(() => {
+        burstFrame = 0;
+        if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
+        burst.hidden = false;
+        burstTimer = setTimeout(() => { burst.hidden = true; burstTimer = 0; }, duration);
+      });
+    });
   }
   function flashStart() {
     if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
@@ -3732,8 +3768,13 @@ filterNames();
         playSound('jackpot', .36);
         playChime(result.premium);
         $('pachiBoardFlash').classList.remove('is-flashing');
-        void $('pachiBoardFlash').offsetWidth;
-        $('pachiBoardFlash').classList.add('is-flashing');
+        cancelAnimationFrame(boardFlashFrame);
+        boardFlashFrame = requestAnimationFrame(() => {
+          boardFlashFrame = requestAnimationFrame(() => {
+            boardFlashFrame = 0;
+            if (!pageSuspended && !document.hidden) $('pachiBoardFlash').classList.add('is-flashing');
+          });
+        });
       } else {
         playTick(540, .02);
         reels.children[0].textContent = '🌱';
