@@ -1,0 +1,144 @@
+.gacha-framed{
+  position:relative;
+  isolation:isolate;
+  overflow:visible!important;
+}
+.gacha-framed::before{
+  content:"";
+  position:absolute;
+  z-index:2;
+  inset:-10px;
+  border-radius:0;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  pointer-events:none;
+}
+.gacha-framed.rarity-SSR::before{background-image:url("ssr-diamond-frame.png")}
+.gacha-framed.rarity-UR::before{background-image:url("ur-rainbow-frame.png")}
+.gacha-framed.rarity-GODR::before{background-image:url("god-temple-frame.png")}
+.gacha-framed.rarity-Ω::before{background-image:url("omega-obsidian-frame.png")}
+.gacha-framed>*{position:relative;z-index:3}
+.gacha-result-card.gacha-framed.rarity-SSR,
+.gacha-result-card.gacha-framed.rarity-UR,
+.gacha-result-card.gacha-framed.rarity-GODR,
+.gacha-result-card.gacha-framed.rarity-Ω{border-color:transparent}
+.gacha-result-card.gacha-framed{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  width:min(100%,360px);
+  aspect-ratio:1;
+  overflow:visible;
+  padding:clamp(38px,12%,52px);
+  margin:16px auto;
+}
+.gacha-result-card.gacha-framed::after{z-index:1}
+.gacha-book-item.gacha-framed{
+  aspect-ratio:1;
+  min-height:0;
+  border-color:transparent;
+  padding:clamp(18px,18%,28px) clamp(12px,12%,20px);
+}
+.detail-panel.gacha-framed{
+  --gacha-detail-size:min(520px,calc(100vw - 48px),74vh);
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  width:var(--gacha-detail-size);
+  height:var(--gacha-detail-size);
+  max-height:none;
+  overflow:visible;
+  border-color:transparent;
+}
+.detail-panel.gacha-framed .detail-head{
+  flex:0 0 auto;
+  padding:38px 54px 12px;
+  border:0;
+  background:transparent;
+}
+.detail-panel.gacha-framed .detail-body{
+  flex:1 1 auto;
+  min-height:0;
+  max-height:none;
+  overflow:auto;
+  padding:8px 54px 42px;
+  overscroll-behavior:contain;
+}
+.detail-panel.gacha-framed .detail-text{overflow-wrap:anywhere}
+.gacha-god-copy.gacha-framed{
+  box-sizing:border-box;
+  width:min(520px,calc(100vw - 48px));
+  aspect-ratio:1;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+.gacha-framed.rarity-SSR{
+  --gacha-card-background:linear-gradient(rgba(249,250,255,.12),rgba(249,250,255,.12)),url("ssr-background.png");
+  filter:drop-shadow(0 2px 7px rgba(104,133,255,.32));
+}
+.gacha-framed.rarity-UR{
+  --gacha-card-background:linear-gradient(rgba(255,255,255,.14),rgba(255,255,255,.14)),url("ur-background.png");
+  filter:drop-shadow(0 2px 9px rgba(195,107,197,.36));
+}
+.gacha-framed.rarity-GODR{
+  --gacha-card-background:linear-gradient(rgba(255,240,176,.08),rgba(255,240,176,.08)),url("god-background.png");
+  filter:drop-shadow(0 2px 11px rgba(255,194,45,.42));
+}
+.gacha-framed.rarity-Ω{
+  --gacha-card-background:linear-gradient(rgba(4,11,28,.1),rgba(4,11,28,.1)),url("omega-background.png");
+  filter:drop-shadow(0 2px 13px rgba(37,247,200,.4));
+}
+.gacha-result-card.gacha-framed.rarity-SSR,
+.gacha-result-card.gacha-framed.rarity-UR,
+.gacha-result-card.gacha-framed.rarity-GODR,
+.gacha-result-card.gacha-framed.rarity-Ω,
+.gacha-book-item.gacha-framed.rarity-SSR,
+.gacha-book-item.gacha-framed.rarity-UR,
+.gacha-book-item.gacha-framed.rarity-GODR,
+.gacha-book-item.gacha-framed.rarity-Ω,
+.detail-panel.gacha-framed.rarity-SSR,
+.detail-panel.gacha-framed.rarity-UR,
+.detail-panel.gacha-framed.rarity-GODR,
+.detail-panel.gacha-framed.rarity-Ω,
+.gacha-dev-card.gacha-framed.rarity-SSR,
+.gacha-dev-card.gacha-framed.rarity-UR,
+.gacha-dev-card.gacha-framed.rarity-GODR,
+.gacha-god-copy.gacha-framed.rarity-GODR,
+.gacha-omega-copy.gacha-framed.rarity-Ω{
+  background-image:var(--gacha-card-background);
+  background-position:center;
+  background-size:cover;
+}
+.gacha-god-copy.gacha-framed.rarity-GODR .gacha-god-eyebrow,
+.gacha-god-copy.gacha-framed.rarity-GODR .gacha-god-subtitle,
+.gacha-god-copy.gacha-framed.rarity-GODR .gacha-god-hint{color:#704800;text-shadow:0 1px 2px rgba(255,255,230,.95)}
+.gacha-framed.rarity-Ω .gacha-card-title,
+.gacha-framed.rarity-Ω .gacha-card-text,
+.gacha-framed.rarity-Ω .gacha-kind,
+.gacha-framed.rarity-Ω .gacha-book-name,
+.detail-panel.gacha-framed.rarity-Ω .detail-head h2,
+.detail-panel.gacha-framed.rarity-Ω .detail-label,
+.detail-panel.gacha-framed.rarity-Ω .detail-text{color:#f1fcff;text-shadow:0 1px 4px #02091c,0 0 8px #031532}
+.gacha-book-item.gacha-framed.rarity-Ω.is-owned{color:#f1fcff}
+.gacha-book-item.gacha-framed.rarity-Ω.is-owned:hover{filter:brightness(1.18)}
+.detail-panel.gacha-framed.rarity-Ω .detail-close{color:#fff;background:rgba(3,20,37,.75)}
+.gacha-framed.rarity-Ω .gacha-rarity{background:linear-gradient(90deg,#d6e8ff,#8bf5d8);color:#062337;box-shadow:0 0 12px rgba(104,255,215,.65)}
+.gacha-omega-sigil{position:absolute!important;z-index:4!important;top:1.1%;left:50%;transform:translateX(-50%);color:#dffeff;font:900 clamp(13px,2.4vw,28px)/1 Georgia,serif;text-shadow:0 0 8px #7fffe1,0 0 14px #46bfff;pointer-events:none}
+.gacha-book-item .gacha-omega-sigil{top:1%;font-size:clamp(10px,1.4vw,15px)}
+.detail-panel .gacha-omega-sigil{top:1%;font-size:clamp(19px,4vw,30px)}
+.gacha-result-card.gacha-framed>*{filter:none}
+.gacha-book-grid{gap:16px;margin:16px 8px}
+.gacha-dev-card.gacha-framed{box-sizing:border-box;aspect-ratio:1;overflow:visible;padding:38px 34px 30px}
+.gacha-dev-card-grid{gap:16px;padding:12px}
+@media(max-width:520px){
+  .gacha-result-card.gacha-framed{padding:38px}
+  .gacha-book-item.gacha-framed{padding:18px 12px}
+  .detail-panel.gacha-framed .detail-head{padding:32px 38px 10px}
+  .detail-panel.gacha-framed .detail-body{padding:8px 38px 34px}
+  .gacha-god-copy.gacha-framed{min-height:0;padding:42px 38px}
+}

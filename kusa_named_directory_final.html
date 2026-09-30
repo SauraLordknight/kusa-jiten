@@ -7,6 +7,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>kusa事典</title>
 <link rel="stylesheet" href="kusa-pachi.css">
+<link rel="stylesheet" href="assets/gacha-frames/frames.css">
 <style>
 :root {
   --green:#57bf38;
@@ -245,9 +246,13 @@ footer{margin-top:30px;text-align:center;color:var(--muted);font-size:11px}
 .gacha-result-card.rarity-SR{border-color:#a682d7;box-shadow:0 0 0 3px rgba(138,91,214,.08)}
 .gacha-result-card.rarity-SSR{border-color:#d9ae3c;box-shadow:0 0 0 3px rgba(217,174,60,.12)}
 .gacha-result-card.rarity-UR{border-color:#c36bc5;box-shadow:0 0 0 3px rgba(195,107,197,.14)}
-.gacha-result-card.rarity-GOD{border-color:#e5a51f;box-shadow:0 0 0 4px rgba(229,165,31,.2),0 0 24px rgba(255,207,77,.24);background:linear-gradient(135deg,#fff8d9,#fff1b8)}
+.gacha-result-card.rarity-GODR{border-color:#e5a51f;box-shadow:0 0 0 4px rgba(229,165,31,.2),0 0 24px rgba(255,207,77,.24);background:linear-gradient(135deg,#fff8d9,#fff1b8)}
 .gacha-god-overlay{position:fixed;inset:0;z-index:80;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at center,rgba(255,248,205,.98) 0%,rgba(255,208,61,.94) 28%,rgba(111,55,0,.97) 100%);color:#fffdf1;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s ease}
 .gacha-god-overlay.is-open{opacity:1;pointer-events:auto}
+.gacha-god-overlay.is-puyuyu{background:radial-gradient(circle at center,#fffde0 0%,#ffe96b 27%,#ffc629 55%,#7c4800 100%);color:#fffef1}
+.gacha-god-overlay.is-puyuyu::after{border-color:rgba(255,255,190,.95);box-shadow:0 0 0 20px rgba(255,236,100,.28),0 0 90px 28px rgba(255,238,125,.72)}
+.gacha-god-overlay.is-puyuyu .gacha-god-title{color:#fff27a;text-shadow:0 4px 0 #a56300,0 0 22px #fff4a5,0 0 52px #ffe84e}
+.gacha-god-overlay.is-puyuyu .gacha-god-emoji{filter:drop-shadow(0 0 26px #fff18c) drop-shadow(0 8px 16px rgba(104,50,0,.38))}
 .gacha-god-overlay::before{content:"";position:absolute;inset:-35%;background:conic-gradient(from 0deg,transparent 0 8%,rgba(255,255,255,.72) 10%,transparent 13% 25%,rgba(255,245,170,.65) 28%,transparent 32% 45%,rgba(255,255,255,.55) 48%,transparent 52% 70%,rgba(255,236,125,.7) 74%,transparent 78%);animation:god-rays 3s linear infinite}
 .gacha-god-overlay::after{content:"";position:absolute;inset:12%;border:2px solid rgba(255,255,220,.72);border-radius:50%;box-shadow:0 0 0 18px rgba(255,239,137,.16),0 0 70px 20px rgba(255,255,220,.45);animation:god-pulse 1.1s ease-in-out infinite alternate}
 .gacha-god-copy{position:relative;z-index:2;padding:28px 22px;text-shadow:0 3px 0 rgba(105,57,0,.38),0 0 24px rgba(255,255,220,.9);animation:god-arrival .8s cubic-bezier(.2,.85,.25,1) both}
@@ -257,6 +262,23 @@ footer{margin-top:30px;text-align:center;color:var(--muted);font-size:11px}
 .gacha-god-subtitle{margin:0;font-size:clamp(16px,4.5vw,28px);font-weight:900}
 .gacha-god-hint{margin:24px 0 0;font-size:12px;opacity:.86}
 .gacha-god-particle{position:absolute;top:-12vh;z-index:3;font-size:clamp(22px,7vw,48px);animation:god-fall var(--fall-duration) linear var(--fall-delay) both;filter:drop-shadow(0 4px 4px rgba(77,40,0,.3));user-select:none}
+.gacha-omega-overlay{position:fixed;inset:0;z-index:90;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 45%,#15345c 0%,#07162c 35%,#01040d 78%);color:#f4ffff;text-align:center;opacity:0;pointer-events:none;transition:opacity .5s ease}
+.gacha-omega-overlay.is-open{opacity:1;pointer-events:auto}
+.gacha-omega-overlay::before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 20deg,transparent 0 8%,rgba(115,203,255,.27) 14%,transparent 21% 34%,rgba(118,255,217,.23) 39%,transparent 48% 60%,rgba(235,247,255,.31) 68%,transparent 76% 100%);animation:omega-orbit 15s linear infinite}
+.gacha-omega-overlay::after{content:"";position:absolute;width:min(90vmin,760px);aspect-ratio:1;border:2px solid rgba(160,248,237,.5);border-radius:50%;box-shadow:0 0 0 16px rgba(52,110,178,.12),0 0 95px 24px rgba(107,190,255,.38),inset 0 0 60px rgba(109,255,224,.19);animation:omega-wave 2.3s ease-in-out infinite alternate}
+.gacha-omega-copy{position:relative;z-index:2;box-sizing:border-box;width:min(560px,calc(100vw - 36px),82vh);aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(48px,9vw,72px);color:#f5ffff;text-shadow:0 2px 9px #000,0 0 20px #5bdcff;animation:omega-arrival 1.25s cubic-bezier(.17,.8,.22,1) both}
+.gacha-omega-copy .gacha-omega-sigil{font-size:clamp(24px,4vw,37px)}
+.gacha-omega-eyebrow{margin:0 0 6px;font-size:clamp(11px,2.2vw,16px);font-weight:900;letter-spacing:.2em;color:#9bffdf}
+.gacha-omega-emoji{margin:7px 0 0;font-size:clamp(52px,14vw,112px);line-height:1.1;filter:drop-shadow(0 0 25px #6ef7e6)}
+.gacha-omega-title{margin:8px 0 4px;font-size:clamp(25px,7vw,58px);line-height:1.15;font-weight:1000;color:#f5ffff}
+.gacha-omega-subtitle{margin:0;font-size:clamp(13px,3vw,22px);font-weight:900;color:#9bffdf}
+.gacha-omega-hint{margin:12px 0 0;font-size:clamp(10px,2vw,13px);color:#e2f8ff}
+.gacha-omega-particle{position:absolute;top:-15vh;z-index:3;font-size:clamp(20px,5vw,43px);user-select:none;pointer-events:none;filter:drop-shadow(0 0 8px #80d7ff);animation:omega-fall var(--fall-duration) linear var(--fall-delay) both}
+.gacha-omega-close{position:absolute;z-index:5;top:16px;right:18px;border:1px solid rgba(213,255,252,.7);border-radius:999px;padding:6px 12px;background:rgba(0,17,34,.75);color:#fff;font:inherit;font-weight:800;cursor:pointer}
+@keyframes omega-orbit{to{transform:rotate(360deg)}}
+@keyframes omega-wave{to{transform:scale(1.13);opacity:.48}}
+@keyframes omega-arrival{from{opacity:0;transform:scale(.25) rotate(-8deg)}50%{opacity:1}to{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes omega-fall{from{transform:translate3d(0,-15vh,0) rotate(0);opacity:0}12%{opacity:1}to{transform:translate3d(var(--fall-drift),125vh,0) rotate(540deg);opacity:.88}}
 @keyframes god-rays{to{transform:rotate(360deg)}}
 @keyframes god-pulse{to{transform:scale(1.08);opacity:.6}}
 @keyframes god-arrival{from{opacity:0;transform:scale(.55) translateY(24px)}to{opacity:1;transform:none}}
@@ -266,9 +288,12 @@ footer{margin-top:30px;text-align:center;color:var(--muted);font-size:11px}
   .gacha-god-overlay::before,.gacha-god-overlay::after,.gacha-god-copy,.gacha-god-particle{animation:none}
   .gacha-god-overlay::before{opacity:.35}
   .gacha-god-particle{top:12%;opacity:.8}
+  .gacha-omega-overlay{transition:none}
+  .gacha-omega-overlay::before,.gacha-omega-overlay::after,.gacha-omega-copy,.gacha-omega-particle{animation:none}
+  .gacha-omega-particle{top:12%;opacity:.7}
 }
 .gacha-rarity{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900;background:var(--green3);color:var(--deep)}
-.rarity-R .gacha-rarity{background:#eaf3ff;color:#235f9e}.rarity-SR .gacha-rarity{background:#f2ebff;color:#6840a1}.rarity-SSR .gacha-rarity{background:#fff5d7;color:#8b6500}.rarity-UR .gacha-rarity{background:linear-gradient(90deg,#e9f8ff,#fff1ff);color:#85458c}.rarity-GOD .gacha-rarity{background:#ffe28a;color:#7c4d00}
+.rarity-R .gacha-rarity{background:#eaf3ff;color:#235f9e}.rarity-SR .gacha-rarity{background:#f2ebff;color:#6840a1}.rarity-SSR .gacha-rarity{background:#fff5d7;color:#8b6500}.rarity-UR .gacha-rarity{background:linear-gradient(90deg,#e9f8ff,#fff1ff);color:#85458c}.rarity-GODR .gacha-rarity{background:#ffe28a;color:#7c4d00}
 .gacha-kind{margin-left:6px;color:var(--muted);font-size:11px}
 .gacha-card-title{margin:11px 0 5px;color:var(--deep);font-size:20px;font-weight:900}
 .gacha-card-text{margin:0;color:var(--ink);font-size:13px;line-height:1.75}
@@ -276,10 +301,12 @@ footer{margin-top:30px;text-align:center;color:var(--muted);font-size:11px}
 .gacha-book{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
 .gacha-book-head{display:flex;justify-content:space-between;gap:10px;align-items:baseline;color:var(--deep);font-weight:800;font-size:14px}
 .gacha-book-count{color:var(--muted);font-size:11px;font-weight:400}
-.gacha-book-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:10px}
+.gacha-book-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin:16px 8px}
+.gacha-book-rarity-heading{grid-column:1/-1;margin:8px 0 -6px;padding:0 0 5px;border-bottom:1px dashed var(--line);color:var(--deep);font-size:12px;font-weight:800}
+.gacha-book-rarity-heading:first-child{margin-top:0}
 .gacha-book-item{width:100%;min-height:70px;padding:8px 6px;border:1px solid var(--line);border-radius:10px;background:var(--panel-soft);color:var(--muted);font:inherit;font-size:11px;text-align:center;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,transform .15s ease}
 .gacha-book-item.is-owned{color:var(--deep);font-weight:700}
-.gacha-book-item.is-owned:hover{background:var(--green3);border-color:var(--green2);transform:translateY(-1px)}
+.gacha-book-item.is-owned:hover{background-color:var(--green3);border-color:var(--green2);transform:translateY(-1px)}
 .gacha-book-item.is-owned:focus-visible{outline:3px solid rgba(87,191,56,.28);outline-offset:2px}
 .gacha-book-item:disabled{cursor:default}
 .gacha-book-emoji{display:block;font-size:20px;line-height:1.2;margin-bottom:4px}
@@ -485,6 +512,167 @@ body,
   .news-track{width:auto;flex-wrap:wrap;transform:none!important;cursor:default}
   .news-item:nth-child(n+4){display:none}
 }
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.pachi-center-slot{padding:5px 7px 8px}
+.pachi-hold-strip{display:flex;align-items:center;justify-content:center;gap:4px;margin:0 auto 3px;padding:2px 3px;border:1px solid #a47d39;border-radius:7px;background:#0a2524;pointer-events:none}
+.pachi-hold-strip>span{color:#d9d1a0;font-size:clamp(6px,1.3vw,8px);font-weight:900;white-space:nowrap}
+.pachi-holds{display:flex;justify-content:center;gap:3px}
+.pachi-holds i{display:block;width:clamp(11px,3vw,17px);height:clamp(11px,3vw,17px);border:1px solid #678173;border-radius:50%;background:#18362e;box-shadow:inset 0 2px 3px #071c18;transition:background-color .18s,box-shadow .18s}
+.pachi-holds i[data-hold="normal"]{border-color:#caff9b;background:#4cd657;box-shadow:0 0 6px #83ff68,inset 0 1px 2px #e6ffc4}
+.pachi-holds i[data-hold="chance"]{border-color:#fff3a0;background:#f3d447;box-shadow:0 0 7px #ffdf55,inset 0 1px 2px #fff5c1}
+.pachi-holds i[data-hold="hot"]{border-color:#ffbdac;background:#f34d43;box-shadow:0 0 8px #ff5540,inset 0 1px 2px #ffd6bd}
+.pachi-holds i[data-hold="kusa"]{border-color:#fff;background:conic-gradient(#ff7373,#ffe55e,#7cfa68,#61ceff,#d98bff,#ff7373);box-shadow:0 0 9px #fff,inset 0 0 3px #fff}
+.pachi-holds i.is-consuming{animation:pachi-hold-pulse .38s ease-in-out infinite alternate}
+@keyframes pachi-hold-pulse{to{transform:scale(1.18);filter:brightness(1.5)}}
+.pachi-omen-meter{display:flex;align-items:center;justify-content:center;gap:4px;margin:4px auto 0;color:#a8d8af;font-size:8px;font-weight:900;letter-spacing:.08em}
+.pachi-omen-meter i{display:block;width:18%;max-width:65px;height:5px;border:1px solid #6a9a78;border-radius:8px;background:#17432e;transition:background-color .18s}
+.pachi-machine.is-omen-1 .pachi-omen-meter i:first-of-type,.pachi-machine.is-omen-2 .pachi-omen-meter i:nth-of-type(-n+2),.pachi-machine.is-omen-3 .pachi-omen-meter i{background:#91f35e;animation:pachi-meter-pulse .45s ease-in-out infinite alternate}
+.pachi-machine.is-omen-2 .pachi-omen-meter i:nth-of-type(-n+2),.pachi-machine.is-omen-3 .pachi-omen-meter i{background:#ffdb5c}
+.pachi-machine.is-omen-3 .pachi-omen-meter i:last-of-type{background:#ff7357}
+@keyframes pachi-meter-pulse{to{opacity:.42}}
+.pachi-board-wrap::after{display:none}
+.pachi-machine.is-omen-2 .pachi-center-slot{border-color:#ffdf83}
+.pachi-machine.is-omen-3 .pachi-center-slot{border-color:#fff3ac;box-shadow:inset 0 0 0 2px #9b4c22,0 0 12px 3px #ffcc69}
+.pachi-machine.is-omen-3 .pachi-marquee{border-color:#ffdb83;box-shadow:inset 0 0 12px #a55c22,0 0 9px #ffda74}
+.pachi-reels.is-omen-fast span{animation-duration:.085s}
+@media (prefers-reduced-motion:reduce){.pachi-holds i.is-consuming,.pachi-machine.is-omen-1 .pachi-omen-meter i,.pachi-machine.is-omen-2 .pachi-omen-meter i,.pachi-machine.is-omen-3 .pachi-omen-meter i{animation:none}}
+.pachi-player-title{display:block;margin-top:2px;color:#a77218;font-size:11px;font-weight:900;letter-spacing:0}
+.pachi-title-notice{min-height:1.3em;margin:7px 4px 0;color:#ffeaa2;font-size:11px;font-weight:900;text-align:center}
+.pachi-result-modal{position:fixed;z-index:1250;inset:0;display:grid;place-items:center;padding:14px;background:rgba(3,21,15,.8)}
+.pachi-result-modal[hidden]{display:none}
+.pachi-result-panel{box-sizing:border-box;width:min(620px,100%);max-height:94vh;overflow:auto;padding:18px;border:3px ridge #ead17c;border-radius:19px;background:linear-gradient(160deg,#f8ffed,#e7f8da);color:#214c2a;box-shadow:0 18px 55px #061b16}
+.pachi-result-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.pachi-result-head h3{margin:0;font-size:21px}
+.pachi-result-head p{margin:3px 0 0;font-size:11px;color:#526b53}
+.pachi-result-head button{border:0;background:transparent;color:#24542d;font-size:27px;cursor:pointer}
+.pachi-result-hero{margin:14px 0;padding:14px;border:2px solid #d8b454;border-radius:14px;background:radial-gradient(circle at 50% 0,#4d9568,#1c493b);color:#fff6c8;text-align:center}
+.pachi-result-hero small{display:block;font-size:11px;font-weight:800}
+.pachi-result-hero strong{display:block;font:900 clamp(32px,8vw,46px)/1.2 ui-monospace,Consolas,monospace}
+.pachi-result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pachi-result-section{padding:12px;border:1px solid #bfd5ac;border-radius:12px;background:#fffef6}
+.pachi-result-section h4{margin:0 0 8px;color:#27613d;font-size:14px}
+.pachi-result-section dl{display:grid;grid-template-columns:1fr auto;gap:5px 8px;margin:0;font-size:12px}
+.pachi-result-section dt{color:#536755}
+.pachi-result-section dd{margin:0;font-weight:900;font-variant-numeric:tabular-nums}
+.pachi-result-previous{margin:10px 0 0;color:#526b53;font-size:11px;line-height:1.5}
+.pachi-result-titles{margin-top:14px;padding-top:12px;border-top:1px dashed #b7c9a5}
+.pachi-result-titles h4{margin:0 0 7px;font-size:15px}
+.pachi-title-picker{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800}
+.pachi-title-picker select{flex:1;min-width:0;padding:8px;border:1px solid #a9c393;border-radius:8px;background:#fff;color:#254e2c;font:inherit}
+.pachi-title-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;max-height:210px;overflow:auto;margin-top:10px}
+.pachi-title-item{padding:7px 9px;border:1px solid #bdd2ac;border-radius:8px;background:#f7fff0;font-size:11px;line-height:1.35}
+.pachi-title-item strong{display:block;color:#2b703e}
+.pachi-title-item .pachi-title-rarity{display:inline-block;margin-right:4px;padding:1px 5px;border-radius:5px;font-size:9px;letter-spacing:.03em;background:#e5eee0;color:#4b654b}
+.pachi-title-item em{font-style:normal}
+.pachi-title-item[data-rarity="R"] .pachi-title-rarity{background:#eaf3ff;color:#235f9e}
+.pachi-title-item[data-rarity="SR"] .pachi-title-rarity{background:#f2ebff;color:#6840a1}
+.pachi-title-item[data-rarity="SSR"] .pachi-title-rarity{background:#fff5d7;color:#8b6500}
+.pachi-title-item[data-rarity="UR"] .pachi-title-rarity{background:linear-gradient(90deg,#e9f8ff,#fff1ff);color:#85458c}
+.pachi-title-item[data-rarity="GODR"] .pachi-title-rarity{background:#ffe28a;color:#7c4d00}
+.pachi-title-item[data-rarity="Ω"] .pachi-title-rarity{background:linear-gradient(90deg,#ffe88a,#fff,#b9f5ff,#e6b8ff);color:#513c76;box-shadow:0 0 5px rgba(164,105,220,.45)}
+.pachi-title-item span{color:#637362}
+.pachi-title-item.is-locked{opacity:.55;background:#e8eee4}
+.pachi-title-item[data-group="jackpot"]:not(.is-locked){border-color:#d7b859;background:#fff5ce}
+.pachi-title-item[data-group="streak"]:not(.is-locked){border-color:#df9a79;background:#fff0e8}
+.pachi-result-actions{display:flex;gap:8px;margin-top:14px}
+.pachi-result-actions button{flex:1;border:0;border-radius:9px;padding:10px;background:#317b48;color:#fff;font:inherit;font-size:12px;font-weight:900;cursor:pointer}
+.pachi-status-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-bottom:7px;text-align:left}
+.pachi-status-cell{min-width:0;padding:7px 9px;border:1px solid rgba(213,244,189,.55);border-radius:9px;background:rgba(3,31,25,.72);box-shadow:inset 0 0 8px rgba(0,0,0,.25)}
+.pachi-status-cell .pachi-display-label{display:block;margin-bottom:3px;color:#c7e9bc;font-size:9px;font-weight:800;letter-spacing:.08em}
+.pachi-status-cell strong{display:block;color:#f4ffe8;font-size:clamp(12px,2.7vw,15px);font-weight:900;line-height:1.3;overflow-wrap:anywhere}
+.pachi-status-cell small{display:block;margin-top:3px;color:#d5efcd;font-size:10px;font-weight:700;line-height:1.3;overflow-wrap:anywhere}
+.pachi-mode-readout[data-mode="normal"]{border-color:#91d477;background:rgba(19,85,39,.8)}
+.pachi-mode-readout[data-mode="night"]{border-color:#95beff;background:rgba(22,48,114,.85)}
+.pachi-mode-readout[data-mode="festival"]{border-color:#ffc075;background:rgba(129,53,22,.85)}
+.pachi-mode-readout[data-mode="yaminabe"]{border-color:#d5a4f7;background:rgba(73,37,98,.88)}
+.pachi-mode-readout[data-mode="puyuyu"]{border-color:#fff1a2;background:rgba(143,102,13,.9);box-shadow:inset 0 0 10px rgba(255,234,126,.27),0 0 9px rgba(255,227,102,.3)}
+.pachi-mode-readout[data-mode="grass-festival"]{border-color:#ffca79;background:rgba(126,49,53,.9)}
+.pachi-mode-readout[data-mode="jackpot-festival"]{border-color:#ffe18a;background:rgba(126,77,12,.92)}
+.pachi-mode-readout[data-mode="puyuyu"] strong{color:#fff0a2;text-shadow:0 0 8px rgba(255,232,113,.7)}
+.pachi-mode-readout[data-mode="night"] strong{color:#d3e4ff}
+.pachi-mode-readout[data-mode="festival"] strong{color:#ffe0a8}
+.pachi-mode-readout[data-mode="yaminabe"] strong{color:#eddbff}
+@media(max-width:560px){.pachi-status-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.pachi-status-cell{padding:5px 6px}.pachi-status-cell .pachi-display-label{margin-bottom:2px;font-size:8px}.pachi-status-cell strong{font-size:clamp(10px,3vw,12px);line-height:1.2}.pachi-status-cell small{margin-top:2px;font-size:9px;line-height:1.2}}
+.pachi-combo{display:flex;justify-content:space-between;gap:8px;padding:5px 12px;border-radius:8px;background:#10442f;color:#edffcb;font-size:11px;font-weight:900}
+.pachi-machine[data-scene="night"] .pachi-board-wrap{filter:hue-rotate(105deg) brightness(.72)}
+.pachi-machine[data-scene="night"] .pachi-display{background:linear-gradient(120deg,#111d47,#25466d)}
+.pachi-machine[data-scene="festival"] .pachi-board-wrap,.pachi-machine[data-scene="grass-festival"] .pachi-board-wrap{filter:saturate(1.5) hue-rotate(-20deg)}
+.pachi-machine[data-scene="festival"] .pachi-display,.pachi-machine[data-scene="grass-festival"] .pachi-display{background:linear-gradient(120deg,#842b45,#a8511e)}
+.pachi-machine[data-scene="yaminabe"] .pachi-board-wrap{filter:hue-rotate(220deg) saturate(.8)}
+.pachi-machine[data-scene="yaminabe"] .pachi-display{background:linear-gradient(120deg,#342040,#154744)}
+.pachi-machine[data-scene="puyuyu"]{border-color:#e7bb31;background:linear-gradient(110deg,#8e731b,#ffe286 9%,#b47c1d 15%,#9b6b1c 85%,#ffe286 93%,#8e731b);box-shadow:0 14px 0 #73511e,0 22px 28px rgba(74,58,12,.3),inset 0 0 0 3px #fff2a7}
+.pachi-machine[data-scene="puyuyu"] .pachi-marquee{background:radial-gradient(circle at 50% 10%,#fff4ac,#dfaf28 63%,#8e621b);color:#553b12}
+.pachi-machine[data-scene="puyuyu"] .pachi-display{background:linear-gradient(120deg,#755514,#b48b1b);color:#fff8d7}
+.pachi-machine[data-scene="puyuyu"] .pachi-board-wrap{border-color:#ffe080;background:#8e741c}
+.pachi-machine[data-scene="puyuyu"] #pachiCanvas{filter:hue-rotate(-70deg) saturate(1.55) brightness(1.22)}
+.pachi-machine[data-scene="puyuyu"] .pachi-center-slot{background:radial-gradient(ellipse at 50% 35%,#b18a2b,#463611 78%);color:#fff0a8}
+.pachi-machine[data-scene="jackpot-festival"] .pachi-board-wrap{filter:none}
+.pachi-machine[data-scene="jackpot-festival"] .pachi-display{background:linear-gradient(120deg,#af7124,#e7b43b)}
+.pachi-board-wrap{isolation:isolate}
+.pachi-lcd{position:absolute;z-index:0;inset:0;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 50% 20%,#306c50 0%,#164633 47%,#092e29 100%);transition:background .45s}
+.pachi-lcd::before{content:"";position:absolute;inset:-15%;opacity:.38;background:radial-gradient(circle at 25% 29%,rgba(202,255,171,.28),transparent 26%),radial-gradient(circle at 77% 60%,rgba(164,238,190,.2),transparent 33%),linear-gradient(125deg,transparent 35%,rgba(255,255,255,.11) 49%,transparent 63%);animation:pachi-lcd-drift 12s ease-in-out infinite alternate}
+.pachi-lcd::after{content:"";position:absolute;inset:0;opacity:.22;background:repeating-linear-gradient(0deg,transparent 0 8px,rgba(3,21,18,.35) 9px 10px);box-shadow:inset 0 0 38px #051f1a}
+.pachi-board-wrap #pachiCanvas{position:relative;z-index:1}
+.pachi-board-wrap .pachi-balls-canvas{z-index:2}
+.pachi-board-wrap .pachi-center-slot{z-index:3}
+.pachi-machine[data-scene="night"] .pachi-lcd{background:radial-gradient(circle at 18% 18%,#5084a7 0 2%,transparent 13%),radial-gradient(circle at 70% 38%,#2a5584,#102b4c 51%,#081b37 100%)}
+.pachi-machine[data-scene="festival"] .pachi-lcd,.pachi-machine[data-scene="grass-festival"] .pachi-lcd{background:radial-gradient(circle at 50% 38%,#a26443,#753842 54%,#30263b 100%)}
+.pachi-machine[data-scene="yaminabe"] .pachi-lcd{background:radial-gradient(circle at 32% 26%,#6c608f,#363460 45%,#1c2946 100%)}
+.pachi-machine[data-scene="puyuyu"] .pachi-lcd{background:radial-gradient(circle at 48% 26%,#e5cf77,#b69038 44%,#645026 100%)}
+.pachi-machine[data-scene="jackpot-festival"] .pachi-lcd{background:radial-gradient(circle at 50% 35%,#f3d883,#bb883b 50%,#684628 100%)}
+.pachi-machine.is-omen-2 .pachi-lcd{background:radial-gradient(circle at 50% 32%,#c7a85a,#866341 50%,#2e382d 100%)}
+.pachi-machine.is-omen-3 .pachi-lcd{background:radial-gradient(circle at 50% 32%,#ffeba0,#c49446 47%,#614a2c 100%)}
+.pachi-machine.is-omen-3 .pachi-lcd::before,.pachi-machine.is-jackpot .pachi-lcd::before{animation:pachi-lcd-jackpot .48s steps(2) infinite alternate}
+.pachi-board-wrap .pachi-board-flash{z-index:1;opacity:0;background:radial-gradient(circle,#fffbd1 0%,#ffd756 35%,transparent 75%)}
+.pachi-board-wrap .pachi-board-flash.is-flashing{animation:pachi-flash .7s ease-out}
+.pachi-mode-transition[hidden],.pachi-burst[hidden]{display:none!important}
+.pachi-mode-transition{position:absolute;z-index:2;inset:0;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:7px;overflow:hidden;padding-top:10%;pointer-events:none;text-align:center;background:radial-gradient(circle at 50% 32%,rgba(11,57,39,.83),rgba(2,17,19,.93));color:#fff6c0;animation:pachi-mode-curtain 1.3s ease-out both}
+.pachi-mode-transition::before{content:"";position:absolute;inset:-50%;background:linear-gradient(110deg,transparent 42%,rgba(255,255,255,.45) 50%,transparent 58%);transform:translateX(-75%) rotate(-12deg);animation:pachi-mode-sweep 1.1s ease-out both}
+.pachi-mode-transition[data-tone="puyuyu"]{background:radial-gradient(circle,#967319 0,#3b2d0d 74%);color:#fff3a0}
+.pachi-mode-transition[data-tone="night"]{background:radial-gradient(circle,#1c3879 0,#0a102b 74%);color:#bbdbff}
+.pachi-mode-transition[data-tone="festival"],.pachi-mode-transition[data-tone="grass-festival"]{background:radial-gradient(circle,#a45028 0,#351326 74%);color:#ffe3ad}
+.pachi-mode-transition[data-tone="yaminabe"]{background:radial-gradient(circle,#58316c 0,#151028 74%);color:#e8c8ff}
+.pachi-mode-transition[data-tone="jackpot-festival"]{background:radial-gradient(circle,#b98014 0,#3d2407 74%);color:#fff0a1}
+.pachi-mode-transition strong{position:relative;display:block;padding:0 10px;font-size:clamp(25px,6vw,43px);line-height:1.2;text-shadow:0 0 14px currentColor,0 3px 4px #111;animation:pachi-mode-title 1.15s ease-out both}
+.pachi-mode-transition small{position:relative;font-size:11px;font-weight:900;letter-spacing:.25em}
+.pachi-transition-lamps,.pachi-transition-reels{position:relative;display:flex;justify-content:center;gap:8px}
+.pachi-transition-lamps i{width:15px;height:15px;border:1px solid #fff;border-radius:50%;background:#143b28;animation:pachi-transition-lamp .45s ease-out both}
+.pachi-transition-lamps i:nth-child(2){animation-delay:.13s}.pachi-transition-lamps i:nth-child(3){animation-delay:.26s}.pachi-transition-lamps i:nth-child(4){animation-delay:.39s}
+.pachi-transition-reels span{display:grid;place-items:center;width:34px;height:36px;border:2px solid currentColor;border-radius:7px;background:#123225;font-size:23px;animation:pachi-transition-reel .23s linear 4}
+.pachi-burst{position:absolute;z-index:3;top:72%;left:5%;width:90%;box-sizing:border-box;padding:9px 6px;border:2px solid #ffe280;border-radius:14px;background:rgba(23,83,42,.88);color:#fff5af;font-size:clamp(18px,5vw,30px);font-weight:1000;text-align:center;text-shadow:0 2px 4px #17321e;box-shadow:0 0 18px #ddfa6b;pointer-events:none;animation:pachi-burst-pop .72s ease-out both}
+.pachi-burst[data-tone="gold"]{background:rgba(116,60,12,.91);border-color:#fff4a7;box-shadow:0 0 24px #ffd849}
+.pachi-burst[data-tone="rainbow"]{background:linear-gradient(95deg,rgba(149,48,83,.94),rgba(49,103,145,.94),rgba(42,112,46,.94));border-color:#fff;box-shadow:0 0 27px #fff}
+.pachi-burst[data-tone="puyuyu"]{background:rgba(177,132,30,.94);border-color:#fff4ac;box-shadow:0 0 27px #fff1a1}
+#pachiMachine.is-stage-flash .pachi-center-slot{box-shadow:0 0 22px 6px #b9ff77,inset 0 0 12px #ecffb1}
+.pachi-machine.is-combo-high .pachi-marquee .pachi-bulb{animation:pachi-bulb-throb 1s ease-in-out infinite alternate}
+.pachi-machine[data-scene="puyuyu"] .pachi-marquee .pachi-bulb{color:#fff5a9;text-shadow:0 0 14px #fff8a8}
+.pachi-machine[data-scene="festival"] .pachi-marquee .pachi-bulb,.pachi-machine[data-scene="grass-festival"] .pachi-marquee .pachi-bulb{color:#ffd77a;text-shadow:0 0 14px #ffb856}
+.pachi-machine[data-scene="night"] .pachi-center-slot{border-color:#8eb8ff;box-shadow:0 0 13px #4a7ada,inset 0 0 12px #35558c}
+.pachi-machine[data-scene="festival"] .pachi-center-slot,.pachi-machine[data-scene="grass-festival"] .pachi-center-slot{border-color:#ffc37e;box-shadow:0 0 15px #ffad60,inset 0 0 12px #9e4024}
+.pachi-machine[data-scene="yaminabe"] .pachi-center-slot{border-color:#c59bff;box-shadow:0 0 15px #ab76de,inset 0 0 12px #603872}
+.pachi-machine[data-scene="puyuyu"] .pachi-center-slot{border-color:#fff3a2;box-shadow:0 0 18px #ffe975,inset 0 0 12px #fbd75b}
+.pachi-machine[data-scene="jackpot-festival"] .pachi-center-slot{border-color:#fff6aa;box-shadow:0 0 22px #ffdf65,inset 0 0 14px #ffe590}
+.pachi-machine[data-scene="night"] #pachiPocketNote{background:linear-gradient(100deg,#112e5b,#285d83)}
+.pachi-machine[data-scene="festival"] #pachiPocketNote,.pachi-machine[data-scene="grass-festival"] #pachiPocketNote{background:linear-gradient(100deg,#82342b,#b1672d)}
+.pachi-machine[data-scene="yaminabe"] #pachiPocketNote{background:linear-gradient(100deg,#43264d,#3d5270)}
+.pachi-machine[data-scene="puyuyu"] #pachiPocketNote{background:linear-gradient(100deg,#8b6718,#b69026);color:#fff8d0}
+.pachi-machine[data-scene="jackpot-festival"] #pachiPocketNote{background:linear-gradient(100deg,#946121,#cf9e36);color:#fff8db}
+@keyframes pachi-mode-curtain{0%{opacity:0}12%,78%{opacity:1}100%{opacity:0}}
+@keyframes pachi-mode-sweep{to{transform:translateX(75%) rotate(-12deg)}}
+@keyframes pachi-mode-title{0%{opacity:0;transform:scale(.45)}45%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+@keyframes pachi-transition-lamp{0%{background:#143b28;box-shadow:none}100%{background:#f6ff94;box-shadow:0 0 13px #fff9b8}}
+@keyframes pachi-transition-reel{50%{transform:translateY(-5px);filter:brightness(1.6)}}
+@keyframes pachi-burst-pop{0%{opacity:0;transform:scale(.55)}22%{opacity:1;transform:scale(1.08)}68%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.08)}}
+@keyframes pachi-bulb-throb{to{filter:brightness(1.65);transform:scale(1.16)}}
+@keyframes pachi-lcd-drift{to{transform:translate3d(4%,3%,0) scale(1.04)}}
+@keyframes pachi-lcd-jackpot{from{opacity:.25}to{opacity:.9}}
+@media (prefers-reduced-motion:reduce){.pachi-lcd::before,.pachi-mode-transition,.pachi-mode-transition::before,.pachi-mode-transition strong,.pachi-transition-lamps i,.pachi-transition-reels span,.pachi-burst,.pachi-machine.is-combo-high .pachi-marquee .pachi-bulb{animation:none!important}.pachi-mode-transition{opacity:1}.pachi-burst{opacity:1}}
+.pachi-rule h3{margin:0;color:var(--deep);font-size:15px}
+.pachi-rule-list{display:grid;gap:8px;margin:4px 0 0;padding-left:1.35em}
+.pachi-rule-list li{padding-left:2px;line-height:1.65}
+.pachi-rule-list li::marker{color:#438b43}
+.pachi-rule-list strong{display:inline;color:var(--deep)}
+@media(max-width:520px){.pachi-result-grid,.pachi-title-list{grid-template-columns:1fr}.pachi-result-panel{padding:13px}}
 </style>
 </head>
 <body>
@@ -621,7 +809,7 @@ body,
     <span class="gacha-toggle-label">草ガチャ</span>
     <div id="gachaPanel" class="gacha-panel" hidden>
       <button id="gachaClose" class="gacha-close" type="button" aria-label="草ガチャを閉じる">×</button>
-      <p>6時間に1回、草むらからカードを1枚発見できます。ネームドカードは個別のプロフィールをもとに収録しており、別人は別カードとして扱います。抽選結果はこのブラウザ内にだけ保存されます。</p>
+      <p>6時間に1回、草むらからカードを1枚発見できます。抽選結果はこのブラウザ内にだけ保存されます。</p>
       <button id="gachaButton" class="gacha-button" type="button">🌿 無料ガチャを引く</button>
       <span id="gachaTimer" class="gacha-timer" aria-live="polite"></span>
       <div class="gacha-ticket-row">
@@ -649,23 +837,39 @@ body,
         <div id="pachiProfiles" class="pachi-profiles"></div>
       </div>
       <div id="pachiGame" class="pachi-game" hidden>
-        <div class="pachi-player-row"><span>PLAYER <strong id="pachiPlayer"></strong></span><div class="pachi-player-actions"><button id="pachiRename" type="button">名前変更</button><button id="pachiShareOpen" type="button">記録をシェア</button><button id="pachiSwitch" type="button">プレイヤー変更</button></div></div>
+        <div class="pachi-player-row"><span>PLAYER <strong id="pachiPlayer"></strong><small id="pachiPlayerTitle" class="pachi-player-title">草パチ初心者</small></span><div class="pachi-player-actions"><button id="pachiRename" type="button">名前変更</button><button id="pachiShareOpen" type="button">記録をシェア</button><button id="pachiSwitch" type="button">プレイヤー変更</button></div></div>
         <fieldset class="pachi-wager" id="pachiWager"><legend>掛け金を選ぶ</legend><label><input type="radio" name="pachiWager" value="1" checked><span>1草パチ</span></label><label><input type="radio" name="pachiWager" value="5"><span>5草パチ</span></label><label><input type="radio" name="pachiWager" value="10"><span>10草パチ</span></label><small id="pachiWagerNote">1発1球消費・残り250発</small></fieldset>
         <div class="pachi-machine" id="pachiMachine">
           <div class="pachi-marquee"><span class="pachi-bulb">✦</span><div><small>草むら遊技場 一号機</small><strong>KUSA PACHI</strong></div><span class="pachi-bulb">✦</span></div>
           <div class="pachi-display">
-            <div class="pachi-display-top"><span id="pachiMode">通常モード</span><span id="pachiSignal">🌱 チャンスを待とう</span></div>
+            <div class="pachi-status-grid">
+              <div id="pachiSceneDisplay" class="pachi-status-cell pachi-mode-readout" data-mode="normal"><span class="pachi-display-label">モード</span><strong id="pachiSceneLabel">🌿 通常モード</strong><small id="pachiSceneHelp">継続抽選35％・終了判定まであと15回転</small></div>
+              <div class="pachi-status-cell"><span class="pachi-display-label">遊技状態</span><strong id="pachiMode">🌿 通常抽選</strong><small id="pachiSignal">🌱 チャンスを待とう</small></div>
+            </div>
             <div id="pachiAnnouncement" class="pachi-announcement" aria-live="polite">中央のスタートチャッカーを狙おう！</div>
+            <div class="pachi-omen-meter" aria-hidden="true"><span>草気配</span><i></i><i></i><i></i></div>
           </div>
           <div class="pachi-stats"><div><small>持ち球</small><strong id="pachiBalls">250</strong></div><div><small>総回転数</small><strong id="pachiSpins">0</strong></div><div><small>大当たり</small><strong id="pachiHits">0</strong></div><div><small>連チャン</small><strong id="pachiStreak">0</strong></div></div>
+          <div class="pachi-combo"><span id="pachiCombo">STARTコンボ 0</span><span id="pachiComboEffect">3・5・10・20で演出解放</span></div>
+          <div class="pachi-combo" id="pachiPocketNote" aria-live="off">サイド +2球 ／ START +2球</div>
           <div id="pachiJackpot" class="pachi-jackpot" hidden aria-live="off">
             <div class="pachi-jackpot-title"><span>👑 JACKPOT 👑</span><strong id="pachiJackpotTitle">発射1球につき2,000球！</strong></div>
             <div class="pachi-jackpot-stream" aria-hidden="true"><span>😄</span><span>😎</span><span>🥳</span><span>🤩</span><span>😆</span><span>😊</span><span>😺</span><span>😋</span></div>
             <div class="pachi-jackpot-meter"><span>発射で獲得</span><strong id="pachiJackpotPaid">0</strong><span> / <span id="pachiJackpotTotal">100,000</span>球</span></div>
             <progress id="pachiJackpotBar" max="100000" value="0" aria-label="ジャックポット賞球の払い出し"></progress>
           </div>
-          <div class="pachi-board-wrap"><canvas id="pachiCanvas" width="440" height="570" role="img" aria-label="中央のスロット役物を囲む釘の間を、顔の絵文字の球が跳ねて落ちる草パチ盤面"></canvas><canvas id="pachiBallsCanvas" class="pachi-balls-canvas" width="440" height="570" aria-hidden="true"></canvas><div class="pachi-center-slot"><div class="pachi-center-slot-label"><span>✦</span>KUSA SLOT<span>✦</span></div><div id="pachiReels" class="pachi-reels" aria-hidden="true"><span>🌱</span><span>🌿</span><span>🍀</span></div><div class="pachi-center-slot-foot">STARTでリール回転</div></div><div id="pachiBoardFlash" class="pachi-board-flash" aria-hidden="true"></div></div>
-          <div class="pachi-controls"><div class="pachi-control-main"><button id="pachiFire" class="pachi-fire" type="button">😄 発射 <small>押し続けて連射</small></button><label class="pachi-power-label" for="pachiPower">ハンドル <strong id="pachiPowerValue">65%</strong><input id="pachiPower" type="range" min="35" max="95" value="65"></label></div><div class="pachi-control-sub"><button id="pachiSound" type="button" aria-pressed="true">🔊 効果音 ON</button><button id="pachiDaily" type="button">🎁 今日の補充 +50球</button></div></div>
+          <div class="pachi-board-wrap">
+            <div id="pachiLcd" class="pachi-lcd" aria-hidden="true">
+              <div id="pachiBoardFlash" class="pachi-board-flash"></div>
+              <div id="pachiModeTransition" class="pachi-mode-transition" hidden><div class="pachi-transition-lamps"><i></i><i></i><i></i><i></i></div><div class="pachi-transition-reels"><span>🌱</span><span>🌿</span><span>🍀</span></div><strong id="pachiModeTransitionLabel"></strong><small>MODE CHANGE</small></div>
+              <div id="pachiBurst" class="pachi-burst" hidden></div>
+            </div>
+            <canvas id="pachiCanvas" width="440" height="570" role="img" aria-label="液晶演出の手前にある釘の間を、顔の絵文字の球が跳ねて落ちる草パチ盤面"></canvas>
+            <canvas id="pachiBallsCanvas" class="pachi-balls-canvas" width="440" height="570" aria-hidden="true"></canvas>
+            <div class="pachi-center-slot"><div class="pachi-hold-strip"><span>草ランプ</span><div id="pachiHolds" class="pachi-holds" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div><div class="pachi-center-slot-label"><span>✦</span>KUSA SLOT<span>✦</span></div><div id="pachiReels" class="pachi-reels" aria-hidden="true"><span>🌱</span><span>🌿</span><span>🍀</span></div><div class="pachi-center-slot-foot">STARTでリール回転</div></div>
+          </div>
+          <span id="pachiHoldStatus" class="sr-only" role="status">保留なし</span>
+          <div class="pachi-controls"><div class="pachi-control-main"><button id="pachiFire" class="pachi-fire" type="button">😄 発射 <small>押し続けて連射</small></button><label class="pachi-power-label" for="pachiPower">ハンドル <strong id="pachiPowerValue">65%</strong><input id="pachiPower" type="range" min="35" max="95" value="65"></label></div><div class="pachi-control-sub"><button id="pachiSound" type="button" aria-pressed="true">🔊 効果音 ON</button><button id="pachiDaily" type="button">🎁 今日の補充 +50球</button><button id="pachiResultOpen" type="button">📊 結果を見る</button></div><p id="pachiTitleNotice" class="pachi-title-notice" role="status"></p></div>
         </div>
         <section class="pachi-exchange" aria-labelledby="pachiExchangeTitle">
           <div class="pachi-exchange-head"><h3 id="pachiExchangeTitle">🌿 草の交換所</h3><span>ガチャ券 <strong id="pachiExchangeTickets">0</strong>枚（ブラウザ共通）</span></div>
@@ -686,11 +890,25 @@ body,
           <p id="pachiExchangeMessage" class="pachi-exchange-message" role="status"></p>
           <div class="pachi-backup"><button id="pachiBackupButton" type="button">バックアップを書き出す</button><label for="pachiRestoreFile">保存した記録を読み込む</label><input id="pachiRestoreFile" type="file" accept=".json,application/json"></div>
         </section>
-        <div class="pachi-rule"><strong>遊び方</strong><span>1・5・10草パチを選択。1発の消費球と通常賞球が倍率に応じて変わります。中央「START」で図柄が1回転。1草パチの入賞は2球、大当たり80球、超大当たり250球。大当たり後は10回転の草ラッシュ！ ジャックポットはSTART入賞時に共通で1/20,000。1草パチは10万球、5草パチは30万球、10草パチは50万球を50発で払い出します。残りの賞球は次回も持ち越せます。</span></div>
-        <p id="pachiSaveMessage" class="pachi-save-message" role="status">持ち球・草・ガチャ券は自動保存されます。端末のデータを消す前にバックアップを残してください。</p>
+        <div class="pachi-rule" aria-labelledby="pachiRuleTitle">
+          <h3 id="pachiRuleTitle">遊び方</h3>
+          <ul class="pachi-rule-list">
+            <li><strong>まずは発射：</strong>1・5・10草パチから掛け金を選び、ハンドルで強さを調整して発射します。1発につき掛け金と同じ数の球を消費します。</li>
+            <li><strong>入賞と草ランプ：</strong>左右の入賞口と中央のSTARTで球を獲得します。STARTに入ると草ランプが最大4個たまり、順番にリールが回ります。盤面と「入賞賞球」に、現在の掛け金に応じた賞球数を表示します。</li>
+            <li><strong>STARTコンボ：</strong>10秒以内に続けてSTARTへ入れると継続。3コンボでSTART賞球が掛け金1球分増加、5コンボで草ランプを1個追加、10コンボで超大当たり確率が1.5倍、20コンボで草祭コンボ演出が出ます。</li>
+            <li><strong>大当たり後：</strong>通常の大当たり後は10回転の草ST。草ST中の大当たり、超大当たり、ジャックポット後は15回転の草RUSHに入ります。終了後は5回転の草時短となり、START賞球が掛け金1球分増えます。</li>
+            <li><strong>モード抽選：</strong>開始時は通常45％・夜25％・お祭り15％・闇鍋12％・ぷゆゆラッシュ3％で抽選。通常抽選中のSTARTを15回消化すると、次のSTARTで継続を判定します。</li>
+            <li><strong>モード継続：</strong>継続率は通常35％、夜・お祭り・闇鍋50％、ぷゆゆラッシュ20％。成功すると同じモードを15回転延長し、継続回数を表示します。失敗すると現在以外のモードへ切り替わります。草ST・草RUSH・草時短・ジャックポット祭中は判定を休止し、終了後の次のSTARTで判定します。</li>
+            <li><strong>各モードの効果：</strong>夜の草むらはチャンス草ランプが少し出やすく、お祭りはSTART賞球が掛け金1球分増加。闇鍋はSTART賞球が掛け金0〜2球分変動します。ぷゆゆラッシュは球が🥺だけになり、サイドとSTARTの賞球が掛け金2球分増加。通常抽選の大当たり・超大当たり確率は1.5倍、草ST・草RUSH中の連チャン確率は通常モードの5倍（13%→65%）です。釘の配置はどのモードも同じです。</li>
+            <li><strong>ジャックポット：</strong>START抽選時に全モード共通で1/20,000。1草パチで10万球、5草パチで30万球、10草パチで50万球を、発射50回に分けて払い出します。その後10回転はジャックポット祭となり、START賞球が掛け金1球分増えます。</li>
+            <li><strong>記録と交換：</strong>「結果を見る」で記録と称号を確認できます。持ち球は1球＝1草で交換でき、15,000草でガチャ券1枚と交換できます。球・草・記録はブラウザに自動保存されます。</li>
+          </ul>
+        </div>
+        <p id="pachiSaveMessage" class="pachi-save-message" role="status">持ち球・草・ガチャ券・記録・称号は自動保存されます。端末のデータを消す前にバックアップを残してください。</p>
       </div>
       <div id="pachiShareModal" class="pachi-share-modal" role="dialog" aria-modal="true" aria-labelledby="pachiShareTitle" hidden><div class="pachi-share-panel"><div class="pachi-share-head"><h3 id="pachiShareTitle">草パチの記録をシェア</h3><button id="pachiShareClose" type="button" aria-label="シェア画面を閉じる">×</button></div><label class="pachi-share-name-option"><input id="pachiShareName" type="checkbox" checked>画像にプレイヤー名を載せる</label><canvas id="pachiShareCanvas" width="1080" height="1080" role="img" aria-label="持ち球・所持草・草パチの掛け金を表示したシェア用画像"></canvas><p id="pachiShareSummary"></p><div class="pachi-share-actions"><button id="pachiShareDownload" type="button">画像を保存</button><button id="pachiShareNative" type="button">共有する</button></div><p id="pachiShareMessage" role="status"></p></div></div>
-      <details class="pachi-credits"><summary>効果音の出典</summary><p>球の音は<a href="https://freesound.org/people/swordofkings128/sounds/566080/" target="_blank" rel="noopener noreferrer">鋼球が転がる録音</a>（swordofkings128）と<a href="https://freesound.org/people/Ryanz-Official/sounds/639754/" target="_blank" rel="noopener noreferrer">短い金属打音</a>（Ryanz-Official）を軽く編集しました。大当たり音は<a href="https://freesound.org/people/schafferdavid/sounds/450268/" target="_blank" rel="noopener noreferrer">実機の得点機構</a>（schafferdavid）です。いずれもCC0。音楽はありません。</p></details>
+      <div id="pachiResultModal" class="pachi-result-modal" role="dialog" aria-modal="true" aria-labelledby="pachiResultTitle" hidden><div class="pachi-result-panel"><div class="pachi-result-head"><div><h3 id="pachiResultTitle">📊 草パチ結果</h3><p>獲得は賞球を1球＝1草で換算した値です。所持草とは別に記録します。新しい計測項目はこの試作から数えます。</p></div><button id="pachiResultClose" type="button" aria-label="結果画面を閉じる">×</button></div><div class="pachi-result-hero"><small>今回の獲得（草換算）</small><strong id="pachiResultPrize">0</strong><span id="pachiResultEquipped">草パチ初心者</span></div><div class="pachi-result-grid"><section class="pachi-result-section"><h4>今回のプレイ</h4><dl id="pachiSessionStats"></dl></section><section class="pachi-result-section"><h4>累計・自己ベスト</h4><dl id="pachiLifetimeStats"></dl></section></div><p id="pachiPreviousSession" class="pachi-result-previous" hidden></p><section class="pachi-result-titles"><h4>称号コレクション <span id="pachiTitleCount"></span></h4><label class="pachi-title-picker">表示する称号 <select id="pachiTitleSelect"></select></label><div id="pachiTitleList" class="pachi-title-list"></div></section><div class="pachi-result-actions"><button id="pachiResultShare" type="button">称号付きでシェア</button><button id="pachiResultDone" type="button">遊技に戻る</button></div></div></div>
+      <details class="pachi-credits"><summary>効果音の出典</summary><p>従来の球音は<a href="https://freesound.org/people/swordofkings128/sounds/566080/" target="_blank" rel="noopener noreferrer">鋼球が転がる録音</a>（swordofkings128）と<a href="https://freesound.org/people/Ryanz-Official/sounds/639754/" target="_blank" rel="noopener noreferrer">短い金属打音</a>（Ryanz-Official）を軽く編集しました。大当たり音は<a href="https://freesound.org/people/schafferdavid/sounds/450268/" target="_blank" rel="noopener noreferrer">実機の得点機構</a>（schafferdavid）です。モード効果音はKenneyの<a href="https://kenney.nl/assets/interface-sounds" target="_blank" rel="noopener noreferrer">Interface Sounds</a>、<a href="https://kenney.nl/assets/impact-sounds" target="_blank" rel="noopener noreferrer">Impact Sounds</a>、<a href="https://kenney.nl/assets/casino-audio" target="_blank" rel="noopener noreferrer">Casino Audio</a>を使用。すべてCC0で商用利用可、音楽はありません。</p></details>
     </div>
   </section>
   </div>
@@ -848,6 +1066,7 @@ body,
 
   <section class="info-card" id="revision-history" aria-labelledby="revisionTitle">
     <h2 id="revisionTitle">kusa事典の更新履歴</h2>
+    <div class="era"><strong>2026年10月1日 00:18</strong><span>【草パチ・草ガチャ 大型アップデート】草パチと草ガチャを大幅にアップデートしました。演出や遊びやすさを見直し、新しい楽しみを加えています。詳しい内容は、ぜひ遊びながら見つけてください。</span></div>
     <div class="era"><strong>2026年9月30日</strong><span>草パチの細かなバグや不具合（球の挙動、スマホ復帰時の描画、効果音など）を修正し、名簿の記載漏れやプロフィール表記を見直しました。</span></div>
     <div class="era"><strong>2026年9月29日</strong><span>ネームド名鑑の名前を情報提供に合わせて分割・表記修正し、各名前を五十音順の該当欄に整理しました。</span></div>
     <div class="era"><strong>2026年9月29日</strong><span>「草むらを適当に調べる」の演出で改行コードが文字として表示される不具合を修正しました。</span></div>
@@ -1040,6 +1259,7 @@ const gachaToggle = document.getElementById('gachaToggle');
 const gachaPanel = document.getElementById('gachaPanel');
 const gachaClose = document.getElementById('gachaClose');
 const gachaDetailModal = document.getElementById('gachaDetailModal');
+const gachaDetailPanel = gachaDetailModal.querySelector('.detail-panel');
 const gachaDetailTitle = document.getElementById('gachaDetailTitle');
 const gachaDetailRarity = document.getElementById('gachaDetailRarity');
 const gachaDetailKind = document.getElementById('gachaDetailKind');
@@ -1064,88 +1284,46 @@ const newsLeadButton = document.getElementById('newsLeadButton');
 const newsItems = Object.freeze([
   {
     date: '2026年9月30日',
-    headline: 'ランキング（コメ）では短文雑談が上位に並ぶ',
-    body: '公開ランキングの「コメ」欄では、「この世に呆れる」が44件で先頭に表示され、「急ぎで顔晒しの顔ください」27件、「ののちゃんさいこうっっっ！！！！」18件が続いていた。ランキングは確認時点の表示を記録したもの。',
-    source: '確認範囲：2026年9月30日の公開ランキング（コメ）。数値や順位は時間帯で変動します。'
+    headline: 'パチンコ談義の配信枠がコメントランキング首位に',
+    body: '「お前らパチンコやってる？少しだけぬとらじ」と題した配信枠の投稿が、確認時点のコメントランキングで1位に入っていた。配信一覧では終了済みと表示されており、パチンコを話題にした交流の記録として残っている。',
+    source: '確認範囲：2026年9月30日23時台のkusa「コメ」ランキング・終了枠。配信URL：https://kusa.open2ch.net/radio/_1-QvuSrWO'
   },
   {
     date: '2026年9月30日',
-    headline: '草パチへの反応とジャックポット談義が登場',
-    body: '草パチを遊んだという投稿に対し、ジャックポットを狙うよう促す返信が付いた。kusa事典の新企画が、通常の雑談やゲームの話題に混ざっている。',
-    source: '確認範囲：2026年9月30日の公開投稿・返信。個人の利用状況や獲得数は記録していません。'
+    headline: '草パチに日別ランキングや発射設定の要望',
+    body: '公開タイムラインでは、草パチでその日の獲得量を競うランキングを望む声や、ハンドルの強さを尋ねる投稿が見られた。オート操作と長押し操作についての説明を補う返信もあり、遊び方や機能をめぐる意見が続いている。要望の実装や最適な設定値が決まったという意味ではない。',
+    source: '確認範囲：2026年9月30日23時台のkusa公開タイムライン。投稿は要望・個人の意見として扱っています。https://kusa.open2ch.net/'
   },
   {
     date: '2026年9月30日',
-    headline: 'ネームドの分類と掲載内容をめぐる確認',
-    body: 'ヴァロキチをコテハンと見るかどうかを確認するやり取りや、ネームド追加・掲載内容に関する案内が見られた。名前の分類や表記を確かめる話題として記録する。',
-    source: '確認範囲：2026年9月30日の公開タイムライン・返信。人物の同一性や現実の属性は判断していません。'
+    headline: 'お絵描き投稿が「イイ」上位、ぷゆゆのドット絵も登場',
+    body: '「イイ」ランキングでは「#お絵描き」の投稿が上位に入り、メディア欄には「#ドット絵 #32x32」を添えたぷゆゆのドット絵も掲載されていた。画像や絵を通じた投稿が、今日のkusaでも目立っている。',
+    source: '確認範囲：2026年9月30日23時台のkusa「イイ」ランキング・メディア欄。https://kusa.open2ch.net/'
   },
   {
     date: '2026年9月30日',
-    headline: 'クーポンや食事の相談から日常雑談へ',
-    body: 'クーポンを使った食事の会計について質問があり、利用条件を確認する返信が付いた。生活に近い小さな疑問を短いやり取りで解決する流れが見られた。',
-    source: '確認範囲：2026年9月30日の公開投稿・返信。店舗名や利用者の個人情報は記録していません。'
+    headline: 'ネームド図鑑の見た目をめぐる投稿がコメント上位に',
+    body: 'ネームド図鑑を作るならおしゃれな見た目にしてほしい、という趣旨の投稿が、確認時点のコメントランキング上位に入っていた。図鑑のデザインを題材に意見が交わされているが、特定の変更が決まったことを示す投稿ではない。',
+    source: '確認範囲：2026年9月30日23時台のkusa「コメ」ランキング。投稿者の意見を事典の更新予定として扱っていません。https://kusa.open2ch.net/'
   },
   {
     date: '2026年9月30日',
-    headline: '確認時点の配信枠は0件',
-    body: '公開画面を確認した時点では、配信中の枠は0件だった。配信枠は時間帯によって変動するため、今回の数字は確認時点の状況として扱う。',
-    source: '確認範囲：2026年9月30日の公開配信画面。配信者や過去の参加者は特定していません。'
+    headline: '配信中は0枠、終了枠には歌とパチンコの話題',
+    body: '23時台に配信一覧を確認した時点では、配信中は0枠、終了枠は3件だった。終了枠には歌を題材にした配信とパチンコを題材にした配信が並んでいる。配信数は随時変わるため、これは確認時点の記録となる。',
+    source: '確認範囲：2026年9月30日23時台のkusa「配信枠」一覧。https://kusa.open2ch.net/'
   },
   {
-    date: '2026年9月29日',
-    headline: 'PBと中受をめぐる呼称・分類の議論が続く',
-    body: '公開タイムラインでは、PBと中受の関係や呼び方をめぐる投稿が続いた。両者の扱いについて意見が分かれ、短い返信が重なる流れも確認された。投稿内の評価や対立について、事典側ではどちらかに肩入れせず、やり取りの発生のみを記録する。',
-    source: '確認範囲：2026年9月29日の公開タイムライン・返信。匿名IDや現実の人物情報は記事に固定記録していません。'
-  },
-  {
-    date: '2026年9月29日',
-    headline: 'kusa内の口論をめぐるメタな反応が発生',
-    body: '「毎日揉めている」といったkusa内の雰囲気に触れる投稿に対し、口論そのものを面白がる反応や、ネット上の対立について距離を置く意見が寄せられた。複数の返信が連続しており、話題が一時的に集中している。',
-    source: '確認範囲：2026年9月29日の公開投稿・返信。発言者の性格や継続的な関係性は判断していません。'
-  },
-  {
-    date: '2026年9月29日',
-    headline: 'ファミチキや飯テロを題材にした雑談が流れる',
-    body: 'ファミチキを食べているという投稿を起点に、食事や飯テロへの反応が続いた。短い近況報告に対して返信が付く、kusaらしい日常雑談の流れとして確認された。',
-    source: '確認範囲：2026年9月29日の公開タイムライン・返信。投稿者の生活状況や個人情報は記録していません。'
-  },
-  {
-    date: '2026年9月29日',
-    headline: 'ファンアートの募集に前向きな返信',
-    body: 'ファンアートを描いてほしいという呼びかけに対し、応じる意向を示す返信が寄せられた。依頼と返答が短時間で成立する、創作を介した交流として確認された。',
-    source: '確認範囲：2026年9月29日の公開投稿・返信。作品の完成や作者、権利関係は確認していません。'
-  },
-  {
-    date: '2026年9月29日',
-    headline: '確認時点の配信枠は0件',
-    body: '公開画面を確認した時点では、配信中の枠は0件だった。配信枠は時間帯によって変動するため、今回の数字は確認時点の状況として扱う。',
-    source: '確認範囲：2026年9月29日の公開配信画面。配信者や過去の参加者は特定していません。'
-  },
-  {
-    date: '2026年9月29日',
-    headline: '「ネームド版」を想像する投稿が登場',
-    body: '現在のkusa内のやり取りを受け、将来的に「ネームド版」が出てきそうだという反応が投稿された。ネームドを題材にした見立てや冗談が、通常の雑談に混ざっている。',
-    source: '確認範囲：2026年9月29日の公開タイムライン・返信。将来の機能や実際の計画を示すものではありません。'
-  },
-  {
-    date: '2026年9月29日',
-    headline: '誕生日を知らせる投稿に祝福の返信',
-    body: '誕生日を知らせる投稿に対し、祝福の返信が寄せられた。個人情報には踏み込まず、短い挨拶を通じた交流として確認された。',
-    source: '確認範囲：2026年9月29日の公開投稿・返信。年齢や個人情報は記録していません。'
-  },
-  {
-    date: '2026年9月29日',
-    headline: '本日のkusa観測：議論と日常雑談が並行',
-    body: '今回の公開範囲では、PBと中受をめぐる議論、kusa内の口論への反応、食べ物の雑談、ファンアート、祝福のやり取りが同時に見られた。話題は一つに集中せず、短時間で切り替わっている。',
-    source: '確認範囲：2026年9月29日の公開タイムライン・返信・配信画面。24時間で変化する観測版です。'
+    date: '2026年9月30日',
+    headline: '予測変換を使った言葉遊びがコメントランキングに',
+    body: '「#死と打って文章が終わるまでやってください」という予測変換遊びをkusaでも流行らせたい、という投稿がコメントランキング上位に入っていた。普段の雑談とは別に、参加型の小ネタも話題を集めている。',
+    source: '確認範囲：2026年9月30日23時台のkusa「コメ」ランキング。流行の定着までは確認していません。https://kusa.open2ch.net/'
   }
 ]);
 
 function getNewsCategory(item) {
   if (item.headline.includes('配信')) return '配信';
   if (item.headline.includes('ランキング')) return '外部話題';
-  if (item.headline.includes('ガチャ') || item.headline.includes('草パチ')) return 'サイト情報';
+  if (item.headline.includes('ガチャ')) return 'サイト情報';
   if (item.headline.includes('名鑑') || item.headline.includes('表記')) return '更新情報';
   if (item.headline.includes('返信') || item.headline.includes('呼称') || item.headline.includes('案内')) return '返信';
   return 'TL観測';
@@ -1613,14 +1791,22 @@ addTypeBadges();
 
 const gachaCooldown = 6 * 60 * 60 * 1000;
 const gachaStorageKey = window.KusaRewards.gachaKey;
+const gachaExcludedSsrNames = new Set(['従来型コーディングガイジ', 'バイブコーディングガイジ']);
+const gachaExcludedLegacySsrIds = new Set([...gachaExcludedSsrNames].map(name => `named-SSR-${name}`));
 const rarityMeta = Object.freeze({
   N: { label: 'N', name: '草むら' },
   R: { label: 'R', name: '観測記録' },
   SR: { label: 'SR', name: '珍種' },
   SSR: { label: 'SSR', name: '希少種' },
   UR: { label: 'UR', name: '幻の個体' },
-  GOD: { label: 'GOD', name: 'ゴッドレア' }
+  GODR: { label: 'GODR', name: 'ゴッドレア' },
+  Ω: { label: 'ΩR', name: 'ΩR' }
 });
+const framedGachaRarities = new Set(['SSR', 'UR', 'GODR', 'Ω']);
+function gachaRarityText(rarity, separator = ' ') {
+  const meta = rarityMeta[rarity];
+  return meta.label === meta.name ? meta.label : `${meta.label}${separator}${meta.name}`;
+}
 const grassCards = Object.freeze([
   { id: 'grass-001', rarity: 'N', kind: '雑草カード', emoji: '🌱', title: '若葉', text: '草むらの入口で見つかる、元気な若葉。' },
   { id: 'grass-002', rarity: 'N', kind: '雑草カード', emoji: '🌿', title: '細葉', text: '風に揺れているだけの、平和な細葉。' },
@@ -1637,7 +1823,9 @@ const glossaryCards = Object.freeze([
 const historyCards = Object.freeze([
   { id: 'history-001', rarity: 'UR', kind: '歴史カード', emoji: '📜', title: 'kusa誕生', text: '2026年5月13日、kusaが生まれた日。' },
   { id: 'history-002', rarity: 'UR', kind: '伝承カード', emoji: '🌌', title: '草むらの伝承', text: '消えていく投稿と、残っていく呼び名。' },
-  { id: 'history-003', rarity: 'GOD', kind: '神話カード', emoji: '💩', title: 'さとる', text: 'おーぷん2chを生み出したとされる、草むらの神話級カード。' }
+  { id: 'history-003', rarity: 'GODR', kind: '神話カード', emoji: '💩', title: 'さとる', text: 'おーぷん2chを生み出したとされる、草むらの神話級カード。' },
+  { id: 'history-004', rarity: 'GODR', kind: '神話カード', emoji: '🥺', title: 'ぷゆゆ', text: 'ぷゆゆの頂点に立つ神話級カード。🥺の一撃で草むら全体をぷゆゆ化する。' },
+  { id: 'history-005', rarity: 'Ω', kind: '根源カード', emoji: '🖥️🌿', title: 'kusaサーバー', text: 'あらゆる投稿と笑いを受け止め、零時を越えて次の草むらを生み出す。すべての草がここから始まる。' }
 ]);
 
 const namedCardEmoji = Object.freeze({
@@ -1655,10 +1843,10 @@ const namedCardEmoji = Object.freeze({
   'ふむ': '🤔', 'ぷゆガイ': '🍀', 'ぷゆゆパン': '🍞', 'ぷゆゆ特化の可愛い魔法': '✨',
   'ホイ卒': '🍼', '包丁おじ': '🔪', 'ビビアミ': '🎮', 'ベータちゃん': '🧪', 'ぺこら': '🐰',
   'ミク絵師': '🎨', 'むほほおじさん': '😏', 'ユニコーン': '🦄', '失言ニキ': '🗣️',
-  '霊王': '👻', '生首': '🗿', 'ロゼ': '🌹', 'ロリガイ': '🧸', 'らべんだー': '💜', 'ラテアート': '☕',
+  '霊王': '👻', 'ロゼ': '🌹', 'ロリガイ': '🧸', 'らべんだー': '💜', 'ラテアート': '☕',
   'リコーダーガイジ': '🎵', 'ワイテルズjc': '🎓', 'ヴァロキチ': '🎯',
   '一日五食ガイジ': '🍽️', '赤ゆに': '🔴', 'エジプト壁画ガイジ': '🏺',
-  'おえちゃん': '🎁', 'onjs': '⚡', '従来型コーディングガイジ': '⌨️', 'バイブコーディングガイジ': '🤖'
+  'おえちゃん': '🎁', 'onjs': '⚡'
 });
 
 function namedGachaCard(name, rarity) {
@@ -1679,37 +1867,43 @@ function namedGachaCard(name, rarity) {
 function buildGachaPools() {
   const names = items.map(item => item.dataset.name).filter(Boolean);
   const knownNames = names.filter(name => namedDetails[name]);
-  const confirmedNames = knownNames.filter(name => ['確定', '確定（プロフィール記載）'].includes(namedDetails[name].confidence));
+  const extraSsrNames = new Set(['長門', 'らべんだー', 'ノープ']);
+  const confirmedNames = knownNames.filter(name =>
+    !gachaExcludedSsrNames.has(name) &&
+    (['確定', '確定（プロフィール記載）'].includes(namedDetails[name].confidence) || extraSsrNames.has(name))
+  );
+  const ssrCards = confirmedNames
+    .filter(name => !gachaExcludedSsrNames.has(name))
+    .map(name => namedGachaCard(name, 'SSR'));
   return {
     grass: [...grassCards],
     glossary: [...glossaryCards],
     R: names.map(name => namedGachaCard(name, 'R')),
     SR: knownNames.map(name => namedGachaCard(name, 'SR')),
-    SSR: confirmedNames.map(name => namedGachaCard(name, 'SSR')),
+    SSR: ssrCards,
     UR: historyCards.filter(card => card.rarity === 'UR'),
-    GOD: historyCards.filter(card => card.rarity === 'GOD')
+    GODR: historyCards.filter(card => card.rarity === 'GODR'),
+    Ω: historyCards.filter(card => card.rarity === 'Ω')
   };
 }
-
-const removedGachaCardIds = new Set([
-  'named-R-鉛筆ブラシ絵師（仮称）',
-  'named-SR-鉛筆ブラシ絵師（仮称）',
-  'named-SSR-鉛筆ブラシ絵師（仮称）'
-]);
 
 function readGachaState() {
   try {
     const stored = JSON.parse(localStorage.getItem(gachaStorageKey) || '{}');
-    const obtainedCards = Array.isArray(stored.obtainedCards)
-      ? stored.obtainedCards.filter(card => typeof card === 'string' && !removedGachaCardIds.has(card))
-      : [];
+    const storedCards = Array.isArray(stored.obtainedCards) ? stored.obtainedCards : [];
+    const obtainedCards = [...new Set(storedCards.filter(card => typeof card === 'string'))];
+    for (const legacyId of gachaExcludedLegacySsrIds) {
+      if (!obtainedCards.includes(legacyId)) continue;
+      const srId = legacyId.replace('named-SSR-', 'named-SR-');
+      if (!obtainedCards.includes(srId)) obtainedCards.push(srId);
+    }
     const state = {
       lastDrawAt: Number.isFinite(stored.lastDrawAt) ? stored.lastDrawAt : 0,
       obtainedCards,
       grassPoint: Number.isFinite(stored.grassPoint) ? stored.grassPoint : 0
     };
     if (Array.isArray(stored.obtainedCards) && obtainedCards.length !== stored.obtainedCards.length) {
-      try { localStorage.setItem(gachaStorageKey, JSON.stringify(state)); } catch { /* 保存できない環境でも表示は継続する */ }
+      try { localStorage.setItem(gachaStorageKey, JSON.stringify(state)); } catch { /* 保存できない場合も画面表示は続ける */ }
     }
     return state;
   } catch { return { lastDrawAt: 0, obtainedCards: [], grassPoint: 0 }; }
@@ -1721,7 +1915,7 @@ function saveGachaState(state) {
 }
 
 function chooseWeightedRarity(pools, obtained) {
-  const weights = [['grass', 55], ['glossary', 15], ['R', 18], ['SR', 8], ['SSR', 3], ['UR', 1], ['GOD', 0.1]];
+  const weights = [['grass', 55], ['glossary', 15], ['R', 18], ['SR', 8], ['SSR', 3], ['UR', 1], ['GODR', 0.1], ['Ω', 0.01]];
   const available = weights.filter(([group]) => pools[group]?.some(card => !obtained.has(card.id)));
   const total = available.reduce((sum, [, weight]) => sum + weight, 0);
   let roll = Math.random() * total;
@@ -1747,15 +1941,25 @@ function formatRemaining(milliseconds) {
   return `${hours}:${minutes}:${seconds}`;
 }
 
-function renderGachaCard(card, duplicate) {
-  gachaResult.replaceChildren();
+function addOmegaSigil(element, card) {
+  if (card.rarity !== 'Ω') return;
+  const sigil = document.createElement('span');
+  sigil.className = 'gacha-omega-sigil';
+  sigil.setAttribute('aria-hidden', 'true');
+  sigil.textContent = 'ΩR';
+  element.prepend(sigil);
+}
+
+function renderGachaCard(card, duplicate, resultTarget = gachaResult) {
+  resultTarget.replaceChildren();
   const wrapper = document.createElement('article');
-  wrapper.className = `gacha-result-card rarity-${card.rarity}`;
+  const hasRarityFrame = framedGachaRarities.has(card.rarity);
+  wrapper.className = `gacha-result-card rarity-${card.rarity}${hasRarityFrame ? ' gacha-framed' : ''}`;
   if (!reduceMotion) wrapper.classList.add('is-revealing');
   const meta = document.createElement('div');
   const rarity = document.createElement('span');
   rarity.className = 'gacha-rarity';
-  rarity.textContent = `${rarityMeta[card.rarity].label} ${rarityMeta[card.rarity].name}`;
+  rarity.textContent = gachaRarityText(card.rarity);
   const kind = document.createElement('span');
   kind.className = 'gacha-kind';
   kind.textContent = card.kind;
@@ -1767,14 +1971,16 @@ function renderGachaCard(card, duplicate) {
   textContent.className = 'gacha-card-text';
   textContent.textContent = card.text;
   wrapper.append(meta, title, textContent);
+  addOmegaSigil(wrapper, card);
   if (duplicate) {
     const duplicateMessage = document.createElement('p');
     duplicateMessage.className = 'gacha-duplicate';
     duplicateMessage.textContent = '重複カード。草ポイントを10pt獲得しました。';
     wrapper.appendChild(duplicateMessage);
   }
-  gachaResult.appendChild(wrapper);
-  if (card.rarity === 'GOD') showGodGachaEffect(card);
+  resultTarget.appendChild(wrapper);
+  if (card.rarity === 'Ω') showOmegaGachaEffect(card);
+  else if (card.rarity === 'GODR') showGodGachaEffect(card);
 }
 
 function renderGachaBook(allCards, state) {
@@ -1782,12 +1988,25 @@ function renderGachaBook(allCards, state) {
   const uniqueCount = allCards.filter(card => obtained.has(card.id)).length;
   gachaBookCount.textContent = `${uniqueCount} / ${allCards.length}種`;
   gachaBookGrid.replaceChildren();
+  let currentRarity = null;
   allCards.forEach(card => {
+    if (card.rarity !== currentRarity) {
+      currentRarity = card.rarity;
+      const heading = document.createElement('h3');
+      heading.className = 'gacha-book-rarity-heading';
+      heading.textContent = framedGachaRarities.has(card.rarity) && !allCards.some(item => item.rarity === card.rarity && obtained.has(item.id))
+        ? '???'
+        : gachaRarityText(card.rarity, '・');
+      gachaBookGrid.appendChild(heading);
+    }
     const owned = obtained.has(card.id);
+    const hasRarityFrame = owned && framedGachaRarities.has(card.rarity);
     const item = document.createElement('button');
     item.type = 'button';
     item.disabled = !owned;
-    item.className = `gacha-book-item ${owned ? 'is-owned' : 'is-locked'}`;
+    item.className = owned
+      ? `gacha-book-item is-owned rarity-${card.rarity}${hasRarityFrame ? ' gacha-framed' : ''}`
+      : 'gacha-book-item is-locked';
     const emoji = document.createElement('span');
     emoji.className = 'gacha-book-emoji';
     emoji.textContent = owned ? card.emoji : '？';
@@ -1795,31 +2014,120 @@ function renderGachaBook(allCards, state) {
     name.className = 'gacha-book-name';
     name.textContent = owned ? card.title : '未発見';
     item.append(emoji, name);
+    if (owned) addOmegaSigil(item, card);
     if (owned) item.addEventListener('click', () => openGachaCardDetail(card));
     gachaBookGrid.appendChild(item);
   });
 }
 
 function openGachaCardDetail(card) {
+  gachaDetailPanel.querySelector('.gacha-omega-sigil')?.remove();
+  gachaDetailPanel.classList.remove('gacha-framed', 'rarity-SSR', 'rarity-UR', 'rarity-GODR', 'rarity-Ω');
+  if (framedGachaRarities.has(card.rarity)) {
+    gachaDetailPanel.classList.add('gacha-framed', `rarity-${card.rarity}`);
+  }
+  addOmegaSigil(gachaDetailPanel, card);
   gachaDetailTitle.textContent = `${card.emoji} ${card.title}`;
-  gachaDetailRarity.textContent = `${rarityMeta[card.rarity].label} ${rarityMeta[card.rarity].name}`;
+  gachaDetailRarity.textContent = gachaRarityText(card.rarity);
   gachaDetailKind.textContent = card.kind;
   gachaDetailText.textContent = card.text;
   gachaDetailModal.hidden = false;
   gachaDetailModal.classList.add('is-open');
 }
 
+let closeActiveOmegaGachaEffect = null;
+function showOmegaGachaEffect(card) {
+  closeActiveOmegaGachaEffect?.();
+  document.querySelector('.gacha-god-overlay')?.remove();
+  const previousFocus = document.activeElement;
+  const overlay = document.createElement('div');
+  overlay.className = 'gacha-omega-overlay';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('aria-label', `${card.title} ΩR 排出演出`);
+  const copy = document.createElement('div');
+  copy.className = 'gacha-omega-copy gacha-framed rarity-Ω';
+  const eyebrow = document.createElement('p');
+  eyebrow.className = 'gacha-omega-eyebrow';
+  eyebrow.textContent = '草むらの根源へ接続中……';
+  const emoji = document.createElement('p');
+  emoji.className = 'gacha-omega-emoji';
+  emoji.textContent = card.emoji;
+  const title = document.createElement('h2');
+  title.className = 'gacha-omega-title';
+  title.textContent = card.title;
+  const subtitle = document.createElement('p');
+  subtitle.className = 'gacha-omega-subtitle';
+  subtitle.textContent = 'ΩR';
+  const hint = document.createElement('p');
+  hint.className = 'gacha-omega-hint';
+  hint.textContent = 'すべての草がここから始まる。';
+  copy.append(eyebrow, emoji, title, subtitle, hint);
+  addOmegaSigil(copy, card);
+  overlay.appendChild(copy);
+  const particles = ['🌌', '🪐', '🌠', '💫', '✨', '⭐', '🌟'];
+  const particleCount = window.innerWidth <= 560 ? 32 : 52;
+  for (let i = 0; i < particleCount; i += 1) {
+    const particle = document.createElement('span');
+    particle.className = 'gacha-omega-particle';
+    particle.textContent = particles[i % particles.length];
+    particle.style.left = `${(i * 37) % 104 - 2}%`;
+    particle.style.setProperty('--fall-delay', `${(i % 13) * 0.13}s`);
+    particle.style.setProperty('--fall-duration', `${3.4 + (i % 7) * 0.34}s`);
+    particle.style.setProperty('--fall-drift', `${(i % 9 - 4) * 22}px`);
+    overlay.appendChild(particle);
+  }
+  const closeButton = document.createElement('button');
+  closeButton.className = 'gacha-omega-close';
+  closeButton.type = 'button';
+  closeButton.textContent = '閉じる';
+  overlay.appendChild(closeButton);
+  let closeTimer = 0;
+  const onKeyDown = event => { if (event.key === 'Escape') close(); };
+  const close = () => {
+    window.clearTimeout(closeTimer);
+    document.removeEventListener('keydown', onKeyDown);
+    overlay.remove();
+    if (closeActiveOmegaGachaEffect === close) closeActiveOmegaGachaEffect = null;
+    if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus();
+  };
+  closeActiveOmegaGachaEffect = close;
+  closeButton.addEventListener('click', close);
+  overlay.addEventListener('click', event => { if (event.target === overlay) close(); });
+  document.addEventListener('keydown', onKeyDown);
+  document.body.appendChild(overlay);
+  requestAnimationFrame(() => overlay.classList.add('is-open'));
+  closeTimer = window.setTimeout(close, reduceMotion ? 2800 : 6800);
+}
+
 function showGodGachaEffect(card) {
+  closeActiveOmegaGachaEffect?.();
   document.querySelector('.gacha-god-overlay')?.remove();
   const overlay = document.createElement('div');
   overlay.className = 'gacha-god-overlay';
+  if (card.title === 'ぷゆゆ') overlay.classList.add('is-puyuyu');
   overlay.setAttribute('role', 'dialog');
-  overlay.setAttribute('aria-label', `${card.title} GOD RARE 排出演出`);
+  overlay.setAttribute('aria-label', `${card.title} GODR RARE 排出演出`);
   const copy = document.createElement('div');
-  copy.className = 'gacha-god-copy';
-  copy.innerHTML = '<p class="gacha-god-eyebrow">草むらが震えている……</p><p class="gacha-god-emoji">💩</p><h2 class="gacha-god-title">さとる</h2><p class="gacha-god-subtitle">GOD RARE ・ 神話級カード</p><p class="gacha-god-hint">GODカードが降臨しました</p>';
+  copy.className = 'gacha-god-copy gacha-framed rarity-GODR';
+  const eyebrow = document.createElement('p');
+  eyebrow.className = 'gacha-god-eyebrow';
+  eyebrow.textContent = card.title === 'ぷゆゆ' ? 'ぷゆゆの光が満ちていく……' : '草むらが震えている……';
+  const emoji = document.createElement('p');
+  emoji.className = 'gacha-god-emoji';
+  emoji.textContent = card.emoji;
+  const title = document.createElement('h2');
+  title.className = 'gacha-god-title';
+  title.textContent = card.title;
+  const subtitle = document.createElement('p');
+  subtitle.className = 'gacha-god-subtitle';
+  subtitle.textContent = `${rarityMeta[card.rarity].label} RARE ・ ${rarityMeta[card.rarity].name}`;
+  const hint = document.createElement('p');
+  hint.className = 'gacha-god-hint';
+  hint.textContent = card.title === 'ぷゆゆ' ? '🥺の一撃で草むら全体がぷゆゆ化！' : 'GODRカードが降臨しました';
+  copy.append(eyebrow, emoji, title, subtitle, hint);
   overlay.appendChild(copy);
-  const particleTypes = ['🌿', '✨', '💩'];
+  const particleTypes = card.title === 'ぷゆゆ' ? ['🥺', '✨', '🌟', '🌿'] : ['🌿', '✨', '💩'];
   for (let i = 0; i < 24; i += 1) {
     const particle = document.createElement('span');
     particle.className = 'gacha-god-particle';
@@ -1869,7 +2177,9 @@ gachaDetailModal.addEventListener('click', event => { if (event.target === gacha
 
 function initGacha() {
   const pools = buildGachaPools();
-  const allCards = Object.values(pools).flat();
+  const allCards = Object.values(pools).flat().filter(card =>
+    card.rarity !== 'SSR' || !gachaExcludedSsrNames.has(card.title)
+  );
   gachaAllCards = allCards;
   let state = updateGachaAvailability();
   renderGachaBook(allCards, state);
@@ -1883,16 +2193,19 @@ function initGacha() {
       return;
     }
     const duplicate = false;
+    if (useTicket && !window.KusaRewards.spendTicket()) {
+      gachaResult.textContent = 'ガチャ券を使えなかったため、抽選を中止しました。保存設定を確認してください。';
+      updateGachaAvailability();
+      return;
+    }
     if (!useTicket) state.lastDrawAt = Date.now();
     state.obtainedCards.push(card.id);
     if (duplicate) state.grassPoint += 10;
     if (!saveGachaState(state)) {
-      gachaResult.textContent = '記録を保存できないため、ガチャを引けません。ブラウザの保存設定を確認してください。';
-      return;
-    }
-    if (useTicket && !window.KusaRewards.spendTicket()) {
-      gachaResult.textContent = 'カードは保存されましたが、券の更新に失敗しました。保存設定を確認してください。';
-      renderGachaBook(allCards, state);
+      const refund = useTicket ? window.KusaRewards.addTicket() : null;
+      gachaResult.textContent = refund && !refund.ok
+        ? 'カードを保存できず、ガチャ券の返却にも失敗しました。ページを閉じずに記録をバックアップしてください。'
+        : '記録を保存できないため、ガチャを引けません。ブラウザの保存設定を確認してください。';
       updateGachaAvailability();
       return;
     }
@@ -2136,6 +2449,1811 @@ arrangePageForFirstVisit();
 initGacha();
 filterNames();
 </script>
-<script src="kusa-pachi.js?v=20260930-1"></script>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const shell = $('kusa-pachi');
+  if (!shell) return;
+  const rewards = window.KusaRewards;
+  if (!rewards) return;
+  const panel = $('pachiPanel');
+  const canvas = $('pachiCanvas');
+  const sceneryCtx = canvas.getContext('2d');
+  const ctx = $('pachiBallsCanvas')?.getContext('2d');
+  if (!sceneryCtx || !ctx) return;
+
+  const W = canvas.width;
+  const H = canvas.height;
+  const ballSprites = new Map();
+  const mobileLite = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 560;
+  const frameInterval = mobileLite ? 1000 / 30 : 1000 / 60;
+  const pegSoundGap = mobileLite ? 180 : 95;
+  const faces = ['😄', '😆', '😊', '😎', '🤩', '🥳', '😏', '😲', '😺', '🤠', '🥹', '😋', '😠', '😡', '🤓', '🥺'];
+  const reelFaces = ['🌱', '🌿', '🍀', '🌻', '🌳', '✨'];
+  const profileKey = 'kusaPachiProfilesV1';
+  const soundKey = 'kusaPachiSoundV1';
+  const jackpotAmounts = {1: 100000, 5: 300000, 10: 500000};
+  const jackpotOdds = 20000;
+  const pocketPayout = 2;
+  const hitPayout = 80;
+  const premiumPayout = 250;
+  const rushSpins = 10;
+  const rushBonusSpins = 15;
+  const comboWindowMs = 10000;
+  const scenes = ['normal', 'night', 'festival', 'yaminabe', 'puyuyu'];
+  const sceneCycleSpins = 15;
+  const sceneLottery = [
+    {id:'normal', weight:45, label:'🌿 通常モード'},
+    {id:'night', weight:25, label:'🌙 夜の草むら'},
+    {id:'festival', weight:15, label:'🏮 お祭り'},
+    {id:'yaminabe', weight:12, label:'🍲 闇鍋'},
+    {id:'puyuyu', weight:3, label:'🥺 ぷゆゆラッシュ'}
+  ];
+  const sceneContinueRates = {normal:.35, night:.5, festival:.5, yaminabe:.5, puyuyu:.2};
+  const sceneHelp = {
+    normal:'いつもの草パチ。軽い鋼球音と標準の賞球です。',
+    night:'夜の草むら。鈴の音と、当たり時のチャンス草ランプが少し出やすくなります。',
+    festival:'お祭り。にぎやかな打音でSTART賞球が掛け金1個分増えます。',
+    yaminabe:'闇鍋。START賞球に掛け金0〜2個分をランダム追加します。',
+    puyuyu:'ぷゆゆラッシュ。球は🥺だけ。通常抽選の大当たり・超大当たりは1.5倍。草ST・草RUSH中の連チャン確率は通常モードの5倍（13%→65%）。サイドとSTARTは掛け金2球分の賞球を追加。'
+  };
+  const chuteTipY = 40;
+  function chuteX(y) {
+    const bend = Math.max(0, Math.min(1, (92 - y) / (92 - chuteTipY)));
+    return 409 - 52 * bend * bend * (3 - 2 * bend);
+  }
+  const guideRails = [
+    {x1: 135, y1: 366, x2: 185, y2: 454, side: 1},
+    {x1: 305, y1: 366, x2: 255, y2: 454, side: -1}
+  ];
+  const pegs = [];
+  const pegRows = Array.from({length: 12}, () => []);
+  for (let row = 0; row < 12; row++) {
+    const y = 111 + row * 31;
+    // 外壁とのすき間に球が挟まらないよう、端の釘を内側へ寄せる。
+    const offset = row % 2 ? 76 : 57;
+    for (let x = offset; x < 363; x += 38) {
+      if (y >= 204 && y <= 359 && x > 90 && x < 360) continue;
+      if (y >= 365 && guideRails.some(rail => {
+        const railX = rail.x1 + (rail.x2 - rail.x1) * (y - rail.y1) / (rail.y2 - rail.y1);
+        return Math.abs(x - railX) < 40;
+      })) continue;
+      if (y >= 452 && x > 195 && x < 245) continue;
+      const peg = {x, y, r: 3.8};
+      pegs.push(peg);
+      pegRows[row].push(peg);
+    }
+  }
+  const pockets = [
+    {x: 74, y: 506, r: 18, type: 'side'},
+    {x: 220, y: 506, r: 21, type: 'start'},
+    {x: 366, y: 506, r: 18, type: 'side'}
+  ];
+  const titleCatalog = [
+    {id:'beginner', name:'草パチ初心者', rarity:'N', group:'play', rule:'草パチを始める', unlocked:() => true},
+    {id:'rom', name:'ROM専卒業', rarity:'R', group:'play', rule:'初めて球を発射', unlocked:p => p.totalShots >= 1},
+    {id:'peg', name:'釘読み見習い', rarity:'SR', group:'play', rule:'累計100発を発射', unlocked:p => p.totalShots >= 100},
+    {id:'ww', name:'ｗｗｗ職人', rarity:'SSR', group:'play', rule:'累計1,000発を発射', unlocked:p => p.totalShots >= 1000},
+    {id:'gj', name:'GJ', rarity:'R', group:'hit', rule:'初めて大当たり', unlocked:p => p.hits >= 1},
+    {id:'kitakore', name:'キタコレ', rarity:'SR', group:'hit', rule:'初めて超大当たり', unlocked:p => p.premiumCount >= 1},
+    {id:'quick', name:'神引き', rarity:'SR', group:'hit', rule:'1プレイの10回転以内に大当たり', unlocked:p => p.fastHits >= 1},
+    {id:'lucky', name:'豪運', rarity:'SSR', group:'hit', rule:'1プレイで大当たりを3回', unlocked:p => p.session?.hits >= 3},
+    {id:'onechance', name:'ワンチャン勢', rarity:'R', group:'hit', rule:'黄色の草ランプから大当たり', unlocked:p => p.chanceWins >= 1},
+    {id:'hot', name:'激アツ民', rarity:'SR', group:'hit', rule:'赤の草ランプを10回消化', unlocked:p => p.hotHolds >= 10},
+    {id:'rainbow', name:'虹保留信者', rarity:'SSR', group:'hit', rule:'虹色の草ランプから大当たり', unlocked:p => p.rainbowWins >= 1},
+    {id:'ktkr', name:'ktkr', rarity:'SR', group:'hit', rule:'1プレイで黄色以上の草ランプを3回消化', unlocked:p => p.session?.chanceHolds >= 3},
+    {id:'streak10', name:'連チャン職人', rarity:'SSR', group:'streak', rule:'最大10連チャン', unlocked:p => p.bestStreak >= 10},
+    {id:'streak20', name:'無限ループ', rarity:'UR', group:'streak', rule:'最大20連チャン', unlocked:p => p.bestStreak >= 20},
+    {id:'grass1', name:'草生える', rarity:'SR', group:'grass', rule:'累計賞球1,000球（草換算）', unlocked:p => p.totalPrize >= 1000},
+    {id:'grass10', name:'大草原', rarity:'SSR', group:'grass', rule:'累計賞球10,000球（草換算）', unlocked:p => p.totalPrize >= 10000},
+    {id:'grass100', name:'草原の支配者', rarity:'UR', group:'grass', rule:'累計賞球100,000球（草換算）', unlocked:p => p.totalPrize >= 100000},
+    {id:'jackpot1', name:'ｷﾀ━━━━(ﾟ∀ﾟ)━━━━!!', rarity:'UR', group:'jackpot', rule:'初めてジャックポット', unlocked:p => p.jackpotCount >= 1},
+    {id:'god', name:'神', rarity:'GODR', group:'jackpot', rule:'ジャックポット3回', unlocked:p => p.jackpotCount >= 3},
+    {id:'addict', name:'ジャックポット中毒', rarity:'GODR', group:'jackpot', rule:'ジャックポット5回', unlocked:p => p.jackpotCount >= 5},
+    {id:'king', name:'草パチの王', rarity:'GODR', group:'jackpot', rule:'累計賞球500,000球（草換算）', unlocked:p => p.totalPrize >= 500000},
+    {id:'sunk', name:'沼ってる', rarity:'R', group:'play', rule:'大当たりなしで300発を発射', unlocked:p => p.dryShots >= 300},
+    {id:'comeback', name:'沼の底から', rarity:'SSR', group:'hit', rule:'大当たりなしで500発以上から大当たり', unlocked:p => p.comebackCount >= 1},
+    {id:'kwsk', name:'kwsk', rarity:'R', group:'play', rule:'結果画面を10回開く', unlocked:p => p.resultOpens >= 10},
+    {id:'old', name:'古参', rarity:'SSR', group:'play', rule:'初プレイから7日経過', unlocked:p => Date.now() - Date.parse(p.firstPlayedAt) >= 7*86400000},
+    {id:'vip', name:'VIP待遇', rarity:'GODR', group:'play', rule:'初プレイから30日経過', unlocked:p => Date.now() - Date.parse(p.firstPlayedAt) >= 30*86400000},
+    {id:'omega', name:'時間の無駄', rarity:'Ω', group:'play', rule:'累計で1,000,000球を所持', unlocked:p => p.bestBalls >= 1000000}
+  ];
+  let profiles = readProfiles();
+  let player = null;
+  let balls = [];
+  let soundOn = readSound();
+  const soundFiles = {
+    launch: 'launch.wav', pegA: 'peg-a.wav', pegB: 'peg-b.wav', pegC: 'peg-c.wav',
+    start: 'start.wav', jackpot: 'jackpot.wav', drain: 'drain.wav',
+    modeNight: 'mode-night.ogg', modePuyuLaunch: 'mode-puyu-launch.ogg',
+    modePuyuPeg: 'mode-puyu-peg.ogg', modePuyuStart: 'mode-puyu-start.ogg',
+    modeCombo: 'mode-combo.ogg', modeYaminabe: 'mode-yaminabe.ogg',
+    modeFestival: 'mode-festival.ogg', modeEnter: 'mode-enter.ogg',
+    modeFestivalPeg: 'mode-festival-peg.ogg', modeJackpot: 'mode-jackpot.ogg',
+    modeNightStart: 'mode-night-start.ogg'
+  };
+  const oggSupported = !!document.createElement('audio').canPlayType('audio/ogg; codecs="vorbis"');
+  const audioBuffers = {};
+  const audioLoading = {};
+  const fallbackAudio = {};
+  const activeSounds = new Set();
+  let soundContext = null;
+  let soundContextUnavailable = false;
+  let pageSuspended = document.hidden;
+  let audioResumeToken = 0;
+  let firing = false;
+  let fireTimer = 0;
+  let lastFire = 0;
+  let lastFrame = 0;
+  let frameId = 0;
+  let spinQueue = [];
+  let spinning = false;
+  let currentSpin = null;
+  let activeHold = null;
+  let omenStage = 0;
+  let omenTimers = [];
+  let spinTimer = 0;
+  let reelTimer = 0;
+  let announceTimer = 0;
+  let lastPegSound = 0;
+  let lastDrainSound = 0;
+  let payoutActive = false;
+  let payoutFinishTimer = 0;
+  let payoutTotal = 0;
+  let lastPayoutSound = 0;
+  let titleNoticeTimer = 0;
+  const titleNoticeNames = new Set();
+  let renderedTitleKey = '';
+  let comboTimer = 0;
+  let modeTransitionTimer = 0;
+  let burstTimer = 0;
+  let stageFlashTimer = 0;
+  let boardAwardKey = '';
+
+  function readProfiles() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(profileKey) || '[]');
+      if (!Array.isArray(parsed)) return [];
+      return parsed.filter(p => p && typeof p.name === 'string' && p.name.trim() && p.name.length <= 20)
+        .map(normalizeProfile);
+    } catch { return []; }
+  }
+  function validCount(value, fallback = 0) {
+    return Number.isSafeInteger(value) && value >= 0 ? Math.min(value, 100000000) : fallback;
+  }
+  function validWager(value) { return [1, 5, 10].includes(Number(value)) ? Number(value) : 1; }
+  function normalizeSession(value) {
+    if (!value || typeof value !== 'object' || !Number.isFinite(Date.parse(value.startedAt))) return null;
+    return {
+      startedAt: value.startedAt, shots: validCount(value.shots), spins: validCount(value.spins),
+      prize: validCount(value.prize), hits: validCount(value.hits), bestStreak: validCount(value.bestStreak),
+      jackpots: validCount(value.jackpots), chanceHolds: validCount(value.chanceHolds)
+    };
+  }
+  function newSession() {
+    return {startedAt: new Date().toISOString(), shots: 0, spins: 0, prize: 0, hits: 0, bestStreak: 0, jackpots: 0, chanceHolds: 0};
+  }
+  function normalizeProfile(p) {
+    const unlockedTitles = Array.isArray(p.unlockedTitles) ? [...new Set(p.unlockedTitles.filter(id => titleCatalog.some(title => title.id === id)))].slice(0, titleCatalog.length) : [];
+    if (!unlockedTitles.includes('beginner')) unlockedTitles.unshift('beginner');
+    return {
+      name: p.name, balls: validCount(p.balls, 250), grass: validCount(p.grass), wager: validWager(p.wager), spins: validCount(p.spins),
+      hits: validCount(p.hits), streak: validCount(p.streak), bestStreak: validCount(p.bestStreak),
+      rushLeft: Math.min(validCount(p.rushLeft), rushBonusSpins), lastBonusDay: typeof p.lastBonusDay === 'string' ? p.lastBonusDay : '',
+      inFlight: validCount(p.inFlight), inFlightValue: validCount(p.inFlightValue, validCount(p.inFlight)),
+      pendingJackpot: validCount(p.pendingJackpot), jackpotRate: validWager(p.jackpotRate),
+      jackpotTotal: validCount(p.jackpotTotal, Math.ceil(validCount(p.pendingJackpot) / jackpotAmounts[validWager(p.jackpotRate)]) * jackpotAmounts[validWager(p.jackpotRate)]),
+      totalShots: validCount(p.totalShots), totalPrize: validCount(p.totalPrize), bestPrize: validCount(p.bestPrize),
+      bestBalls: Math.max(validCount(p.bestBalls), validCount(p.balls, 250)),
+      bestSpins: validCount(p.bestSpins), jackpotCount: validCount(p.jackpotCount), premiumCount: validCount(p.premiumCount),
+      scene: scenes.includes(p.scene) ? p.scene : 'normal', sceneSpinsLeft: Math.min(validCount(p.sceneSpinsLeft), sceneCycleSpins),
+      sceneChain: Math.min(validCount(p.sceneChain, Number.isSafeInteger(p.sceneSpinsLeft) ? 1 : 0), 999), jpFestivalLeft: Math.min(validCount(p.jpFestivalLeft), 10),
+      rushType: p.rushType === 'rush' ? 'rush' : 'st', timeLeft: Math.min(validCount(p.timeLeft), 5),
+      comboCount: Math.min(validCount(p.comboCount), 999), comboLastAt: Number.isSafeInteger(p.comboLastAt) && p.comboLastAt > 0 && p.comboLastAt < Date.now() + 60000 ? p.comboLastAt : 0,
+      bonusHoldDue: Math.min(validCount(p.bonusHoldDue), 1),
+      fastHits: validCount(p.fastHits), chanceWins: validCount(p.chanceWins), hotHolds: validCount(p.hotHolds),
+      rainbowWins: validCount(p.rainbowWins), dryShots: validCount(p.dryShots), comebackCount: validCount(p.comebackCount),
+      resultOpens: validCount(p.resultOpens), firstPlayedAt: Number.isFinite(Date.parse(p.firstPlayedAt)) ? p.firstPlayedAt : new Date().toISOString(),
+      session: normalizeSession(p.session), lastSession: normalizeSession(p.lastSession), unlockedTitles,
+      selectedTitle: unlockedTitles.includes(p.selectedTitle) ? p.selectedTitle : 'beginner'
+    };
+  }
+  function readSound() {
+    try { return localStorage.getItem(soundKey) !== 'off'; } catch { return true; }
+  }
+  function saveProfiles() {
+    if (!player) return false;
+    try {
+      const newTitles = trackBallHolding();
+      localStorage.setItem(profileKey, JSON.stringify(profiles));
+      showTitleNotice(newTitles);
+      const message = '持ち球・草・ガチャ券・記録・称号は自動保存されています。端末のデータを消す前にバックアップを残してください。';
+      if ($('pachiSaveMessage').textContent !== message) $('pachiSaveMessage').textContent = message;
+      return true;
+    } catch {
+      $('pachiSaveMessage').textContent = 'このブラウザでは保存できません。設定を確認してください。';
+      return false;
+    }
+  }
+  function selectedTitleName() {
+    return titleCatalog.find(title => title.id === player?.selectedTitle)?.name || '草パチ初心者';
+  }
+  function selectedTitleRarity() {
+    return titleCatalog.find(title => title.id === player?.selectedTitle)?.rarity || 'N';
+  }
+
+  function trackBallHolding() {
+    if (!player) return [];
+    const previous = player.bestBalls;
+    player.bestBalls = Math.max(player.bestBalls, player.balls);
+    return player.bestBalls > previous ? unlockTitles() : [];
+  }
+  function updateTitleBadge() {
+    if (!player) return;
+    $('pachiPlayerTitle').textContent = `🏅 [${selectedTitleRarity()}] ${selectedTitleName()}`;
+  }
+  function unlockTitles() {
+    if (!player) return [];
+    const newly = [];
+    for (const title of titleCatalog) {
+      if (!player.unlockedTitles.includes(title.id) && title.unlocked(player)) {
+        player.unlockedTitles.push(title.id);
+        newly.push(title.name);
+      }
+    }
+    if (!player.unlockedTitles.includes(player.selectedTitle)) player.selectedTitle = 'beginner';
+    updateTitleBadge();
+    return newly;
+  }
+  function showTitleNotice(names) {
+    if (!names.length) return;
+    clearTimeout(titleNoticeTimer);
+    names.forEach(name => titleNoticeNames.add(name));
+    $('pachiTitleNotice').textContent = `🏅 新称号：${[...titleNoticeNames].join('・')}`;
+    titleNoticeTimer = setTimeout(() => { titleNoticeNames.clear(); $('pachiTitleNotice').textContent = ''; }, 4200);
+  }
+  function recordPrize(amount) {
+    if (!player || amount <= 0) return;
+    player.totalPrize += amount;
+    player.session.prize += amount;
+    player.bestPrize = Math.max(player.bestPrize, player.session.prize);
+  }
+  function comboIsLive() {
+    return !!player && player.comboCount > 0 && Date.now() - player.comboLastAt < comboWindowMs;
+  }
+  function activeScene() {
+    if (payoutActive || player?.pendingJackpot > 0) return 'jackpot-festival';
+    if (player?.jpFestivalLeft > 0) return 'jackpot-festival';
+    return player?.scene || 'normal';
+  }
+  function specialModeActive() {
+    return !!player && (player.rushLeft > 0 || player.timeLeft > 0 || player.jpFestivalLeft > 0 || player.pendingJackpot > 0 || payoutActive || !!payoutFinishTimer);
+  }
+  function rollScene() {
+    if (!player) return;
+    const previous = player.scene;
+    if (player.sceneChain > 0 && Math.random() < sceneContinueRates[previous]) {
+      player.sceneSpinsLeft = sceneCycleSpins;
+      player.sceneChain = Math.min(player.sceneChain + 1, 999);
+      applyScene();
+      showModeTransition(`${sceneLottery.find(scene => scene.id === previous).label} 継続 ×${player.sceneChain}！`, previous);
+      showBurst(previous === 'puyuyu' ? '🥺 ぷゆゆ継続！' : '🌟 モード継続！', previous === 'puyuyu' ? 'gold' : 'grass');
+      return;
+    }
+    const candidates = sceneLottery.filter(scene => player.sceneChain === 0 || scene.id !== previous);
+    const totalWeight = candidates.reduce((sum, scene) => sum + scene.weight, 0);
+    let roll = Math.random() * totalWeight;
+    const selected = candidates.find(scene => (roll -= scene.weight) < 0) || candidates[candidates.length - 1];
+    player.scene = selected.id;
+    player.sceneSpinsLeft = sceneCycleSpins;
+    player.sceneChain = 1;
+    applyScene();
+    showModeTransition(`${selected.label} 突入！`, selected.id);
+    if (selected.id === 'puyuyu') showBurst('🥺 ぷゆゆラッシュ！', 'gold');
+  }
+  function sideAwardFor(wager = player?.wager || 1, scene = player?.scene || 'normal') {
+    return (pocketPayout + (scene === 'puyuyu' ? 2 : 0)) * wager;
+  }
+  function startBonusUnits(scene = player?.scene || 'normal') {
+    return (comboIsLive() && player.comboCount >= 3 ? 1 : 0)
+      + (player?.timeLeft > 0 && player.rushLeft === 0 ? 1 : 0)
+      + (player?.jpFestivalLeft > 0 && player.pendingJackpot === 0 ? 1 : 0)
+      + (scene === 'puyuyu' ? 2 : 0)
+      + (scene === 'festival' ? 1 : 0);
+  }
+  function startAwardFor(wager = player?.wager || 1, randomize = false) {
+    const minimum = (pocketPayout + startBonusUnits()) * wager;
+    return minimum + (player?.scene === 'yaminabe' && randomize ? Math.floor(Math.random() * 3) * wager : 0);
+  }
+  function updatePocketAwards() {
+    if (!player) return;
+    const side = sideAwardFor();
+    const start = startAwardFor();
+    const range = player.scene === 'yaminabe' ? `〜${start + 2 * player.wager}` : '';
+    $('pachiPocketNote').textContent = `入賞賞球｜サイド +${side}球 ／ START +${start}${range}球${comboIsLive() && player.comboCount >= 3 ? '（コンボ込み）' : ''}`;
+    const key = `${side}/${start}/${range}`;
+    if (key !== boardAwardKey) { boardAwardKey = key; drawBoardScenery(); }
+  }
+  function stopStageEffects() {
+    clearTimeout(modeTransitionTimer); clearTimeout(burstTimer); clearTimeout(stageFlashTimer);
+    modeTransitionTimer = burstTimer = stageFlashTimer = 0;
+    $('pachiModeTransition').hidden = true;
+    $('pachiBurst').hidden = true;
+    $('pachiMachine').classList.remove('is-stage-flash');
+  }
+  function showModeTransition(label, tone = activeScene()) {
+    if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
+    const layer = $('pachiModeTransition');
+    clearTimeout(modeTransitionTimer);
+    $('pachiModeTransitionLabel').textContent = label;
+    layer.dataset.tone = tone;
+    layer.hidden = true;
+    void layer.offsetWidth;
+    layer.hidden = false;
+    modeTransitionTimer = setTimeout(() => { layer.hidden = true; modeTransitionTimer = 0; }, 1300);
+    playSound('modeEnter', .24);
+  }
+  function showBurst(label, tone = 'grass', duration = 850) {
+    if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
+    const burst = $('pachiBurst');
+    clearTimeout(burstTimer);
+    burst.textContent = label;
+    burst.dataset.tone = tone;
+    burst.hidden = true;
+    void burst.offsetWidth;
+    burst.hidden = false;
+    burstTimer = setTimeout(() => { burst.hidden = true; burstTimer = 0; }, duration);
+  }
+  function flashStart() {
+    if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
+    clearTimeout(stageFlashTimer);
+    $('pachiMachine').classList.add('is-stage-flash');
+    stageFlashTimer = setTimeout(() => { $('pachiMachine').classList.remove('is-stage-flash'); stageFlashTimer = 0; }, 260);
+  }
+  function applyScene() {
+    const displayedScene = activeScene();
+    $('pachiMachine').dataset.scene = displayedScene;
+    if (!player) return;
+    const sceneLabel = sceneLottery.find(scene => scene.id === displayedScene)?.label
+      || {'jackpot-festival':'👑 ジャックポット祭'}[displayedScene]
+      || sceneLottery[0].label;
+    const chainSuffix = scenes.includes(displayedScene) && player.sceneChain > 1 ? ` ×${player.sceneChain}` : '';
+    $('pachiSceneDisplay').dataset.mode = displayedScene;
+    $('pachiSceneDisplay').title = sceneHelp[displayedScene] || sceneLabel;
+    $('pachiSceneLabel').textContent = `${sceneLabel}${chainSuffix}`;
+    if (displayedScene === 'jackpot-festival') {
+      $('pachiSceneHelp').textContent = player.jpFestivalLeft > 0 && player.pendingJackpot === 0 && !payoutActive
+        ? `JP祭終了まであと${player.jpFestivalLeft}回転`
+        : '発射で賞球を獲得中';
+      return;
+    }
+    const continueRate = Math.round(sceneContinueRates[player.scene] * 100);
+    const remaining = player.sceneSpinsLeft > 0
+      ? `終了判定まであと${player.sceneSpinsLeft}回転`
+      : '次のSTARTでモード継続抽選';
+    const lotteryStatus = specialModeActive()
+      ? `特別遊技後から${remaining}`
+      : remaining;
+    $('pachiSceneHelp').textContent = `継続抽選${continueRate}％・${lotteryStatus}`;
+  }
+  function scheduleComboExpiry() {
+    clearTimeout(comboTimer);
+    if (!comboIsLive()) return;
+    const remaining = comboWindowMs - (Date.now() - player.comboLastAt);
+    comboTimer = setTimeout(() => {
+      comboTimer = 0;
+      if (!player) return;
+      updateUI();
+    }, Math.max(50, remaining + 25));
+  }
+  function recordStartCombo() {
+    const continued = comboIsLive();
+    player.comboCount = continued ? Math.min(999, player.comboCount + 1) : 1;
+    player.comboLastAt = Date.now();
+    scheduleComboExpiry();
+    if (player.comboCount === 5) player.bonusHoldDue = 1;
+    if ([3, 5, 10, 20].includes(player.comboCount)) {
+      const message = {3:'START賞球アップ！',5:'追加の草ランプを獲得！',10:'超大当たり期待度アップ！',20:'草祭コンボ達成！'}[player.comboCount];
+      announce(`🌿 ${player.comboCount}コンボ！ ${message}`, 2200);
+      playSound('modeCombo', .24);
+      showBurst(`${player.comboCount} COMBO!`, player.comboCount >= 10 ? 'gold' : 'grass');
+    }
+    applyScene();
+  }
+  function fillStats(target, rows) {
+    const nodes = [];
+    for (const [label, value] of rows) {
+      const term = document.createElement('dt'), data = document.createElement('dd');
+      term.textContent = label;
+      data.textContent = typeof value === 'number' ? value.toLocaleString('ja-JP') : value;
+      nodes.push(term, data);
+    }
+    target.replaceChildren(...nodes);
+  }
+  function renderResult() {
+    if (!player) return;
+    const session = player.session || newSession();
+    $('pachiResultPrize').textContent = session.prize.toLocaleString('ja-JP');
+    $('pachiResultEquipped').textContent = `🏅 [${selectedTitleRarity()}] ${selectedTitleName()}`;
+    fillStats($('pachiSessionStats'), [
+      ['発射数', session.shots], ['回転数', session.spins], ['獲得草換算', session.prize],
+      ['最大連チャン', session.bestStreak], ['大当たり', session.hits], ['ジャックポット', session.jackpots]
+    ]);
+    fillStats($('pachiLifetimeStats'), [
+      ['総発射数', player.totalShots], ['総回転数', player.spins], ['累計獲得草換算', player.totalPrize],
+      ['最大連チャン', player.bestStreak], ['最大獲得草換算', player.bestPrize], ['最高回転数', player.bestSpins],
+      ['最大所持球', player.bestBalls],
+      ['ジャックポット', player.jackpotCount]
+    ]);
+    const previous = $('pachiPreviousSession');
+    previous.hidden = !player.lastSession;
+    if (player.lastSession) previous.textContent = `前回のプレイ：${player.lastSession.shots.toLocaleString('ja-JP')}発・${player.lastSession.spins.toLocaleString('ja-JP')}回転・${player.lastSession.prize.toLocaleString('ja-JP')}草換算を獲得`;
+    $('pachiTitleCount').textContent = `${player.unlockedTitles.length} / ${titleCatalog.length}`;
+    const select = $('pachiTitleSelect');
+    const titleKey = player.unlockedTitles.join('|');
+    if (titleKey !== renderedTitleKey) {
+      select.replaceChildren(...titleCatalog.filter(title => player.unlockedTitles.includes(title.id)).map(title => {
+      const option = document.createElement('option');
+      option.value = title.id;
+      option.textContent = `[${title.rarity}] ${title.name}`;
+      return option;
+      }));
+      $('pachiTitleList').replaceChildren(...titleCatalog.map(title => {
+        const item = document.createElement('div');
+        const earned = player.unlockedTitles.includes(title.id);
+        const secret = !earned && ['UR', 'GODR', 'Ω'].includes(title.rarity);
+        item.className = `pachi-title-item${earned ? '' : ' is-locked'}`;
+        item.dataset.group = title.group;
+        item.dataset.rarity = secret ? '???' : title.rarity;
+        const name = document.createElement('strong'), rule = document.createElement('span');
+        const rarity = document.createElement('em');
+        rarity.className = 'pachi-title-rarity';
+        rarity.textContent = secret ? '???' : title.rarity;
+        name.append(rarity, document.createTextNode(`${earned ? '🏅' : '🔒'} ${secret ? '???' : title.name}`));
+        rule.textContent = secret ? '解放条件：???' : title.rule;
+        item.append(name, rule);
+        return item;
+      }));
+      renderedTitleKey = titleKey;
+    }
+    select.value = player.selectedTitle;
+  }
+  function closeResult() {
+    if ($('pachiResultModal').hidden) return;
+    $('pachiResultModal').hidden = true;
+    if (player && !$('pachiGame').hidden && !panel.hidden) $('pachiResultOpen').focus();
+  }
+  function today() {
+    const date = new Date();
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  }
+  function getSoundContext() {
+    if (soundContext || soundContextUnavailable) return soundContext;
+    const AudioContextType = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextType) { soundContextUnavailable = true; return null; }
+    try { soundContext = new AudioContextType(); }
+    catch { soundContextUnavailable = true; }
+    return soundContext;
+  }
+  function canPlaySound() {
+    return soundOn && !pageSuspended && !document.hidden && !panel.hidden && !$('pachiGame').hidden;
+  }
+  function unlockAudio() {
+    if (!canPlaySound()) return;
+    const ac = getSoundContext();
+    if (ac && ac.state !== 'running') {
+      const token = ++audioResumeToken;
+      ac.resume().then(() => {
+        if (token !== audioResumeToken || !canPlaySound()) ac.suspend().catch(() => {});
+      }).catch(() => {});
+    }
+  }
+  function initAudio() {
+    const ac = getSoundContext();
+    if (!ac || typeof fetch !== 'function') return;
+    for (const [kind, file] of Object.entries(soundFiles)) {
+      if (!oggSupported && file.endsWith('.ogg')) continue;
+      audioLoading[kind] = true;
+      fetch(`pachi-sounds/${file}`)
+        .then(response => {
+          if (!response.ok) throw new Error('Sound unavailable');
+          return response.arrayBuffer();
+        })
+        .then(data => ac.decodeAudioData(data))
+        .then(buffer => { audioBuffers[kind] = buffer; })
+        .catch(() => { /* file:// などで読めなければ Audio 要素を使う */ })
+        .finally(() => { audioLoading[kind] = false; });
+    }
+  }
+  function trackSound(source, gain, kind = '') {
+    const sound = {source, gain, kind};
+    activeSounds.add(sound);
+    source.onended = () => {
+      activeSounds.delete(sound);
+      source.disconnect();
+      gain.disconnect();
+    };
+  }
+  function modeSoundKind(kind) {
+    const scene = activeScene();
+    if (scene === 'puyuyu') return kind === 'launch' ? 'modePuyuLaunch' : kind.startsWith('peg') ? 'modePuyuPeg' : kind === 'start' ? 'modePuyuStart' : kind;
+    if (scene === 'night') return kind.startsWith('peg') ? 'modeNight' : kind === 'start' ? 'modeNightStart' : kind;
+    if (scene === 'festival' || scene === 'grass-festival') return kind.startsWith('peg') ? 'modeFestivalPeg' : kind === 'start' ? 'modeFestival' : kind;
+    if (scene === 'yaminabe') return kind === 'start' ? 'modeYaminabe' : kind;
+    if (scene === 'jackpot-festival') return kind.startsWith('peg') ? 'modeFestivalPeg' : kind === 'start' ? 'modeJackpot' : kind;
+    return kind;
+  }
+  function playSound(kind, volume = .22) {
+    if (!canPlaySound()) return;
+    const ac = getSoundContext();
+    let fileKind = modeSoundKind(kind);
+    if (!oggSupported && soundFiles[fileKind]?.endsWith('.ogg')) {
+      fileKind = kind.startsWith('peg') ? 'pegA' : kind === 'launch' ? 'launch'
+        : kind === 'jackpot' || fileKind === 'modeJackpot' ? 'jackpot' : 'start';
+    }
+    const buffer = audioBuffers[fileKind];
+    const rate = kind.startsWith('peg') ? 1.02 + Math.random() * .13
+      : kind === 'launch' ? 1.02 + Math.random() * .06 : 1;
+    if (ac && buffer) {
+      if (ac.state !== 'running') return;
+      if (kind.startsWith('peg')) {
+        if (activeSounds.size >= (mobileLite ? 5 : 8)) return;
+        let pegVoices = 0;
+        for (const sound of activeSounds) if (sound.kind.startsWith('peg')) pegVoices++;
+        if (pegVoices >= (mobileLite ? 2 : 4)) return;
+      }
+      try {
+        const source = ac.createBufferSource();
+        const gain = ac.createGain();
+        source.buffer = buffer;
+        source.playbackRate.value = rate;
+        gain.gain.value = volume;
+        source.connect(gain).connect(ac.destination);
+        source.start();
+        trackSound(source, gain, kind);
+      } catch { /* 音声が無効でもゲームは続ける */ }
+      return;
+    }
+    if (ac && ac.state !== 'running') return;
+    if (audioLoading[fileKind]) return;
+    try {
+      const audio = fallbackAudio[fileKind] ||= new Audio(`pachi-sounds/${soundFiles[fileKind]}`);
+      audio.pause();
+      if (audio.readyState >= 1) audio.currentTime = 0;
+      audio.playbackRate = rate;
+      audio.volume = volume;
+      audio.play().catch(() => {});
+    } catch { /* ローカルファイルなどで音声が使えなくても続ける */ }
+  }
+  function stopSounds() {
+    for (const {source, gain} of activeSounds) {
+      source.onended = null;
+      try { source.stop(); } catch { /* 再生終了済み */ }
+      source.disconnect(); gain.disconnect();
+    }
+    activeSounds.clear();
+    Object.values(fallbackAudio).forEach(audio => {
+      audio.pause();
+      try { audio.currentTime = 0; } catch { /* 読み込み前の音声 */ }
+    });
+  }
+  function suspendAudio() {
+    audioResumeToken++;
+    stopSounds();
+    if (soundContext && soundContext.state === 'running') soundContext.suspend().catch(() => {});
+  }
+  function playTick(frequency = 820, volume = .035) {
+    if (!canPlaySound()) return;
+    const ac = getSoundContext();
+    if (!ac || ac.state !== 'running') return;
+    try {
+      const oscillator = ac.createOscillator(), gain = ac.createGain();
+      oscillator.type = 'square'; oscillator.frequency.value = frequency;
+      gain.gain.setValueAtTime(volume, ac.currentTime);
+      gain.gain.exponentialRampToValueAtTime(.0001, ac.currentTime + .055);
+      oscillator.connect(gain).connect(ac.destination);
+      oscillator.start(); trackSound(oscillator, gain); oscillator.stop(ac.currentTime + .06);
+    } catch { /* 音声合成が使えない場合は実機録音だけ流す */ }
+  }
+  function playChime(premium = false) {
+    if (!canPlaySound()) return;
+    const ac = getSoundContext();
+    if (!ac || ac.state !== 'running') return;
+    try {
+      const notes = premium ? [523, 659, 784, 1047] : [523, 659, 784];
+      notes.forEach((frequency, i) => {
+        const oscillator = ac.createOscillator();
+        const gain = ac.createGain();
+        oscillator.type = 'sine'; oscillator.frequency.value = frequency;
+        gain.gain.setValueAtTime(.0001, ac.currentTime + i * .105);
+        gain.gain.exponentialRampToValueAtTime(.11, ac.currentTime + i * .105 + .015);
+        gain.gain.exponentialRampToValueAtTime(.0001, ac.currentTime + i * .105 + .28);
+        oscillator.connect(gain).connect(ac.destination);
+        oscillator.start(ac.currentTime + i * .105);
+        trackSound(oscillator, gain);
+        oscillator.stop(ac.currentTime + i * .105 + .29);
+      });
+    } catch { /* ブラウザが音声合成を制限した場合は無音で進める */ }
+  }
+  function announce(message, duration = 0) {
+    if ((payoutActive || payoutFinishTimer) && !message.includes('ジャックポット')) return;
+    $('pachiAnnouncement').textContent = message;
+    clearTimeout(announceTimer);
+    if (duration) announceTimer = setTimeout(() => {
+      if (!spinning && !payoutActive && !payoutFinishTimer) $('pachiAnnouncement').textContent = '中央のスタートチャッカーを狙おう！';
+    }, duration);
+  }
+  function renderProfiles() {
+    const area = $('pachiProfiles');
+    area.replaceChildren();
+    profiles.slice().reverse().forEach(profile => {
+      const item = document.createElement('div');
+      item.className = 'pachi-profile-item';
+      const select = document.createElement('button');
+      select.type = 'button';
+      select.className = 'pachi-profile-select';
+      select.textContent = `${profile.name} · ${(profile.balls + profile.inFlightValue).toLocaleString('ja-JP')}球 · ${profile.grass.toLocaleString('ja-JP')}草${profile.pendingJackpot ? `（JP残り${profile.pendingJackpot.toLocaleString('ja-JP')}球）` : ''}`;
+      select.addEventListener('click', () => { $('pachiName').value = profile.name; startPlayer(); });
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'pachi-profile-delete';
+      remove.textContent = '削除';
+      remove.setAttribute('aria-label', `${profile.name}のプレイヤーデータを削除`);
+      remove.addEventListener('click', () => deleteProfile(profile));
+      item.append(select, remove);
+      area.appendChild(item);
+    });
+  }
+  function deleteProfile(profile) {
+    if (!profiles.includes(profile)) return;
+    if (!window.confirm(`「${profile.name}」の持ち球・草・回転数・大当たり記録・未払い賞球を削除します。元に戻せません。よろしいですか？`)) return;
+    const remaining = profiles.filter(entry => entry.name !== profile.name);
+    try {
+      localStorage.setItem(profileKey, JSON.stringify(remaining));
+    } catch {
+      $('pachiEntryMessage').textContent = '保存できなかったため、プレイヤーデータは削除していません。ブラウザの設定を確認してください。';
+      return;
+    }
+    profiles = remaining;
+    if ($('pachiName').value.trim() === profile.name) $('pachiName').value = '';
+    $('pachiEntryMessage').textContent = `「${profile.name}」のプレイヤーデータを削除しました。`;
+    renderProfiles();
+  }
+  function updateUI() {
+    if (!player) return;
+    $('pachiPlayer').textContent = player.name;
+    for (const input of document.querySelectorAll('input[name="pachiWager"]')) input.checked = Number(input.value) === player.wager;
+    $('pachiWagerNote').textContent = `1発${player.wager}球消費・残り${Math.floor(player.balls / player.wager).toLocaleString('ja-JP')}発${player.pendingJackpot ? '（JP中は倍率固定）' : ''}`;
+    $('pachiWager').disabled = !!player.pendingJackpot || !!payoutFinishTimer || balls.length > 0;
+    $('pachiBalls').textContent = player.balls.toLocaleString('ja-JP');
+    $('pachiSpins').textContent = player.spins.toLocaleString('ja-JP');
+    $('pachiHits').textContent = player.hits.toLocaleString('ja-JP');
+    $('pachiStreak').textContent = player.streak.toLocaleString('ja-JP');
+    $('pachiMode').textContent = player.rushLeft > 0
+      ? `${player.rushType === 'rush' ? '🔥 草RUSH' : '🌱 草ST'} 残り${player.rushLeft}回転`
+      : player.timeLeft > 0 ? `✨ 草時短 残り${player.timeLeft}回転` : '🌿 通常抽選';
+    if (player.jpFestivalLeft > 0 && player.pendingJackpot === 0) $('pachiMode').textContent += `・👑 JP祭${player.jpFestivalLeft}回転`;
+    const combo = comboIsLive() ? player.comboCount : 0;
+    $('pachiCombo').textContent = `STARTコンボ ${combo}`;
+    $('pachiComboEffect').textContent = combo >= 20 ? '🌈 草祭コンボ・超大当たり×1.5' : combo >= 10 ? '🌟 超大当たり期待度×1.5' : combo >= 3 ? `🌿 START賞球+${player.wager}` : '3・5・10・20で演出解放';
+    $('pachiMachine').classList.toggle('is-combo-high', combo >= 10 || player.rushLeft > 0);
+    updatePocketAwards();
+    applyScene();
+    $('pachiDaily').disabled = player.lastBonusDay === today();
+    $('pachiDaily').textContent = $('pachiDaily').disabled ? '🎁 今日の補充は受取済み' : '🎁 今日の補充 +50球';
+    $('pachiFire').disabled = (player.balls < player.wager && player.pendingJackpot === 0) || (player.pendingJackpot > 0 && !payoutActive) || !!payoutFinishTimer;
+    $('pachiSignal').textContent = omenStage ? ['','🌱 草の気配…','✨ 金色の気配！','👑 最終判定！'][omenStage]
+      : payoutActive ? '👑 JACKPOT 払い出し中！'
+      : player.pendingJackpot > 0 ? '👑 特別判定待ち'
+      : player.rushLeft > 0 ? player.scene === 'puyuyu' ? '🥺 連チャン確率×5！' : '✨ 大当たり高確率！'
+      : player.timeLeft > 0 ? '🌿 START賞球アップ中！'
+      : player.sceneSpinsLeft === 0 ? '🔥 次のSTARTでモード継続判定！'
+      : player.sceneSpinsLeft <= 3 ? `✨ 継続判定まであと${player.sceneSpinsLeft}回転` : '🌱 チャンスを待とう';
+    updateExchangeUI();
+    if (!$('pachiResultModal').hidden) renderResult();
+  }
+  function updateExchangeUI(state = rewards.read()) {
+    if (!player) return;
+    const remaining = Math.max(0, rewards.exchangeCost - player.grass);
+    $('pachiWalletBalls').textContent = player.balls.toLocaleString('ja-JP');
+    $('pachiWalletGrass').textContent = player.grass.toLocaleString('ja-JP');
+    $('pachiExchangeProgress').textContent = player.grass.toLocaleString('ja-JP');
+    $('pachiExchangeRemaining').textContent = remaining.toLocaleString('ja-JP');
+    $('pachiExchangeTickets').textContent = state.tickets.toLocaleString('ja-JP');
+    $('pachiExchangeBar').value = Math.min(player.grass, rewards.exchangeCost);
+    $('pachiExchangeButton').disabled = player.grass < rewards.exchangeCost;
+    const amount = Number($('pachiGrassAmount').value);
+    const valid = Number.isSafeInteger(amount) && amount > 0 && amount <= player.balls && player.grass + amount <= 100000000;
+    $('pachiConvertButton').disabled = !valid;
+    $('pachiConvertPreview').textContent = !Number.isSafeInteger(amount) || amount <= 0
+      ? '交換する球数を入力してください。'
+      : amount > player.balls ? '持ち球が足りません。'
+      : player.grass + amount > 100000000 ? '所持草の上限を超えます。'
+      : `${amount.toLocaleString('ja-JP')}球 → ${amount.toLocaleString('ja-JP')}草（交換後 ${Math.floor((player.balls - amount) / player.wager).toLocaleString('ja-JP')}発）`;
+    const returnAmount = Number($('pachiBallAmount').value);
+    const validReturn = Number.isSafeInteger(returnAmount) && returnAmount > 0 && returnAmount <= player.grass && player.balls + returnAmount <= 100000000;
+    $('pachiReturnButton').disabled = !validReturn;
+    $('pachiReturnPreview').textContent = !Number.isSafeInteger(returnAmount) || returnAmount <= 0
+      ? '球に戻す草の数を入力してください。'
+      : returnAmount > player.grass ? '所持草が足りません。'
+      : player.balls + returnAmount > 100000000 ? '持ち球の上限を超えます。'
+      : `${returnAmount.toLocaleString('ja-JP')}草 → ${returnAmount.toLocaleString('ja-JP')}球（交換後 ${Math.floor((player.balls + returnAmount) / player.wager).toLocaleString('ja-JP')}発）`;
+  }
+  function updateBallCount() {
+    $('pachiBalls').textContent = player.balls.toLocaleString('ja-JP');
+    $('pachiFire').disabled = (player.balls < player.wager && player.pendingJackpot === 0) || (player.pendingJackpot > 0 && !payoutActive) || !!payoutFinishTimer;
+    $('pachiWagerNote').textContent = `1発${player.wager}球消費・残り${Math.floor(player.balls / player.wager).toLocaleString('ja-JP')}発${player.pendingJackpot ? '（JP中は倍率固定）' : ''}`;
+    updateExchangeUI();
+  }
+  function startPlayer() {
+    const name = $('pachiName').value.trim().replace(/\s+/g, ' ').slice(0, 20);
+    if (!name) { $('pachiEntryMessage').textContent = 'プレイヤーネームを入力してください。'; $('pachiName').focus(); return; }
+    const existing = profiles.find(p => p.name === name);
+    player = existing || normalizeProfile({name, balls: 250});
+    if (!existing) profiles.push(player);
+    if (!player.session) player.session = newSession();
+    scheduleComboExpiry();
+    drawBoardScenery();
+    unlockTitles();
+    clearTimeout(titleNoticeTimer);
+    titleNoticeNames.clear();
+    $('pachiTitleNotice').textContent = '';
+    if (player.inFlight) { player.balls += player.inFlightValue; player.inFlight = 0; player.inFlightValue = 0; }
+    $('pachiEntry').hidden = true;
+    $('pachiGame').hidden = false;
+    unlockAudio();
+    $('pachiGrassAmount').value = '';
+    $('pachiBallAmount').value = '';
+    balls = [];
+    drawBoard();
+    spinQueue = [];
+    spinning = false;
+    currentSpin = null;
+    activeHold = null;
+    clearOmen();
+    renderHolds();
+    clearTimeout(spinTimer); clearInterval(reelTimer);
+    $('pachiReels').classList.remove('is-spinning');
+    $('pachiReels').children[0].textContent = '🌱';
+    $('pachiReels').children[1].textContent = '🌿';
+    $('pachiReels').children[2].textContent = '🍀';
+    announce(`ようこそ、${name}さん！ ハンドルを調整して発射！`);
+    if (!specialModeActive() && player.sceneChain === 0) rollScene();
+    saveProfiles(); updateUI(); playSound('start', .16); playTick(740, .018);
+    startLoop();
+    if (player.pendingJackpot > 0) startPayout();
+    if (player.bonusHoldDue) { flushBonusHold(); saveProfiles(); runSpin(); }
+  }
+  function stopFiring() { firing = false; clearInterval(fireTimer); fireTimer = 0; $('pachiMachine').classList.remove('is-firing-jp'); }
+  function settlePendingSpinAwards() {
+    if (!player) return;
+    let paid = 0;
+    for (const result of [...(currentSpin ? [currentSpin] : []), ...spinQueue]) {
+      if (!Number.isSafeInteger(result.award) || result.award <= 0) continue;
+      paid += result.award;
+      player.balls += result.award;
+      recordPrize(result.award);
+      result.award = 0;
+    }
+    if (!paid) return;
+    const newTitles = unlockTitles();
+    if (saveProfiles()) showTitleNotice(newTitles);
+    updateUI();
+  }
+  function switchPlayer() {
+    stopFiring();
+    stopStageEffects();
+    clearTimeout(comboTimer);
+    closeShare();
+    closeResult();
+    pausePayout();
+    clearTimeout(spinTimer); clearInterval(reelTimer);
+    stopLoop();
+    suspendAudio();
+    settlePendingSpinAwards();
+    if (player) {
+      player.balls += balls.reduce((total, ball) => total + ball.wager, 0);
+      player.inFlight = 0;
+      player.inFlightValue = 0;
+      balls = [];
+      player.lastSession = {...player.session};
+      player.session = null;
+      saveProfiles();
+    }
+    player = null; spinQueue = []; spinning = false; currentSpin = null; activeHold = null;
+    clearOmen(); renderHolds();
+    $('pachiGame').hidden = true;
+    $('pachiEntry').hidden = false;
+    renderProfiles();
+  }
+  function fire() {
+    if (!player || pageSuspended || document.hidden || (player.balls < player.wager && player.pendingJackpot <= 0) || (player.pendingJackpot > 0 && !payoutActive) || payoutFinishTimer || balls.length >= 22 || panel.hidden) {
+      if (player && ((player.balls < player.wager && player.pendingJackpot <= 0) || (player.pendingJackpot > 0 && !payoutActive) || payoutFinishTimer)) stopFiring();
+      return;
+    }
+    const power = Number($('pachiPower').value) / 100;
+    const priorBalls = player.balls, priorPending = player.pendingJackpot, priorInFlight = player.inFlight, priorInFlightValue = player.inFlightValue;
+    const priorProgress = {totalShots: player.totalShots, dryShots: player.dryShots, totalPrize: player.totalPrize,
+      bestPrize: player.bestPrize, bestBalls: player.bestBalls, session: {...player.session}, unlockedTitles: [...player.unlockedTitles]};
+    const jackpotPayout = Math.min(jackpotAmounts[player.jackpotRate] / 50, player.pendingJackpot);
+    player.balls += jackpotPayout - player.wager;
+    player.pendingJackpot -= jackpotPayout;
+    player.inFlight++;
+    player.inFlightValue += player.wager;
+    player.totalShots++;
+    player.session.shots++;
+    player.dryShots++;
+    recordPrize(jackpotPayout);
+    const newTitles = unlockTitles();
+    balls.push({x: chuteX(536), y: 536, vx: 0, vy: -690 - power * 210, r: 9.5, power,
+      wager: player.wager,
+      face: player.scene === 'puyuyu' ? '🥺' : faces[Math.floor(Math.random() * faces.length)], phase: 'chute', age: 0,
+      stallX: 409, stallY: 536, stallTime: 0});
+    if (!saveProfiles()) {
+      player.balls = priorBalls; player.pendingJackpot = priorPending; player.inFlight = priorInFlight; player.inFlightValue = priorInFlightValue;
+      player.totalShots = priorProgress.totalShots; player.dryShots = priorProgress.dryShots;
+      player.totalPrize = priorProgress.totalPrize; player.bestPrize = priorProgress.bestPrize; player.bestBalls = priorProgress.bestBalls;
+      player.session = priorProgress.session; player.unlockedTitles = priorProgress.unlockedTitles;
+      updateTitleBadge();
+      balls.pop(); stopFiring(); updateUI();
+      return;
+    }
+    showTitleNotice(newTitles);
+    startLoop();
+    updateBallCount(); playSound('launch', .19);
+    $('pachiWager').disabled = true;
+    if (jackpotPayout) {
+      updatePayoutDisplay();
+      if (performance.now() - lastPayoutSound > 600) { playSound('pegB', .09); lastPayoutSound = performance.now(); }
+      if (player.pendingJackpot === 0) finishPayout();
+    }
+  }
+  function startFiring() {
+    if (firing || pageSuspended || document.hidden) return;
+    unlockAudio();
+    firing = true;
+    if (player?.pendingJackpot > 0) $('pachiMachine').classList.add('is-firing-jp');
+    fire();
+    if (!firing) return;
+    fireTimer = setInterval(() => {
+      if (!firing) return;
+      if (performance.now() - lastFire >= 185) { fire(); lastFire = performance.now(); }
+    }, 185);
+  }
+  function collidePeg(ball, peg) {
+    const dx = ball.x - peg.x, dy = ball.y - peg.y;
+    const min = ball.r + peg.r;
+    const d2 = dx * dx + dy * dy;
+    if (d2 >= min * min || d2 < .0001) return;
+    const d = Math.sqrt(d2), nx = dx / d, ny = dy / d;
+    ball.x += nx * (min - d + .2); ball.y += ny * (min - d + .2);
+    const approach = ball.vx * nx + ball.vy * ny;
+    if (approach < 0) {
+      ball.vx -= 1.7 * approach * nx;
+      ball.vy -= 1.7 * approach * ny;
+      ball.vx += (Math.random() - .5) * 25;
+      if (performance.now() - lastPegSound > pegSoundGap) {
+        const pegSound = ['pegA', 'pegB', 'pegC'][Math.floor(Math.random() * 3)];
+        playSound(pegSound, Math.min(.12, .03 + -approach / 2600));
+        lastPegSound = performance.now();
+      }
+    }
+  }
+  function collideBumper(ball) {
+    const dx = ball.x - 220, dy = ball.y - 277;
+    const rx = 95 + ball.r, ry = 72 + ball.r;
+    const distance = (dx / rx) ** 2 + (dy / ry) ** 2;
+    if (distance >= 1) return;
+    if (distance < .000001) {
+      ball.x = 220 + (ball.vx < 0 ? -rx : rx);
+      ball.y = 277;
+    } else {
+      const scale = 1.004 / Math.sqrt(distance);
+      ball.x = 220 + dx * scale;
+      ball.y = 277 + dy * scale;
+    }
+    const normalX = (ball.x - 220) / (rx * rx), normalY = (ball.y - 277) / (ry * ry);
+    const normalLength = Math.hypot(normalX, normalY);
+    const nx = normalX / normalLength, ny = normalY / normalLength;
+    const approach = ball.vx * nx + ball.vy * ny;
+    if (approach < 0) {
+      ball.vx -= 1.72 * approach * nx; ball.vy -= 1.72 * approach * ny;
+      if (performance.now() - lastPegSound > 95) {
+        playSound('pegC', Math.min(.14, .04 + -approach / 2400));
+        lastPegSound = performance.now();
+      }
+    }
+    // リール窓の上で球が釣り合わないよう、左右どちらかに流す。
+    if (dy < -52 && Math.abs(dx) < 32) {
+      const side = Math.sign(dx || ball.vx || ball.power - .65 || 1);
+      ball.vx += side * 26;
+    }
+  }
+  function collideGuide(ball, rail) {
+    const vx = rail.x2 - rail.x1, vy = rail.y2 - rail.y1;
+    const t = Math.max(0, Math.min(1, ((ball.x - rail.x1) * vx + (ball.y - rail.y1) * vy) / (vx * vx + vy * vy)));
+    const nearestX = rail.x1 + t * vx, nearestY = rail.y1 + t * vy;
+    const dx = ball.x - nearestX, dy = ball.y - nearestY;
+    const min = ball.r + 4;
+    const distanceSquared = dx * dx + dy * dy;
+    if (distanceSquared >= min * min) return;
+    const distance = Math.sqrt(distanceSquared);
+    const nx = distance > .001 ? dx / distance : rail.side * vy / Math.hypot(vx, vy);
+    const ny = distance > .001 ? dy / distance : -Math.abs(vx) / Math.hypot(vx, vy);
+    ball.x += nx * (min - distance + .2);
+    ball.y += ny * (min - distance + .2);
+    const approach = ball.vx * nx + ball.vy * ny;
+    if (approach < 0) {
+      ball.vx -= 1.55 * approach * nx;
+      ball.vy -= 1.55 * approach * ny;
+      if (performance.now() - lastPegSound > 95) {
+        playSound('pegB', Math.min(.12, .03 + -approach / 2800));
+        lastPegSound = performance.now();
+      }
+    }
+  }
+  function keepBallMoving(ball, dt) {
+    if (Math.hypot(ball.x - ball.stallX, ball.y - ball.stallY) > 8) {
+      ball.stallX = ball.x; ball.stallY = ball.y; ball.stallTime = 0;
+      return;
+    }
+    ball.stallTime += dt;
+    if (ball.stallTime < .75) return;
+    const side = ball.x < 65 ? 1 : ball.x > 355 ? -1 : Math.sign(ball.x - 220 || ball.vx || 1);
+    ball.vx = side * Math.max(90, Math.abs(ball.vx));
+    ball.vy = Math.max(35, ball.vy);
+    ball.x += side * 2;
+    ball.stallX = ball.x; ball.stallY = ball.y; ball.stallTime = 0;
+  }
+  function queueStartSpin(wager, bonus = false) {
+    if (!player || spinQueue.length + Number(spinning) >= 4) return false;
+    if (player.jpFestivalLeft > 0 && player.pendingJackpot === 0 && !payoutActive) player.jpFestivalLeft--;
+    player.spins++;
+    player.session.spins++;
+    player.bestSpins = Math.max(player.bestSpins, player.session.spins);
+    const rush = player.rushLeft > 0;
+    const wasTime = !rush && player.timeLeft > 0;
+    if (rush) player.rushLeft--;
+    else if (player.timeLeft > 0) player.timeLeft--;
+    const jackpot = Math.random() < 1 / jackpotOdds;
+    const jackpotExtension = jackpot && (player.pendingJackpot > 0 || !!payoutFinishTimer);
+    const roll = Math.random();
+    const puyuyuMultiplier = player.scene === 'puyuyu' ? 1.5 : 1;
+    const premiumChance = (rush ? .008 : .003) * puyuyuMultiplier * (comboIsLive() && player.comboCount >= 10 ? 1.5 : 1);
+    const premium = !jackpot && roll < premiumChance;
+    const hitChance = rush ? (player.scene === 'puyuyu' ? .13 * 5 : .13) : .045 * puyuyuMultiplier;
+    const hit = jackpot || premium || roll < hitChance;
+    // 当たり賞球は抽選結果の表示が終わるまで保留する。
+    let spinAward = 0;
+    if (hit) {
+      player.hits++;
+      player.session.hits++;
+      if (player.session.spins <= 10) player.fastHits++;
+      if (player.dryShots >= 500) player.comebackCount++;
+      player.dryShots = 0;
+      player.streak = rush ? player.streak + 1 : 1;
+      player.bestStreak = Math.max(player.bestStreak, player.streak);
+      player.session.bestStreak = Math.max(player.session.bestStreak, player.streak);
+      if (jackpot) {
+        player.jackpotCount++;
+        player.session.jackpots++;
+        player.jpFestivalLeft = 10;
+        if (jackpotExtension && payoutFinishTimer) { clearTimeout(payoutFinishTimer); payoutFinishTimer = 0; }
+        if (!jackpotExtension) { player.jackpotTotal = 0; player.jackpotRate = wager; }
+        const award = jackpotAmounts[wager];
+        player.pendingJackpot += award;
+        player.jackpotTotal += award;
+        payoutTotal = player.jackpotTotal;
+      } else {
+        const award = (premium ? premiumPayout : hitPayout) * wager;
+        if (premium) player.premiumCount++;
+        spinAward = award;
+      }
+      player.rushType = premium || jackpot || rush ? 'rush' : 'st';
+      player.rushLeft = player.rushType === 'rush' ? rushBonusSpins : rushSpins;
+      player.timeLeft = 0;
+    } else if (rush && player.rushLeft === 0) {
+      player.streak = 0;
+      player.timeLeft = 5;
+    }
+    if (!hit && wasTime && player.timeLeft === 0) player.sceneSpinsLeft = 0;
+    if (jackpotExtension) announce(`👑 ジャックポット上乗せ！ さらに${jackpotAmounts[wager].toLocaleString('ja-JP')}球！`);
+    else {
+      spinQueue.push({hit, premium, jackpot, rush, wager, bonus, award: spinAward || 0, scene: player.scene, nextRushType: player.rushType, enteredTime: !hit && rush && player.rushLeft === 0, hold: chooseHold(hit, premium, jackpot)});
+      renderHolds();
+    }
+    return true;
+  }
+  function flushBonusHold() {
+    if (!player?.bonusHoldDue || spinQueue.length + Number(spinning) >= 4) return;
+    player.bonusHoldDue = 0;
+    if (queueStartSpin(player.wager, true)) playSound('modeCombo', .18);
+  }
+  function settleBall(ball, type) {
+    const index = balls.indexOf(ball);
+    if (index !== -1) balls.splice(index, 1);
+    if (!player) return;
+    player.inFlight = Math.max(0, player.inFlight - 1);
+    player.inFlightValue = Math.max(0, player.inFlightValue - ball.wager);
+    if (type === 'side') {
+      const sideAward = sideAwardFor(ball.wager);
+      player.balls += sideAward;
+      recordPrize(sideAward);
+      announce(`入賞！ ${sideAward}球戻りました。`, 1300);
+      playSound('start', .16);
+    } else if (type === 'start') {
+      recordStartCombo();
+      const canSpin = spinQueue.length + Number(spinning) < 4;
+      const countSceneSpin = canSpin && !specialModeActive();
+      if (countSceneSpin && player.sceneSpinsLeft === 0) rollScene();
+      const startAward = startAwardFor(ball.wager, true);
+      player.balls += startAward;
+      recordPrize(startAward);
+      flashStart();
+      if (!canSpin) {
+        announce(`草ランプ満杯！ START +${startAward}球を受け取りました。`, 1400);
+        playSound('start', .14);
+        const newTitles = unlockTitles();
+        if (saveProfiles()) showTitleNotice(newTitles);
+        updateUI();
+        return;
+      }
+      playSound('start', .22);
+      playTick(1050, .045);
+      if (queueStartSpin(ball.wager) && countSceneSpin) player.sceneSpinsLeft--;
+      flushBonusHold();
+      if (!spinning) runSpin();
+    } else if (performance.now() - lastDrainSound > 240) {
+      playSound('drain', .14);
+      lastDrainSound = performance.now();
+    }
+    const newTitles = unlockTitles();
+    if (saveProfiles()) showTitleNotice(newTitles);
+    updateUI();
+    if (payoutActive && player.pendingJackpot > 0) updatePayoutDisplay();
+  }
+  function step(dt) {
+    if (!player) return;
+    for (const ball of [...balls]) {
+      ball.age += dt;
+      if (ball.phase === 'chute') {
+        ball.y += ball.vy * dt;
+        ball.x = chuteX(ball.y);
+        if (ball.y <= chuteTipY) {
+          ball.y = chuteTipY; ball.x = chuteX(chuteTipY); ball.phase = 'field';
+          ball.vx = -95 - ball.power * 420 + (Math.random() - .5) * 14;
+          ball.vy = 10;
+        }
+        continue;
+      }
+      ball.vy = Math.min(490, ball.vy + 750 * dt);
+      ball.vx *= Math.pow(.998, dt * 60);
+      ball.x += ball.vx * dt;
+      ball.y += ball.vy * dt;
+      if (ball.x < 24 + ball.r) { ball.x = 24 + ball.r; ball.vx = Math.abs(ball.vx) * .68; }
+      if (ball.x > 390 - ball.r) { ball.x = 390 - ball.r; ball.vx = -Math.abs(ball.vx) * .68; }
+      if (ball.y < 26 + ball.r) { ball.y = 26 + ball.r; ball.vy = Math.abs(ball.vy) * .55; }
+      const row = Math.round((ball.y - 111) / 31);
+      if (row >= 0 && row < pegRows.length) {
+        for (const peg of pegRows[row]) {
+          if (Math.abs(ball.y - peg.y) < 15 && Math.abs(ball.x - peg.x) < 15) collidePeg(ball, peg);
+        }
+      }
+      collideBumper(ball);
+      if (ball.y >= 348 && ball.y <= 488) for (const rail of guideRails) collideGuide(ball, rail);
+      keepBallMoving(ball, dt);
+      if (ball.vy > 0 && ball.y > 491 && ball.y < 529) {
+        const pocket = pockets.find(p => Math.abs(ball.x - p.x) < p.r && Math.abs(ball.y - p.y) < p.r);
+        if (pocket) { settleBall(ball, pocket.type); continue; }
+      }
+      if (ball.y > 548 || ball.age > 15) settleBall(ball, 'out');
+    }
+    for (let i = 0; i < balls.length; i++) {
+      const a = balls[i];
+      if (a.phase !== 'field') continue;
+      for (let j = i + 1; j < balls.length; j++) {
+        const b = balls[j];
+        if (b.phase !== 'field') continue;
+        const dx = b.x - a.x, dy = b.y - a.y, min = a.r + b.r;
+        if (Math.abs(dx) >= min || Math.abs(dy) >= min) continue;
+        const distance = Math.hypot(dx, dy);
+        if (distance >= min || distance < .001) continue;
+        const nx = dx / distance, ny = dy / distance, overlap = (min - distance) / 2;
+        a.x -= nx * overlap; a.y -= ny * overlap;
+        b.x += nx * overlap; b.y += ny * overlap;
+        const relative = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+        if (relative < 0) {
+          const impulse = -1.72 * relative / 2;
+          a.vx -= impulse * nx; a.vy -= impulse * ny;
+          b.vx += impulse * nx; b.vy += impulse * ny;
+          if (relative < -55 && performance.now() - lastPegSound > pegSoundGap) {
+            playSound('pegA', Math.min(.10, .025 + -relative / 3000));
+            lastPegSound = performance.now();
+          }
+        }
+      }
+    }
+  }
+  function updatePayoutDisplay() {
+    const remaining = player?.pendingJackpot || 0;
+    payoutTotal = player?.jackpotTotal || jackpotAmounts[1];
+    $('pachiJackpotPaid').textContent = Math.max(0, payoutTotal - remaining).toLocaleString('ja-JP');
+    $('pachiJackpotTotal').textContent = payoutTotal.toLocaleString('ja-JP');
+    $('pachiJackpotBar').max = Math.max(1, payoutTotal);
+    $('pachiJackpotBar').value = Math.max(0, payoutTotal - remaining);
+  }
+  function stopPayoutDisplay() {
+    clearTimeout(payoutFinishTimer);
+    payoutFinishTimer = 0;
+    payoutActive = false;
+    $('pachiMachine').classList.remove('is-jackpot');
+    $('pachiMachine').classList.remove('is-firing-jp');
+    $('pachiJackpot').hidden = true;
+  }
+  function startPayout() {
+    if (!player || player.pendingJackpot <= 0 || payoutActive) return;
+    clearTimeout(payoutFinishTimer);
+    payoutFinishTimer = 0;
+    payoutTotal = player.jackpotTotal || jackpotAmounts[player.jackpotRate];
+    stopFiring();
+    $('pachiJackpotTitle').textContent = `${player.jackpotRate}草パチ・発射1球につき${(jackpotAmounts[player.jackpotRate] / 50).toLocaleString('ja-JP')}球！`;
+    $('pachiJackpot').hidden = false;
+    $('pachiMachine').classList.add('is-jackpot');
+    payoutActive = true;
+    applyScene();
+    showModeTransition('ジャックポット祭！', 'jackpot-festival');
+    showBurst('👑 JACKPOT!', 'gold', 1100);
+    playSound('modeJackpot', .26);
+    for (const span of $('pachiReels').children) span.textContent = '7️⃣';
+    updatePayoutDisplay();
+    updateUI();
+    announce('👑 ジャックポット！ 球を発射するほど賞球が増える！');
+  }
+  function finishPayout() {
+    stopFiring();
+    updatePayoutDisplay();
+    announce(`👑 ジャックポット完走！ +${payoutTotal.toLocaleString('ja-JP')}球！`, 4500);
+    playChime(true);
+    payoutFinishTimer = setTimeout(() => { stopPayoutDisplay(); updateUI(); runSpin(); }, 1800);
+    updateUI();
+  }
+  function pausePayout() {
+    if (!player) return;
+    stopPayoutDisplay();
+    saveProfiles();
+    updateUI();
+  }
+  function chooseHold(hit, premium, jackpot) {
+    if (jackpot) return 'kusa';
+    if (premium) return Math.random() < .5 ? 'kusa' : 'hot';
+    const roll = Math.random();
+    if (hit) return roll < (player?.scene === 'night' ? .38 : .28) ? 'hot' : roll < (player?.scene === 'night' ? .84 : .75) ? 'chance' : 'normal';
+    return roll < .008 ? 'hot' : roll < .21 ? 'chance' : 'normal';
+  }
+  function renderHolds() {
+    const waiting = [...(activeHold ? [activeHold] : []), ...spinQueue.map(result => result.hold)].slice(0, 4);
+    const names = {normal: '通常', chance: 'チャンス', hot: '激アツ', kusa: '草確'};
+    const lights = $('pachiHolds').children;
+    for (let i = 0; i < lights.length; i++) {
+      const kind = waiting[i];
+      if (kind) lights[i].dataset.hold = kind;
+      else delete lights[i].dataset.hold;
+      lights[i].classList.toggle('is-consuming', i === 0 && !!activeHold);
+      lights[i].title = kind ? `${names[kind]}保留` : '空き保留';
+    }
+    $('pachiHoldStatus').textContent = waiting.length ? `保留${waiting.length}個：${waiting.map(kind => names[kind]).join('、')}` : '保留なし';
+  }
+  function clearOmen() {
+    omenTimers.forEach(clearTimeout);
+    omenTimers = [];
+    omenStage = 0;
+    $('pachiMachine').classList.remove('is-omen-1', 'is-omen-2', 'is-omen-3');
+    $('pachiReels').classList.remove('is-omen-fast');
+  }
+  function setOmenStage(stage) {
+    if (pageSuspended || document.hidden || !spinning) return;
+    omenStage = stage;
+    $('pachiMachine').classList.remove('is-omen-1', 'is-omen-2', 'is-omen-3');
+    $('pachiMachine').classList.add(`is-omen-${stage}`);
+    $('pachiReels').classList.toggle('is-omen-fast', stage === 3);
+    if (stage === 2) announce('✨ 草むらが金色に光り始めた！');
+    if (stage === 3) announce('👑 高速回転！ 最終判定へ！');
+    updateUI();
+  }
+  function runSpin() {
+    if (spinning || pageSuspended || document.hidden || panel.hidden || payoutActive || payoutFinishTimer || !spinQueue.length || !player) return;
+    spinning = true;
+    const result = spinQueue.shift();
+    currentSpin = result;
+    if (!result.counted) {
+      result.counted = true;
+      if (result.hold === 'hot') player.hotHolds++;
+      if (['chance', 'hot', 'kusa'].includes(result.hold)) player.session.chanceHolds++;
+      if (result.hold === 'chance' && result.hit) player.chanceWins++;
+      if (result.hold === 'kusa' && result.hit) player.rainbowWins++;
+      const newTitles = unlockTitles();
+      if (saveProfiles()) showTitleNotice(newTitles);
+    }
+    activeHold = result.hold;
+    renderHolds();
+    updateUI();
+    if (result.hold === 'kusa') showBurst('🌈 草確ランプ！', 'rainbow');
+    else if (result.hold === 'hot') showBurst('🔥 激アツランプ！', 'gold');
+    const reels = $('pachiReels');
+    reels.classList.add('is-spinning');
+    const showOmen = result.jackpot || result.hold === 'kusa' || (result.hold === 'hot' && Math.random() < .12);
+    announce(showOmen ? '🌱 草の気配が強まる…' : result.hit ? 'リーチ！ 図柄に注目！' : result.bonus ? 'おまけ草ランプ回転中…' : '図柄回転中…');
+    if (showOmen) {
+      setOmenStage(1);
+      omenTimers.push(setTimeout(() => setOmenStage(2), 650));
+      omenTimers.push(setTimeout(() => setOmenStage(3), 1400));
+    }
+    let reelTicks = 0;
+    reelTimer = setInterval(() => {
+      for (const span of reels.children) span.textContent = reelFaces[Math.floor(Math.random() * reelFaces.length)];
+      if (++reelTicks % (mobileLite ? 5 : 3) === 0) playTick(result.hit ? 980 : 760, .018);
+    }, mobileLite ? 115 : 95);
+    spinTimer = setTimeout(() => {
+      clearInterval(reelTimer);
+      reels.classList.remove('is-spinning');
+      clearOmen();
+      activeHold = null;
+      renderHolds();
+      if (result.jackpot) {
+        for (const span of reels.children) span.textContent = '7️⃣';
+        playSound('jackpot', .42);
+        playChime(true);
+        startPayout();
+      } else if (result.hit) {
+        const face = result.premium ? '🍀' : '🌿';
+        for (const span of reels.children) span.textContent = face;
+        const nextMode = result.nextRushType === 'rush' ? '草RUSH' : '草ST';
+        announce(result.premium ? `🌈 超大当たり！ +${premiumPayout * result.wager}球！ ${nextMode}突入！` : `🎉 大当たり！ +${hitPayout * result.wager}球！ ${nextMode}突入！`, 3600);
+        showBurst(result.premium ? `🌈 超大当たり +${premiumPayout * result.wager}球！` : `🎉 大当たり +${hitPayout * result.wager}球！`, result.premium ? 'rainbow' : 'gold', 1100);
+        showModeTransition(`${nextMode}突入！`, result.scene === 'puyuyu' ? 'puyuyu' : result.premium ? 'grass-festival' : 'normal');
+        playSound('jackpot', .36);
+        playChime(result.premium);
+        $('pachiBoardFlash').classList.remove('is-flashing');
+        void $('pachiBoardFlash').offsetWidth;
+        $('pachiBoardFlash').classList.add('is-flashing');
+      } else {
+        playTick(540, .02);
+        reels.children[0].textContent = '🌱';
+        reels.children[1].textContent = '🌿';
+        reels.children[2].textContent = '🌱';
+        announce('おしい！ 次の入賞を狙おう。', 1500);
+        if (result.enteredTime) showModeTransition('草時短へ', 'night');
+      }
+      if (result.award > 0 && !result.jackpot) {
+        updateUI();
+        spinTimer = setTimeout(() => {
+          if (!player || currentSpin !== result) return;
+          player.balls += result.award;
+          recordPrize(result.award);
+          result.award = 0;
+          const newTitles = unlockTitles();
+          if (saveProfiles()) showTitleNotice(newTitles);
+          currentSpin = null;
+          spinning = false;
+          flushBonusHold();
+          renderHolds();
+          updateUI();
+          spinTimer = setTimeout(runSpin, 1600);
+        }, 450);
+        return;
+      }
+      currentSpin = null;
+      spinning = false;
+      flushBonusHold();
+      renderHolds();
+      updateUI();
+      spinTimer = setTimeout(runSpin, result.jackpot ? 600 : result.hit ? 1600 : 420);
+    }, showOmen ? 2550 : result.hit ? 1550 : 850);
+  }
+  function drawBoardScenery() {
+    const ctx = sceneryCtx;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(144,209,150,.11)';
+    ctx.beginPath(); ctx.arc(219, 156, 102, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = 'rgba(190,236,170,.09)';
+    ctx.beginPath(); ctx.moveTo(21, 238); ctx.quadraticCurveTo(110, 154, 214, 234); ctx.quadraticCurveTo(316, 152, 398, 244); ctx.lineTo(398, 355); ctx.lineTo(21, 355); ctx.fill();
+    ctx.fillStyle = 'rgba(8,43,32,.33)';
+    ctx.beginPath(); ctx.moveTo(22, 441); ctx.quadraticCurveTo(126, 350, 226, 431); ctx.quadraticCurveTo(321, 369, 398, 439); ctx.lineTo(398, 540); ctx.lineTo(22, 540); ctx.fill();
+    ctx.strokeStyle = 'rgba(137,221,129,.21)'; ctx.lineWidth = 3;
+    for (let x = 36; x < 405; x += 22) {
+      ctx.beginPath(); ctx.moveTo(x, 551); ctx.quadraticCurveTo(x - 11, 516 - x % 20, x - 5, 489 - x % 14); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x, 551); ctx.quadraticCurveTo(x + 12, 522, x + 7, 506 - x % 18); ctx.stroke();
+    }
+    ctx.save();
+    ctx.globalAlpha = .13; ctx.strokeStyle = '#c7f5ae'; ctx.lineWidth = 1;
+    for (let i = -H; i < W + H; i += 32) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i + H, H); ctx.stroke(); }
+    ctx.restore();
+    ctx.fillStyle = '#347a4f'; ctx.beginPath(); ctx.ellipse(220, 560, 180, 43, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#eaca75'; ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.moveTo(18, 532); ctx.lineTo(18, 87); ctx.quadraticCurveTo(23, 21, 90, 20); ctx.lineTo(374, 20); ctx.quadraticCurveTo(399, 22, 401, 50); ctx.lineTo(401, 543); ctx.stroke();
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#315d48'; ctx.lineWidth = 7;
+    ctx.beginPath();
+    for (let y = 530; y >= chuteTipY; y -= 4) {
+      const x = chuteX(y) - 17;
+      if (y === 530) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.lineTo(chuteX(chuteTipY) - 17, chuteTipY); ctx.stroke();
+    ctx.strokeStyle = '#c8d8b5'; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.lineCap = 'butt';
+    ctx.textAlign = 'center';
+    for (const peg of pegs) {
+      ctx.fillStyle = '#766432'; ctx.beginPath(); ctx.arc(peg.x + 1.3, peg.y + 2, 5.4, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#f9eab9'; ctx.beginPath(); ctx.arc(peg.x, peg.y, peg.r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.save();
+    ctx.shadowColor = '#fce39a'; ctx.shadowBlur = 16;
+    ctx.fillStyle = '#9d6d2b'; ctx.beginPath(); ctx.ellipse(220, 277, 100, 77, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle = '#f7dc86'; ctx.beginPath(); ctx.ellipse(220, 277, 96, 73, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#153f38'; ctx.beginPath(); ctx.ellipse(220, 277, 90, 67, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = 'rgba(255,236,141,.58)'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.ellipse(220, 277, 98, 75, 0, 0, Math.PI * 2); ctx.stroke();
+    for (let i = 0; i < 14; i++) {
+      const angle = i * Math.PI * 2 / 14;
+      const x = 220 + Math.cos(angle) * 94, y = 277 + Math.sin(angle) * 71;
+      ctx.fillStyle = '#fff5b5'; ctx.beginPath(); ctx.arc(x, y, 2.8, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.save();
+    ctx.lineCap = 'round';
+    for (const rail of guideRails) {
+      ctx.strokeStyle = '#314139'; ctx.lineWidth = 14;
+      ctx.beginPath(); ctx.moveTo(rail.x1 + 2, rail.y1 + 3); ctx.lineTo(rail.x2 + 2, rail.y2 + 3); ctx.stroke();
+      ctx.strokeStyle = '#d1a34d'; ctx.lineWidth = 10;
+      ctx.beginPath(); ctx.moveTo(rail.x1, rail.y1); ctx.lineTo(rail.x2, rail.y2); ctx.stroke();
+      ctx.strokeStyle = '#fff0ba'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(rail.x1 - 1, rail.y1 - 1); ctx.lineTo(rail.x2 - 1, rail.y2 - 1); ctx.stroke();
+      for (const point of [{x: rail.x1, y: rail.y1}, {x: rail.x2, y: rail.y2}]) {
+        ctx.fillStyle = '#f9e5a4'; ctx.beginPath(); ctx.arc(point.x, point.y, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#6d5b34'; ctx.beginPath(); ctx.arc(point.x, point.y, 2, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    ctx.restore();
+    for (const pocket of pockets) {
+      ctx.fillStyle = pocket.type === 'start' ? '#fbe181' : '#bce9a9';
+      ctx.beginPath(); ctx.arc(pocket.x, pocket.y, pocket.r + 5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#073726'; ctx.beginPath(); ctx.arc(pocket.x, pocket.y, pocket.r, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = pocket.type === 'start' ? '#fff0a2' : '#e6ffd6';
+      if (pocket.type === 'start') {
+        ctx.font = '900 9px system-ui';
+        ctx.fillText('START', pocket.x, pocket.y - 2);
+        ctx.font = '900 11px system-ui';
+        ctx.fillText(`+${startAwardFor()}`, pocket.x, pocket.y + 10);
+      } else {
+        ctx.font = '900 11px system-ui';
+        ctx.fillText(`+${sideAwardFor()}`, pocket.x, pocket.y + 4);
+      }
+    }
+    ctx.fillStyle = '#ffe4a5'; ctx.font = 'bold 11px system-ui'; ctx.fillText('OUT', 220, 553);
+  }
+  function spriteFor(face) {
+    let sprite = ballSprites.get(face);
+    if (sprite) return sprite;
+    sprite = document.createElement('canvas');
+    sprite.width = sprite.height = 32;
+    const paint = sprite.getContext('2d');
+    paint.fillStyle = 'rgba(0,0,0,.35)';
+    paint.beginPath(); paint.arc(18, 19, 11.5, 0, Math.PI * 2); paint.fill();
+    paint.fillStyle = '#fff9e7';
+    paint.beginPath(); paint.arc(16, 16, 10.5, 0, Math.PI * 2); paint.fill();
+    paint.textAlign = 'center'; paint.textBaseline = 'middle';
+    paint.font = '19px "Segoe UI Emoji","Apple Color Emoji",sans-serif';
+    paint.fillText(face, 16, 17);
+    ballSprites.set(face, sprite);
+    return sprite;
+  }
+  function drawBoard() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (const ball of balls) {
+      ctx.drawImage(spriteFor(ball.face), ball.x - 16, ball.y - 16);
+    }
+    ctx.textBaseline = 'alphabetic';
+  }
+  function restoreCanvases() {
+    canvas.width = W;
+    canvas.height = H;
+    $('pachiBallsCanvas').width = W;
+    $('pachiBallsCanvas').height = H;
+    ballSprites.clear();
+    drawBoardScenery();
+    drawBoard();
+  }
+  function frame(time) {
+    if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) { frameId = 0; lastFrame = 0; return; }
+    if (!lastFrame) lastFrame = time - frameInterval;
+    if (time - lastFrame < frameInterval * .9) {
+      frameId = requestAnimationFrame(frame);
+      return;
+    }
+    const elapsed = Math.min((time - lastFrame) / 1000, .05);
+    lastFrame = time;
+    const substeps = Math.max(1, Math.ceil(elapsed / (1 / 60)));
+    const hadBalls = balls.length > 0;
+    for (let i = 0; i < substeps; i++) step(elapsed / substeps);
+    if (balls.length || hadBalls) drawBoard();
+    if (!balls.length) { frameId = 0; lastFrame = 0; return; }
+    frameId = requestAnimationFrame(frame);
+  }
+  function stopLoop() {
+    if (frameId) cancelAnimationFrame(frameId);
+    frameId = 0;
+    lastFrame = 0;
+  }
+  function startLoop() { if (!pageSuspended && !document.hidden && !frameId && !panel.hidden && !$('pachiGame').hidden) frameId = requestAnimationFrame(frame); }
+  function pauseSpin() {
+    clearTimeout(spinTimer); clearInterval(reelTimer);
+    spinTimer = 0; reelTimer = 0;
+    clearOmen();
+    if (currentSpin) spinQueue.unshift(currentSpin);
+    currentSpin = null;
+    activeHold = null;
+    spinning = false;
+    renderHolds();
+    $('pachiReels').classList.remove('is-spinning');
+    $('pachiBoardFlash').classList.remove('is-flashing');
+    if (!player?.pendingJackpot) {
+      ['🌱', '🌿', '🍀'].forEach((face, i) => { $('pachiReels').children[i].textContent = face; });
+    }
+  }
+  function pauseForBackground() {
+    pageSuspended = true;
+    stopStageEffects();
+    stopFiring();
+    pauseSpin();
+    pausePayout();
+    stopLoop();
+    suspendAudio();
+    if (player) saveProfiles();
+  }
+  function resumeFromBackground() {
+    if (document.hidden) return;
+    pageSuspended = false;
+    restoreCanvases();
+    requestAnimationFrame(() => { if (!pageSuspended && !document.hidden) restoreCanvases(); });
+    if (player) {
+      updateUI();
+      if (!panel.hidden && player.pendingJackpot > 0 && !spinQueue.some(result => result.jackpot)) startPayout();
+      else runSpin();
+      startLoop();
+    }
+  }
+  function setOpen(open) {
+    panel.hidden = !open;
+    shell.classList.toggle('is-collapsed', !open);
+    $('pachiToggle').setAttribute('aria-expanded', String(open));
+    $('pachiToggle').setAttribute('aria-label', open ? '草パチを閉じる' : '草パチを開く');
+    if (open) {
+      unlockAudio(); startLoop();
+      if (player?.pendingJackpot > 0 && !spinQueue.some(result => result.jackpot)) startPayout();
+      else runSpin();
+    }
+    else { stopStageEffects(); closeShare(); closeResult(); stopFiring(); pauseSpin(); pausePayout(); stopLoop(); suspendAudio(); }
+  }
+  function drawShareCard() {
+    if (!player) return;
+    const canvas = $('pachiShareCanvas');
+    const c = canvas.getContext('2d');
+    const gradient = c.createLinearGradient(0, 0, 1080, 1080);
+    gradient.addColorStop(0, '#092c25'); gradient.addColorStop(.55, '#226d45'); gradient.addColorStop(1, '#b4a84c');
+    c.fillStyle = gradient; c.fillRect(0, 0, 1080, 1080);
+    c.strokeStyle = 'rgba(232,255,189,.18)'; c.lineWidth = 4;
+    for (let i = 0; i < 12; i++) {
+      c.beginPath(); c.arc(90 + (i * 83) % 960, 80 + (i * 167) % 960, 45 + i * 7, 0, Math.PI * 2); c.stroke();
+    }
+    c.fillStyle = '#e8ffb5'; c.font = 'bold 52px sans-serif'; c.textAlign = 'center';
+    c.fillText('🌿 KUSA PACHI', 540, 125);
+    c.fillStyle = 'rgba(5,35,29,.78)';
+    c.beginPath();
+    if (c.roundRect) c.roundRect(80, 175, 920, 780, 40);
+    else c.rect(80, 175, 920, 780);
+    c.fill();
+    c.fillStyle = '#f2e0a5'; c.font = 'bold 42px sans-serif';
+    c.fillText($('pachiShareName').checked ? player.name : '草パチプレイヤー', 540, 260, 820);
+    c.fillStyle = '#ffe88a'; c.font = 'bold 32px sans-serif'; c.fillText(`🏅 [${selectedTitleRarity()}] ${selectedTitleName()}`, 540, 315, 820);
+    c.fillStyle = '#bbdfc6'; c.font = 'bold 42px sans-serif'; c.fillText('持ち球', 540, 390);
+    c.fillStyle = '#ffffff'; c.font = 'bold 92px sans-serif'; c.fillText(player.balls.toLocaleString('ja-JP'), 540, 495, 800);
+    c.fillStyle = '#bbdfc6'; c.font = 'bold 42px sans-serif'; c.fillText('所持草', 540, 600);
+    c.fillStyle = '#fff0a4'; c.font = 'bold 92px sans-serif'; c.fillText(player.grass.toLocaleString('ja-JP'), 540, 710, 800);
+    c.fillStyle = '#f0ffd9'; c.font = 'bold 36px sans-serif'; c.fillText(`${player.wager}草パチで遊技中`, 540, 795);
+    c.font = 'bold 27px sans-serif'; c.fillText(`最大${player.bestStreak}連チャン・ジャックポット${player.jackpotCount}回`, 540, 870, 850);
+    c.fillText(`累計獲得 ${player.totalPrize.toLocaleString('ja-JP')}草換算`, 540, 925, 850);
+    c.fillStyle = '#e2f4cb'; c.font = '28px sans-serif'; c.fillText('草むら遊技場', 540, 1020);
+    $('pachiShareSummary').textContent = `[${selectedTitleRarity()}] ${selectedTitleName()}／持ち球 ${player.balls.toLocaleString('ja-JP')}球・所持草 ${player.grass.toLocaleString('ja-JP')}草・最大${player.bestStreak}連チャン・ジャックポット${player.jackpotCount}回`;
+  }
+  function closeShare() {
+    if ($('pachiShareModal').hidden) return;
+    $('pachiShareModal').hidden = true;
+    if (!$('pachiGame').hidden && !panel.hidden) $('pachiShareOpen').focus();
+  }
+  function shareText() {
+    return `${$('pachiShareName').checked ? `${player.name}の` : ''}草パチ記録：称号「[${selectedTitleRarity()}] ${selectedTitleName()}」、持ち球${player.balls.toLocaleString('ja-JP')}球、所持草${player.grass.toLocaleString('ja-JP')}草、最大${player.bestStreak}連チャン、ジャックポット${player.jackpotCount}回。`;
+  }
+  function exportBackup() {
+    try {
+      const backup = {
+        format: 'kusa-play-backup', version: 2, savedAt: new Date().toISOString(),
+        profiles,
+        rewards: rewards.read(),
+        gacha: JSON.parse(localStorage.getItem(rewards.gachaKey) || '{}')
+      };
+      const blob = new Blob([JSON.stringify(backup, null, 2)], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `kusa-play-${today()}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+      $('pachiExchangeMessage').textContent = '記録のバックアップを保存しました。ファイルを大切に保管してください。';
+    } catch {
+      $('pachiExchangeMessage').textContent = 'バックアップを作れませんでした。ブラウザの保存設定を確認してください。';
+    }
+  }
+  async function importBackup(file) {
+    if (!file) return;
+    try {
+      if (file.size > 2_000_000) throw new Error('too large');
+      const backup = JSON.parse(await file.text());
+      if (backup.format !== 'kusa-play-backup' || ![1, 2].includes(backup.version) || !Array.isArray(backup.profiles) ||
+          !backup.rewards || !backup.gacha || typeof backup.gacha !== 'object') throw new Error('invalid backup');
+      const restoredProfiles = backup.profiles.filter(p => p && typeof p.name === 'string' && p.name.trim() && p.name.length <= 20)
+        .slice(0, 1000).map(normalizeProfile);
+      const gacha = {
+        lastDrawAt: Number.isFinite(backup.gacha.lastDrawAt) && backup.gacha.lastDrawAt >= 0 ? backup.gacha.lastDrawAt : 0,
+        obtainedCards: Array.isArray(backup.gacha.obtainedCards)
+          ? backup.gacha.obtainedCards.filter(id => typeof id === 'string' && id.length <= 100).slice(0, 10000) : [],
+        grassPoint: validCount(backup.gacha.grassPoint)
+      };
+      if (!window.confirm('現在の持ち球・草・ガチャ券・図鑑の記録を、読み込むファイルの内容で置き換えます。続けますか？')) return;
+      stopFiring();
+      const entries = [
+        [profileKey, JSON.stringify(restoredProfiles)],
+        [rewards.key, JSON.stringify(rewards.normalize(backup.rewards))],
+        [rewards.gachaKey, JSON.stringify(gacha)]
+      ];
+      const previous = entries.map(([key]) => [key, localStorage.getItem(key)]);
+      try {
+        for (const [key, value] of entries) localStorage.setItem(key, value);
+      } catch (error) {
+        for (const [key, value] of previous) {
+          try { if (value === null) localStorage.removeItem(key); else localStorage.setItem(key, value); }
+          catch { /* 保存領域が使えない場合 */ }
+        }
+        throw error;
+      }
+      window.location.reload();
+    } catch {
+      $('pachiExchangeMessage').textContent = '記録を読み込めませんでした。草パチで保存したJSONファイルを選んでください。';
+    } finally {
+      $('pachiRestoreFile').value = '';
+    }
+  }
+  $('pachiToggle').addEventListener('click', () => setOpen(panel.hidden));
+  $('pachiClose').addEventListener('click', () => setOpen(false));
+  $('pachiStart').addEventListener('click', startPlayer);
+  $('pachiName').addEventListener('keydown', event => { if (event.key === 'Enter') startPlayer(); });
+  $('pachiSwitch').addEventListener('click', switchPlayer);
+  $('pachiResultOpen').addEventListener('click', () => {
+    if (!player) return;
+    stopFiring();
+    player.resultOpens++;
+    const newTitles = unlockTitles();
+    if (saveProfiles()) showTitleNotice(newTitles);
+    renderResult();
+    $('pachiResultModal').hidden = false;
+    $('pachiResultClose').focus();
+  });
+  $('pachiResultClose').addEventListener('click', closeResult);
+  $('pachiResultDone').addEventListener('click', closeResult);
+  $('pachiResultModal').addEventListener('click', event => { if (event.target === $('pachiResultModal')) closeResult(); });
+  $('pachiResultShare').addEventListener('click', () => { closeResult(); $('pachiShareOpen').click(); });
+  $('pachiTitleSelect').addEventListener('change', event => {
+    if (!player || !player.unlockedTitles.includes(event.target.value)) return;
+    const previous = player.selectedTitle;
+    player.selectedTitle = event.target.value;
+    if (!saveProfiles()) player.selectedTitle = previous;
+    updateTitleBadge();
+    renderResult();
+  });
+  $('pachiShareOpen').addEventListener('click', () => {
+    if (!player) return;
+    drawShareCard();
+    $('pachiShareMessage').textContent = '';
+    $('pachiShareModal').hidden = false;
+    $('pachiShareClose').focus();
+  });
+  $('pachiShareClose').addEventListener('click', closeShare);
+  $('pachiShareModal').addEventListener('click', event => { if (event.target === $('pachiShareModal')) closeShare(); });
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    if (!$('pachiShareModal').hidden) closeShare();
+    else if (!$('pachiResultModal').hidden) closeResult();
+  });
+  $('pachiShareName').addEventListener('change', drawShareCard);
+  $('pachiShareDownload').addEventListener('click', () => {
+    if (!player) return;
+    const link = document.createElement('a');
+    link.href = $('pachiShareCanvas').toDataURL('image/png');
+    link.download = `kusa-pachi-${today()}.png`;
+    document.body.appendChild(link); link.click(); link.remove();
+    $('pachiShareMessage').textContent = 'シェア画像を保存しました。';
+  });
+  $('pachiShareNative').addEventListener('click', async () => {
+    if (!player) return;
+    if (!navigator.share) { $('pachiShareMessage').textContent = 'このブラウザでは直接共有できません。画像を保存して投稿してください。'; return; }
+    try {
+      const blob = await new Promise(resolve => $('pachiShareCanvas').toBlob(resolve, 'image/png'));
+      const file = blob ? new File([blob], `kusa-pachi-${today()}.png`, {type: 'image/png'}) : null;
+      const data = {title: '草パチの記録', text: shareText()};
+      if (file && navigator.canShare?.({files: [file]})) data.files = [file];
+      await navigator.share(data);
+      $('pachiShareMessage').textContent = data.files ? '画像を共有しました。' : '記録のテキストを共有しました。画像は「画像を保存」から利用できます。';
+    } catch (error) {
+      if (error?.name !== 'AbortError') $('pachiShareMessage').textContent = '共有できませんでした。画像を保存して投稿してください。';
+    }
+  });
+  $('pachiRename').addEventListener('click', () => {
+    if (!player) return;
+    const input = window.prompt('新しいプレイヤーネーム（20文字以内）', player.name);
+    if (input === null) return;
+    const name = input.trim().replace(/\s+/g, ' ');
+    if (!name || name.length > 20) { announce('名前は1～20文字で入力してください。', 2500); return; }
+    if (name === player.name) return;
+    if (profiles.some(profile => profile !== player && profile.name === name)) { announce('その名前はすでに使われています。', 2500); return; }
+    const previous = player.name;
+    player.name = name;
+    if (!saveProfiles()) { player.name = previous; announce('名前を保存できませんでした。', 2500); return; }
+    $('pachiName').value = name;
+    updateUI();
+    announce(`プレイヤーネームを「${name}」に変更しました。`, 2500);
+  });
+  $('pachiWager').addEventListener('change', event => {
+    if (!player || event.target.name !== 'pachiWager') return;
+    const next = validWager(event.target.value);
+    if (balls.length || player.pendingJackpot || payoutFinishTimer) { updateUI(); return; }
+    stopFiring();
+    const previous = player.wager;
+    player.wager = next;
+    if (!saveProfiles()) { player.wager = previous; announce('掛け金を保存できませんでした。', 2500); }
+    else announce(`${player.wager}草パチに切り替えました。`, 1600);
+    updateUI();
+  });
+  $('pachiGrassAmount').addEventListener('input', () => updateExchangeUI());
+  $('pachiBallAmount').addEventListener('input', () => updateExchangeUI());
+  document.querySelectorAll('[data-pachi-amount]').forEach(button => button.addEventListener('click', () => {
+    if (!player) return;
+    const choice = button.dataset.pachiAmount;
+    $('pachiGrassAmount').value = choice === 'all' ? player.balls : choice === 'half' ? Math.floor(player.balls / 2) : Math.min(Number(choice), player.balls);
+    updateExchangeUI();
+  }));
+  document.querySelectorAll('[data-pachi-return]').forEach(button => button.addEventListener('click', () => {
+    if (!player) return;
+    const choice = button.dataset.pachiReturn;
+    $('pachiBallAmount').value = choice === 'all' ? player.grass : choice === 'half' ? Math.floor(player.grass / 2) : Math.min(Number(choice), player.grass);
+    updateExchangeUI();
+  }));
+  $('pachiConvertButton').addEventListener('click', () => {
+    if (!player) return;
+    const amount = Number($('pachiGrassAmount').value);
+    if (!Number.isSafeInteger(amount) || amount < 1 || amount > player.balls || player.grass + amount > 100000000) { updateExchangeUI(); return; }
+    const previousBalls = player.balls, previousGrass = player.grass;
+    player.balls -= amount;
+    player.grass += amount;
+    if (!saveProfiles()) {
+      player.balls = previousBalls; player.grass = previousGrass;
+      $('pachiExchangeMessage').textContent = '交換を保存できませんでした。持ち球は減っていません。';
+    } else {
+      $('pachiExchangeMessage').textContent = `${amount.toLocaleString('ja-JP')}球を${amount.toLocaleString('ja-JP')}草に交換しました。`;
+      $('pachiGrassAmount').value = '';
+      playChime();
+    }
+    updateUI();
+  });
+  $('pachiReturnButton').addEventListener('click', () => {
+    if (!player) return;
+    const amount = Number($('pachiBallAmount').value);
+    if (!Number.isSafeInteger(amount) || amount < 1 || amount > player.grass || player.balls + amount > 100000000) { updateExchangeUI(); return; }
+    const previousBalls = player.balls, previousGrass = player.grass;
+    player.grass -= amount;
+    player.balls += amount;
+    if (!saveProfiles()) {
+      player.balls = previousBalls; player.grass = previousGrass;
+      $('pachiExchangeMessage').textContent = '交換を保存できませんでした。草は減っていません。';
+    } else {
+      $('pachiExchangeMessage').textContent = `${amount.toLocaleString('ja-JP')}草を${amount.toLocaleString('ja-JP')}球に交換しました。`;
+      $('pachiBallAmount').value = '';
+      playChime();
+    }
+    updateUI();
+  });
+  $('pachiExchangeButton').addEventListener('click', () => {
+    if (!player) return;
+    if (player.grass < rewards.exchangeCost) {
+      $('pachiExchangeMessage').textContent = '交換には15,000草必要です。';
+      updateExchangeUI();
+      return;
+    }
+    const previousGrass = player.grass;
+    player.grass -= rewards.exchangeCost;
+    if (!saveProfiles()) {
+      player.grass = previousGrass;
+      updateUI();
+      $('pachiExchangeMessage').textContent = '草を保存できず、交換を中止しました。ブラウザの保存設定を確認してください。';
+      return;
+    }
+    const result = rewards.addTicket();
+    if (!result.ok) {
+      player.grass = previousGrass;
+      const restored = saveProfiles();
+      updateUI();
+      $('pachiExchangeMessage').textContent = restored
+        ? 'ガチャ券を保存できず、草を戻しました。ブラウザの保存設定を確認してください。'
+        : '交換を保存できませんでした。記録の復元が必要なため、ページを閉じずにバックアップしてください。';
+      return;
+    }
+    updateUI();
+    $('pachiExchangeMessage').textContent = '15,000草をガチャ券1枚に交換しました。草ガチャで使えます！';
+    playChime();
+  });
+  $('pachiBackupButton').addEventListener('click', exportBackup);
+  $('pachiRestoreFile').addEventListener('change', event => importBackup(event.target.files[0]));
+  $('pachiFire').addEventListener('pointerdown', event => { event.preventDefault(); $('pachiFire').setPointerCapture(event.pointerId); startFiring(); });
+  $('pachiFire').addEventListener('pointerup', stopFiring);
+  $('pachiFire').addEventListener('pointercancel', stopFiring);
+  $('pachiFire').addEventListener('lostpointercapture', stopFiring);
+  $('pachiFire').addEventListener('keydown', event => { if ((event.key === ' ' || event.key === 'Enter') && !event.repeat) { event.preventDefault(); startFiring(); } });
+  $('pachiFire').addEventListener('keyup', event => { if (event.key === ' ' || event.key === 'Enter') stopFiring(); });
+  $('pachiPower').addEventListener('input', () => { $('pachiPowerValue').textContent = `${$('pachiPower').value}%`; });
+  $('pachiSound').addEventListener('click', () => {
+    soundOn = !soundOn;
+    $('pachiSound').textContent = soundOn ? '🔊 効果音 ON' : '🔇 効果音 OFF';
+    $('pachiSound').setAttribute('aria-pressed', String(soundOn));
+    try { localStorage.setItem(soundKey, soundOn ? 'on' : 'off'); } catch { /* 保存不可でも切替は有効 */ }
+    if (soundOn) { unlockAudio(); playSound('start', .18); playTick(740, .018); }
+    else {
+      stopSounds();
+      if (soundContext?.state === 'running') {
+        soundContext.suspend().then(() => { if (soundOn) unlockAudio(); }).catch(() => {});
+      }
+    }
+  });
+  $('pachiDaily').addEventListener('click', () => {
+    if (!player || player.lastBonusDay === today()) return;
+    unlockAudio();
+    player.lastBonusDay = today(); player.balls += 50;
+    saveProfiles(); updateUI(); announce('🎁 今日の補充！ 50球追加しました。', 2400); playChime();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) pauseForBackground();
+    else resumeFromBackground();
+  });
+  window.addEventListener('pagehide', () => { settlePendingSpinAwards(); pauseForBackground(); });
+  window.addEventListener('pageshow', resumeFromBackground);
+  window.addEventListener('blur', pauseForBackground);
+  window.addEventListener('focus', resumeFromBackground);
+  document.addEventListener('freeze', pauseForBackground);
+  document.addEventListener('resume', resumeFromBackground);
+  canvas.addEventListener('contextlost', event => event.preventDefault());
+  canvas.addEventListener('contextrestored', restoreCanvases);
+  $('pachiBallsCanvas').addEventListener('contextlost', event => event.preventDefault());
+  $('pachiBallsCanvas').addEventListener('contextrestored', restoreCanvases);
+  window.addEventListener('kusa-rewards-changed', () => updateExchangeUI());
+  window.addEventListener('storage', event => { if (event.key === rewards.key) updateExchangeUI(); });
+  initAudio(); renderProfiles(); drawBoardScenery();
+  faces.forEach(spriteFor);
+  drawBoard();
+  $('pachiSound').textContent = soundOn ? '🔊 効果音 ON' : '🔇 効果音 OFF';
+  $('pachiSound').setAttribute('aria-pressed', String(soundOn));
+})();
+
+</script>
 </body>
 </html>
