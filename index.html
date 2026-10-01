@@ -97,6 +97,8 @@ body::before{
 .migration-file-input{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .migration-action-note,.migration-backup-status{font-size:11px!important;line-height:1.5!important;color:var(--muted)!important}
 .migration-backup-status:empty{display:none}
+.backup-preview-link{display:inline-block;margin-top:6px;padding:7px 10px;border:1px solid #3c8d43;border-radius:9px;background:#fff;color:#286c31!important;font-weight:800;text-decoration:none}
+.backup-preview-link:focus-visible{outline:3px solid #235b22;outline-offset:2px}
 .policy-banner{margin-top:12px;padding:15px 16px;background:var(--panel);border:1px solid var(--warn-line);border-left:5px solid var(--green);border-radius:14px;box-shadow:0 6px 18px var(--shadow)}
 .policy-banner h2{margin:0 0 8px;color:var(--deep);font-size:16px}
 .policy-banner p{margin:0;color:var(--ink);font-size:13px;line-height:1.8}
@@ -4170,6 +4172,37 @@ filterNames();
   function shareText() {
     return `${$('pachiShareName').checked ? `${player.name}の` : ''}草パチ記録：称号「[${selectedTitleRarity()}] ${selectedTitleName()}」、持ち球${player.balls.toLocaleString('ja-JP')}球、所持草${player.grass.toLocaleString('ja-JP')}草、最大${player.bestStreak}連チャン、ジャックポット${player.jackpotCount}回。`;
   }
+  let activeBackupObjectUrl = '';
+  function setBackupStatus(message, previewUrl = '') {
+    for (const status of [$('pachiExchangeMessage'), $('migrationBackupStatus')]) {
+      if (!status) continue;
+      status.replaceChildren(document.createTextNode(message));
+      if (!previewUrl) continue;
+      status.append(document.createElement('br'));
+      const previewLink = document.createElement('a');
+      previewLink.className = 'backup-preview-link';
+      previewLink.href = previewUrl;
+      previewLink.target = '_blank';
+      previewLink.rel = 'noopener';
+      previewLink.textContent = 'JSONを表示して保存';
+      status.append(previewLink);
+    }
+  }
+  function setBackupPreview(blob, message) {
+    if (activeBackupObjectUrl) URL.revokeObjectURL(activeBackupObjectUrl);
+    activeBackupObjectUrl = URL.createObjectURL(blob);
+    setBackupStatus(`${message} 保存が始まらない場合は、下のリンクからJSONを開き、ブラウザの共有メニューで「ファイルに保存」を選んでください。`, activeBackupObjectUrl);
+    return activeBackupObjectUrl;
+  }
+  function showBackupFallback(blob, filename, message) {
+    const previewUrl = setBackupPreview(blob, message);
+    const link = document.createElement('a');
+    link.href = previewUrl;
+    link.download = filename;
+    document.body.append(link);
+    link.click();
+    link.remove();
+  }
   function exportBackup() {
     try {
       const backup = {
@@ -4180,23 +4213,37 @@ filterNames();
         sound: localStorage.getItem(soundKey) === 'off' ? 'off' : 'on'
       };
       const blob = new Blob([JSON.stringify(backup, null, 2)], {type: 'application/json'});
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `kusa-backup-${today()}.json`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 5000);
-      const savedMessage = 'バックアップファイルの保存を開始しました。ダウンロードしたJSONを、復元が終わるまで保管してください。';
-      $('pachiExchangeMessage').textContent = savedMessage;
-      const migrationStatus = $('migrationBackupStatus');
-      if (migrationStatus) migrationStatus.textContent = savedMessage;
+      const filename = `kusa-backup-${today()}.json`;
+      let file = null;
+      try { file = new File([blob], filename, {type: 'application/json'}); } catch { /* 古いWebViewは従来の保存方法へ */ }
+      const shareData = file ? {files: [file], title: 'kusa事典のバックアップ'} : null;
+      let canShareFile = false;
+      try {
+        canShareFile = !!shareData && typeof navigator.share === 'function' &&
+          typeof navigator.canShare === 'function' && navigator.canShare(shareData);
+      } catch { /* 未対応のWebViewはダウンロードと表示リンクを使う */ }
+      if (canShareFile) {
+        let shareResult;
+        try { shareResult = navigator.share(shareData); } catch { /* 共有メニューが使えない場合は代替手段へ */ }
+        if (shareResult) {
+          setBackupStatus('端末の共有メニューを開きました。iPhoneでは「ファイルに保存」などを選び、復元が終わるまで保管してください。');
+          Promise.resolve(shareResult).catch(error => {
+            try {
+              if (error?.name === 'AbortError') {
+                setBackupPreview(blob, '共有をキャンセルしました。必要なら下のリンクから別の方法で保存できます。');
+              } else {
+                showBackupFallback(blob, filename, '共有メニューを完了できませんでした。');
+              }
+            } catch {
+              setBackupStatus('バックアップを保存できませんでした。ブラウザの共有・ダウンロード設定を確認してください。');
+            }
+          });
+          return;
+        }
+      }
+      showBackupFallback(blob, filename, 'バックアップファイルの保存を開始しました。');
     } catch {
-      const errorMessage = 'バックアップを作成できませんでした。ブラウザのダウンロード設定を確認してください。';
-      $('pachiExchangeMessage').textContent = errorMessage;
-      const migrationStatus = $('migrationBackupStatus');
-      if (migrationStatus) migrationStatus.textContent = errorMessage;
+      setBackupStatus('バックアップを作成できませんでした。ブラウザの共有・ダウンロード設定を確認してください。');
     }
   }
   async function importBackup(file, fileInput = $('pachiRestoreFile')) {
