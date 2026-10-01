@@ -1,0 +1,5 @@
+Jackpot-only sound effects: jackpot-grand.wav, jackpot-milestone.wav, jackpot-finale.wav and jackpot-finish.wav
+Source: Kenney Interface Sounds (1.0), https://kenney.nl/assets/interface-sounds
+Source samples: open_002.wav, glass_001.wav, confirmation_002.wav, confirmation_003.wav, confirmation_004.wav, maximize_006.wav, maximize_009.wav
+License: Creative Commons Zero (CC0), https://creativecommons.org/publicdomain/zero/1.0/
+Commercial use is permitted. Attribution is optional. Files are edited combinations of the source samples with original synthesized impact and sparkle layers.

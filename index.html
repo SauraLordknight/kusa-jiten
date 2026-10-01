@@ -175,8 +175,6 @@ footer{margin-top:30px;text-align:center;color:var(--muted);font-size:11px}
 .detail-type-badge{font-size:11px}
 .detail-modal{position:fixed;inset:0;z-index:10;display:none;place-items:center;padding:18px;background:rgba(24,55,20,.42)}
 .detail-modal.is-open{display:grid}
-#gachaDetailModal{inset:auto;left:var(--gacha-detail-viewport-left,0px);top:var(--gacha-detail-viewport-top,0px);width:var(--gacha-detail-viewport-width,100vw);height:var(--gacha-detail-viewport-height,100vh);overflow:auto;overscroll-behavior:contain}
-#gachaDetailModal .detail-panel:not(.gacha-framed){max-height:calc(var(--gacha-detail-viewport-height,100vh) - 36px)}
 .detail-panel{width:min(620px,100%);max-height:min(760px,92vh);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 55px rgba(20,65,18,.25)}
 .detail-panel.is-revealing{animation:card-reveal .45s cubic-bezier(.2,.8,.2,1) both}
 @keyframes card-reveal{from{opacity:0;transform:perspective(900px) rotateX(-10deg) translateY(18px) scale(.97)}to{opacity:1;transform:perspective(900px) rotateX(0) translateY(0) scale(1)}}
@@ -579,10 +577,11 @@ body,
 .pachi-result-actions{display:flex;gap:8px;margin-top:14px}
 .pachi-result-actions button{flex:1;border:0;border-radius:9px;padding:10px;background:#317b48;color:#fff;font:inherit;font-size:12px;font-weight:900;cursor:pointer}
 .pachi-status-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-bottom:7px;text-align:left}
-.pachi-status-cell{min-width:0;padding:7px 9px;border:1px solid rgba(213,244,189,.55);border-radius:9px;background:rgba(3,31,25,.72);box-shadow:inset 0 0 8px rgba(0,0,0,.25)}
+.pachi-status-cell{min-width:0;height:96px;overflow:hidden;padding:7px 9px;border:1px solid rgba(213,244,189,.55);border-radius:9px;background:rgba(3,31,25,.72);box-shadow:inset 0 0 8px rgba(0,0,0,.25)}
 .pachi-status-cell .pachi-display-label{display:block;margin-bottom:3px;color:#c7e9bc;font-size:9px;font-weight:800;letter-spacing:.08em}
-.pachi-status-cell strong{display:block;color:#f4ffe8;font-size:clamp(12px,2.7vw,15px);font-weight:900;line-height:1.3;overflow-wrap:anywhere}
-.pachi-status-cell small{display:block;margin-top:3px;color:#d5efcd;font-size:10px;font-weight:700;line-height:1.3;overflow-wrap:anywhere}
+.pachi-status-cell strong{display:-webkit-box;height:2.6em;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;color:#f4ffe8;font-size:clamp(12px,2.7vw,15px);font-weight:900;line-height:1.3;overflow-wrap:anywhere}
+.pachi-status-cell small{display:-webkit-box;height:2.6em;overflow:hidden;margin-top:3px;-webkit-box-orient:vertical;-webkit-line-clamp:2;color:#d5efcd;font-size:10px;font-weight:700;line-height:1.3;overflow-wrap:anywhere}
+.pachi-announcement{height:32px;overflow:hidden}
 .pachi-mode-readout[data-mode="normal"]{border-color:#91d477;background:rgba(19,85,39,.8)}
 .pachi-mode-readout[data-mode="night"]{border-color:#95beff;background:rgba(22,48,114,.85)}
 .pachi-mode-readout[data-mode="festival"]{border-color:#ffc075;background:rgba(129,53,22,.85)}
@@ -594,7 +593,7 @@ body,
 .pachi-mode-readout[data-mode="night"] strong{color:#d3e4ff}
 .pachi-mode-readout[data-mode="festival"] strong{color:#ffe0a8}
 .pachi-mode-readout[data-mode="yaminabe"] strong{color:#eddbff}
-@media(max-width:560px){.pachi-status-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.pachi-status-cell{padding:5px 6px}.pachi-status-cell .pachi-display-label{margin-bottom:2px;font-size:8px}.pachi-status-cell strong{font-size:clamp(10px,3vw,12px);line-height:1.2}.pachi-status-cell small{margin-top:2px;font-size:9px;line-height:1.2}}
+@media(max-width:560px){.pachi-status-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.pachi-status-cell{height:82px;padding:5px 6px}.pachi-status-cell .pachi-display-label{margin-bottom:2px;font-size:8px}.pachi-status-cell strong{font-size:clamp(10px,3vw,12px);line-height:1.2;height:2.4em}.pachi-status-cell small{margin-top:2px;font-size:9px;line-height:1.2;height:2.4em}}
 .pachi-combo{display:flex;justify-content:space-between;gap:8px;padding:5px 12px;border-radius:8px;background:#10442f;color:#edffcb;font-size:11px;font-weight:900}
 .pachi-machine[data-scene="night"] .pachi-board-wrap{filter:hue-rotate(105deg) brightness(.72)}
 .pachi-machine[data-scene="night"] .pachi-display{background:linear-gradient(120deg,#111d47,#25466d)}
@@ -624,7 +623,6 @@ body,
 .pachi-machine[data-scene="jackpot-festival"] .pachi-lcd{background:radial-gradient(circle at 50% 35%,#f3d883,#bb883b 50%,#684628 100%)}
 .pachi-machine.is-omen-2 .pachi-lcd{background:radial-gradient(circle at 50% 32%,#c7a85a,#866341 50%,#2e382d 100%)}
 .pachi-machine.is-omen-3 .pachi-lcd{background:radial-gradient(circle at 50% 32%,#ffeba0,#c49446 47%,#614a2c 100%)}
-.pachi-machine.is-omen-3 .pachi-lcd::before,.pachi-machine.is-jackpot .pachi-lcd::before{animation:pachi-lcd-jackpot .48s steps(2) infinite alternate}
 .pachi-board-wrap .pachi-board-flash{z-index:1;opacity:0;background:radial-gradient(circle,#fffbd1 0%,#ffd756 35%,transparent 75%)}
 .pachi-board-wrap .pachi-board-flash.is-flashing{animation:pachi-flash .7s ease-out}
 .pachi-mode-transition[hidden],.pachi-burst[hidden]{display:none!important}
@@ -667,7 +665,6 @@ body,
 @keyframes pachi-burst-pop{0%{opacity:0;transform:scale(.55)}22%{opacity:1;transform:scale(1.08)}68%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.08)}}
 @keyframes pachi-bulb-throb{to{filter:brightness(1.65);transform:scale(1.16)}}
 @keyframes pachi-lcd-drift{to{transform:translate3d(4%,3%,0) scale(1.04)}}
-@keyframes pachi-lcd-jackpot{from{opacity:.25}to{opacity:.9}}
 @media (prefers-reduced-motion:reduce){.pachi-lcd::before,.pachi-mode-transition,.pachi-mode-transition::before,.pachi-mode-transition strong,.pachi-transition-lamps i,.pachi-transition-reels span,.pachi-burst,.pachi-machine.is-combo-high .pachi-marquee .pachi-bulb{animation:none!important}.pachi-mode-transition{opacity:1}.pachi-burst{opacity:1}}
 .pachi-rule h3{margin:0;color:var(--deep);font-size:15px}
 .pachi-rule-list{display:grid;gap:8px;margin:4px 0 0;padding-left:1.35em}
@@ -675,25 +672,14 @@ body,
 .pachi-rule-list li::marker{color:#438b43}
 .pachi-rule-list strong{display:inline;color:var(--deep)}
 @media(max-width:520px){.pachi-result-grid,.pachi-title-list{grid-template-columns:1fr}.pachi-result-panel{padding:13px}}
-@keyframes pachi-reel-mobile{to{transform:translateY(3px)}}
-@media(max-width:600px),(pointer:coarse){
-  .pachi-machine[data-scene="night"] .pachi-board-wrap,
-  .pachi-machine[data-scene="festival"] .pachi-board-wrap,
-  .pachi-machine[data-scene="grass-festival"] .pachi-board-wrap,
-  .pachi-machine[data-scene="yaminabe"] .pachi-board-wrap{filter:none}
-  .pachi-machine[data-scene="puyuyu"] #pachiCanvas{filter:none}
-  .pachi-lcd{transition:none}
-  .pachi-machine .pachi-lcd::before,.pachi-machine.is-omen-3 .pachi-lcd::before,.pachi-machine.is-jackpot .pachi-lcd::before{animation:none}
-  .pachi-reels.is-spinning span{animation-name:pachi-reel-mobile}
-  .pachi-mode-transition:not([hidden]),.pachi-mode-transition:not([hidden])::before,.pachi-burst:not([hidden]),.pachi-board-flash.is-flashing{will-change:opacity,transform}
-  .pachi-machine.is-jackpot,
-  .pachi-machine.is-jackpot .pachi-marquee,
-  .pachi-machine.is-jackpot .pachi-display,
-  .pachi-machine.is-jackpot .pachi-board-wrap{animation:none}
-}
 </style>
 </head>
 <body>
+<div id="pachiWorldJackpot" class="pachi-world-jackpot-overlay" hidden aria-hidden="true">
+  <div class="pachi-world-jackpot-aura"></div>
+  <div class="pachi-world-jackpot-title"><small>🌿 KUSA PACHI 🌿</small><strong id="pachiWorldJackpotHeadline">👑 JACKPOT 👑</strong><em id="pachiWorldJackpotValue">500,000球を解放！</em><span>草むら全域に大当たりの光！</span></div>
+  <div class="pachi-world-jackpot-sparks"><i>✦</i><i>✧</i><i>✦</i><i>✧</i><i>✦</i><i>✧</i><i>✦</i><i>✧</i><i>✦</i><i>✧</i><i>✦</i><i>✧</i></div>
+</div>
 <header class="hero">
   <div class="hero-inner">
     <div class="hero-top">
@@ -851,12 +837,12 @@ body,
       <div id="pachiEntry" class="pachi-entry">
         <label for="pachiName">プレイヤーネーム</label>
         <div class="pachi-entry-row"><input id="pachiName" type="text" maxlength="20" autocomplete="nickname" placeholder="名前を入力"><button id="pachiStart" type="button">プレイ開始</button></div>
-        <p id="pachiEntryMessage" class="pachi-entry-message" role="status">初回は250球。名前ごとに球数と記録をこのブラウザに保存します。</p>
+        <p id="pachiEntryMessage" class="pachi-entry-message" role="status">新規プレイヤーは初期持ち球5,000球。名前ごとに球数と記録をこのブラウザに保存します。</p>
         <div id="pachiProfiles" class="pachi-profiles"></div>
       </div>
       <div id="pachiGame" class="pachi-game" hidden>
         <div class="pachi-player-row"><span>PLAYER <strong id="pachiPlayer"></strong><small id="pachiPlayerTitle" class="pachi-player-title">草パチ初心者</small></span><div class="pachi-player-actions"><button id="pachiRename" type="button">名前変更</button><button id="pachiShareOpen" type="button">記録をシェア</button><button id="pachiSwitch" type="button">プレイヤー変更</button></div></div>
-        <fieldset class="pachi-wager" id="pachiWager"><legend>掛け金を選ぶ</legend><label><input type="radio" name="pachiWager" value="1" checked><span>1草パチ</span></label><label><input type="radio" name="pachiWager" value="5"><span>5草パチ</span></label><label><input type="radio" name="pachiWager" value="10"><span>10草パチ</span></label><small id="pachiWagerNote">1発1球消費・残り250発</small></fieldset>
+        <fieldset class="pachi-wager" id="pachiWager"><legend>掛け金を選ぶ</legend><label><input type="radio" name="pachiWager" value="1" checked><span>1草パチ</span></label><label><input type="radio" name="pachiWager" value="5"><span>5草パチ</span></label><label><input type="radio" name="pachiWager" value="10"><span>10草パチ</span></label><small id="pachiWagerNote">1発1球消費・残り5,000発</small></fieldset>
         <div class="pachi-machine" id="pachiMachine">
           <div class="pachi-marquee"><span class="pachi-bulb">✦</span><div><small>草むら遊技場 一号機</small><strong>KUSA PACHI</strong></div><span class="pachi-bulb">✦</span></div>
           <div class="pachi-display">
@@ -867,27 +853,30 @@ body,
             <div id="pachiAnnouncement" class="pachi-announcement" aria-live="polite">中央のスタートチャッカーを狙おう！</div>
             <div class="pachi-omen-meter" aria-hidden="true"><span>草気配</span><i></i><i></i><i></i></div>
           </div>
-          <div class="pachi-stats"><div><small>持ち球</small><strong id="pachiBalls">250</strong></div><div><small>総回転数</small><strong id="pachiSpins">0</strong></div><div><small>大当たり</small><strong id="pachiHits">0</strong></div><div><small>連チャン</small><strong id="pachiStreak">0</strong></div></div>
+          <div class="pachi-stats"><div><small>持ち球</small><strong id="pachiBalls">5,000</strong></div><div><small>総回転数</small><strong id="pachiSpins">0</strong></div><div><small>大当たり</small><strong id="pachiHits">0</strong></div><div><small>連チャン</small><strong id="pachiStreak">0</strong></div></div>
           <div class="pachi-combo"><span id="pachiCombo">STARTコンボ 0</span><span id="pachiComboEffect">3・5・10・20で演出解放</span></div>
           <div class="pachi-combo" id="pachiPocketNote" aria-live="off">サイド +2球 ／ START +2球</div>
           <div class="pachi-board-wrap">
+            <div id="pachiJackpot" class="pachi-jackpot" hidden aria-live="off">
+              <div class="pachi-jackpot-title"><span id="pachiJackpotHeadline">👑 JACKPOT 👑</span><strong id="pachiJackpotTitle">発射1球につき10,000球！</strong></div>
+              <div class="pachi-jackpot-stream" aria-hidden="true"><span>😄</span><span>😎</span><span>🥳</span><span>🤩</span><span>😆</span><span>😊</span><span>😺</span><span>😋</span></div>
+              <div class="pachi-jackpot-meter"><span>発射で獲得</span><strong id="pachiJackpotPaid">0</strong><span> / <span id="pachiJackpotTotal">500,000</span>球</span></div>
+              <div class="pachi-jackpot-rounds"><span id="pachiJackpotRounds">0 / 50発</span><span id="pachiJackpotPhase">草紋チャージ中</span></div>
+              <progress id="pachiJackpotBar" max="500000" value="0" aria-label="ジャックポット賞球の払い出し"></progress>
+            </div>
             <div id="pachiLcd" class="pachi-lcd" aria-hidden="true">
               <div id="pachiBoardFlash" class="pachi-board-flash"></div>
+              <div id="pachiJackpotSigil" class="pachi-jackpot-sigil" hidden><span>🌿</span></div>
+              <div id="pachiJackpotGate" class="pachi-jackpot-gate" hidden><strong>🌿 草の門 🌿</strong><small id="pachiJackpotGateAmount"></small></div>
               <div id="pachiModeTransition" class="pachi-mode-transition" hidden><div class="pachi-transition-lamps"><i></i><i></i><i></i><i></i></div><div class="pachi-transition-reels"><span>🌱</span><span>🌿</span><span>🍀</span></div><strong id="pachiModeTransitionLabel"></strong><small>MODE CHANGE</small></div>
               <div id="pachiBurst" class="pachi-burst" hidden></div>
-            </div>
-            <div id="pachiJackpot" class="pachi-jackpot" hidden aria-live="off">
-              <div class="pachi-jackpot-title"><span>👑 JACKPOT 👑</span><strong id="pachiJackpotTitle">発射1球につき2,000球！</strong></div>
-              <div class="pachi-jackpot-stream" aria-hidden="true"><span>😄</span><span>😎</span><span>🥳</span><span>🤩</span><span>😆</span><span>😊</span><span>😺</span><span>😋</span></div>
-              <div class="pachi-jackpot-meter"><span>発射で獲得</span><strong id="pachiJackpotPaid">0</strong><span> / <span id="pachiJackpotTotal">100,000</span>球</span></div>
-              <progress id="pachiJackpotBar" max="100000" value="0" aria-label="ジャックポット賞球の払い出し"></progress>
             </div>
             <canvas id="pachiCanvas" width="440" height="570" role="img" aria-label="液晶演出の手前にある釘の間を、顔の絵文字の球が跳ねて落ちる草パチ盤面"></canvas>
             <canvas id="pachiBallsCanvas" class="pachi-balls-canvas" width="440" height="570" aria-hidden="true"></canvas>
             <div class="pachi-center-slot"><div class="pachi-hold-strip"><span>草ランプ</span><div id="pachiHolds" class="pachi-holds" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div><div class="pachi-center-slot-label"><span>✦</span>KUSA SLOT<span>✦</span></div><div id="pachiReels" class="pachi-reels" aria-hidden="true"><span>🌱</span><span>🌿</span><span>🍀</span></div><div class="pachi-center-slot-foot">STARTでリール回転</div></div>
           </div>
           <span id="pachiHoldStatus" class="sr-only" role="status">保留なし</span>
-          <div class="pachi-controls"><div class="pachi-control-main"><button id="pachiFire" class="pachi-fire" type="button">😄 発射 <small>押し続けて連射</small></button><label class="pachi-power-label" for="pachiPower">ハンドル <strong id="pachiPowerValue">65%</strong><input id="pachiPower" type="range" min="35" max="95" value="65"></label></div><div class="pachi-control-sub"><button id="pachiSound" type="button" aria-pressed="true">🔊 効果音 ON</button><button id="pachiDaily" type="button">🎁 今日の補充 +50球</button><button id="pachiResultOpen" type="button">📊 結果を見る</button></div><p id="pachiTitleNotice" class="pachi-title-notice" role="status"></p></div>
+          <div class="pachi-controls"><div class="pachi-control-main"><button id="pachiFire" class="pachi-fire" type="button">😄 発射 <small>押し続けて連射</small></button><label class="pachi-power-label" for="pachiPower">ハンドル <strong id="pachiPowerValue">65%</strong><input id="pachiPower" type="range" min="35" max="95" value="65"></label></div><div class="pachi-control-sub"><button id="pachiSound" type="button" aria-pressed="true">🔊 効果音 ON</button><button id="pachiDaily" type="button">🎁 今日の補充 +3,000球</button><button id="pachiResultOpen" type="button">📊 結果を見る</button></div><p id="pachiTitleNotice" class="pachi-title-notice" role="status"></p></div>
         </div>
         <section class="pachi-exchange" aria-labelledby="pachiExchangeTitle">
           <div class="pachi-exchange-head"><h3 id="pachiExchangeTitle">🌿 草の交換所</h3><span>ガチャ券 <strong id="pachiExchangeTickets">0</strong>枚（ブラウザ共通）</span></div>
@@ -913,12 +902,12 @@ body,
           <ul class="pachi-rule-list">
             <li><strong>まずは発射：</strong>1・5・10草パチから掛け金を選び、ハンドルで強さを調整して発射します。1発につき掛け金と同じ数の球を消費します。</li>
             <li><strong>入賞と草ランプ：</strong>左右の入賞口と中央のSTARTで球を獲得します。STARTに入ると草ランプが最大4個たまり、順番にリールが回ります。盤面と「入賞賞球」に、現在の掛け金に応じた賞球数を表示します。</li>
-            <li><strong>STARTコンボ：</strong>10秒以内に続けてSTARTへ入れると継続。3コンボでSTART賞球が掛け金1球分増加、5コンボで草ランプを1個追加、10コンボで超大当たり確率が1.5倍、20コンボで草祭コンボ演出が出ます。</li>
-            <li><strong>大当たり後：</strong>通常の大当たり後は10回転の草ST。草ST中の大当たり、超大当たり、ジャックポット後は15回転の草RUSHに入ります。終了後は5回転の草時短となり、START賞球が掛け金1球分増えます。</li>
+            <li><strong>STARTコンボ：</strong>10秒以内に続けてSTARTへ入れると継続。3コンボ達成時にSTART賞球が掛け金1球分増加し、5・10・20コンボで演出が変化します。</li>
+            <li><strong>大当たり後：</strong>通常大当たり後は10回転の草ST。ST中の大当たり、超大当たり、ジャックポット後は15回転の草RUSHに入ります。終了後は5回転の草時短となり、START賞球が掛け金1球分増えます。1草パチの払い出しは通常4Rが100球・10Rが150球、RUSH中4Rが150球・8Rが190球・10Rが250球、超大当たりが500球です。5草・10草パチではそれぞれ5倍・10倍になります。</li>
             <li><strong>モード抽選：</strong>開始時は通常45％・夜25％・お祭り15％・闇鍋12％・ぷゆゆラッシュ3％で抽選。通常抽選中のSTARTを15回消化すると、次のSTARTで継続を判定します。</li>
             <li><strong>モード継続：</strong>継続率は通常35％、夜・お祭り・闇鍋50％、ぷゆゆラッシュ20％。成功すると同じモードを15回転延長し、継続回数を表示します。失敗すると現在以外のモードへ切り替わります。草ST・草RUSH・草時短・ジャックポット祭中は判定を休止し、終了後の次のSTARTで判定します。</li>
-            <li><strong>各モードの効果：</strong>夜の草むらはチャンス草ランプが少し出やすく、お祭りはSTART賞球が掛け金1球分増加。闇鍋はSTART賞球が掛け金0〜2球分変動します。ぷゆゆラッシュは球が🥺だけになり、サイドとSTARTの賞球が掛け金2球分増加。通常抽選の大当たり・超大当たり確率は1.5倍、草ST・草RUSH中の連チャン確率は通常モードの5倍（13%→65%）です。釘の配置はどのモードも同じです。</li>
-            <li><strong>ジャックポット：</strong>START抽選時に全モード共通で1/20,000。1草パチで10万球、5草パチで30万球、10草パチで50万球を、発射50回に分けて払い出します。その後10回転はジャックポット祭となり、START賞球が掛け金1球分増えます。</li>
+            <li><strong>各モードの効果：</strong>サイド入賞は掛け金1球分、STARTは基本1球分。夜の草むらはチャンス草ランプが少し出やすく、お祭りはSTART賞球が掛け金1球分増加。闇鍋はSTART賞球が掛け金0〜2球分変動します。ぷゆゆラッシュは球が🥺だけになり、START賞球が掛け金1球分増加。通常時の当たり確率は1.5倍、ST/RUSH中は高確率です。釘の配置はどのモードも同じです。</li>
+            <li><strong>ジャックポット：</strong>通常時のSTART抽選で1/20,000。1草パチで50万球、5草パチで150万球、10草パチで1,000万球を、発射50回に分けて払い出します。その後のジャックポット祭は10回転。祭中のSTART入賞には10,000球を上乗せし、10回とも超大当たりが確定します。</li>
             <li><strong>記録と交換：</strong>「結果を見る」で記録と称号を確認できます。持ち球は1球＝1草で交換でき、15,000草でガチャ券1枚と交換できます。球・草・記録はブラウザに自動保存されます。</li>
           </ul>
         </div>
@@ -926,7 +915,7 @@ body,
       </div>
       <div id="pachiShareModal" class="pachi-share-modal" role="dialog" aria-modal="true" aria-labelledby="pachiShareTitle" hidden><div class="pachi-share-panel"><div class="pachi-share-head"><h3 id="pachiShareTitle">草パチの記録をシェア</h3><button id="pachiShareClose" type="button" aria-label="シェア画面を閉じる">×</button></div><label class="pachi-share-name-option"><input id="pachiShareName" type="checkbox" checked>画像にプレイヤー名を載せる</label><canvas id="pachiShareCanvas" width="1080" height="1080" role="img" aria-label="持ち球・所持草・草パチの掛け金を表示したシェア用画像"></canvas><p id="pachiShareSummary"></p><div class="pachi-share-actions"><button id="pachiShareDownload" type="button">画像を保存</button><button id="pachiShareNative" type="button">共有する</button></div><p id="pachiShareMessage" role="status"></p></div></div>
       <div id="pachiResultModal" class="pachi-result-modal" role="dialog" aria-modal="true" aria-labelledby="pachiResultTitle" hidden><div class="pachi-result-panel"><div class="pachi-result-head"><div><h3 id="pachiResultTitle">📊 草パチ結果</h3><p>獲得は賞球を1球＝1草で換算した値です。所持草とは別に記録します。新しい計測項目はこの試作から数えます。</p></div><button id="pachiResultClose" type="button" aria-label="結果画面を閉じる">×</button></div><div class="pachi-result-hero"><small>今回の獲得（草換算）</small><strong id="pachiResultPrize">0</strong><span id="pachiResultEquipped">草パチ初心者</span></div><div class="pachi-result-grid"><section class="pachi-result-section"><h4>今回のプレイ</h4><dl id="pachiSessionStats"></dl></section><section class="pachi-result-section"><h4>累計・自己ベスト</h4><dl id="pachiLifetimeStats"></dl></section></div><p id="pachiPreviousSession" class="pachi-result-previous" hidden></p><section class="pachi-result-titles"><h4>称号コレクション <span id="pachiTitleCount"></span></h4><label class="pachi-title-picker">表示する称号 <select id="pachiTitleSelect"></select></label><div id="pachiTitleList" class="pachi-title-list"></div></section><div class="pachi-result-actions"><button id="pachiResultShare" type="button">称号付きでシェア</button><button id="pachiResultDone" type="button">遊技に戻る</button></div></div></div>
-      <details class="pachi-credits"><summary>効果音の出典</summary><p>従来の球音は<a href="https://freesound.org/people/swordofkings128/sounds/566080/" target="_blank" rel="noopener noreferrer">鋼球が転がる録音</a>（swordofkings128）と<a href="https://freesound.org/people/Ryanz-Official/sounds/639754/" target="_blank" rel="noopener noreferrer">短い金属打音</a>（Ryanz-Official）を軽く編集しました。大当たり音は<a href="https://freesound.org/people/schafferdavid/sounds/450268/" target="_blank" rel="noopener noreferrer">実機の得点機構</a>（schafferdavid）です。モード効果音はKenneyの<a href="https://kenney.nl/assets/interface-sounds" target="_blank" rel="noopener noreferrer">Interface Sounds</a>、<a href="https://kenney.nl/assets/impact-sounds" target="_blank" rel="noopener noreferrer">Impact Sounds</a>、<a href="https://kenney.nl/assets/casino-audio" target="_blank" rel="noopener noreferrer">Casino Audio</a>を使用。すべてCC0で商用利用可、音楽はありません。</p></details>
+      <details class="pachi-credits"><summary>効果音の出典</summary><p>従来の球音は<a href="https://freesound.org/people/swordofkings128/sounds/566080/" target="_blank" rel="noopener noreferrer">鋼球が転がる録音</a>（swordofkings128）と<a href="https://freesound.org/people/Ryanz-Official/sounds/639754/" target="_blank" rel="noopener noreferrer">短い金属打音</a>（Ryanz-Official）を軽く編集しました。大当たり音は<a href="https://freesound.org/people/schafferdavid/sounds/450268/" target="_blank" rel="noopener noreferrer">実機の得点機構</a>（schafferdavid）です。モード効果音とジャックポット専用音はKenneyの<a href="https://kenney.nl/assets/interface-sounds" target="_blank" rel="noopener noreferrer">Interface Sounds</a>、<a href="https://kenney.nl/assets/impact-sounds" target="_blank" rel="noopener noreferrer">Impact Sounds</a>、<a href="https://kenney.nl/assets/casino-audio" target="_blank" rel="noopener noreferrer">Casino Audio</a>を使用。すべてCC0で商用利用可、音楽はありません。</p></details>
     </div>
   </section>
   </div>
@@ -1084,6 +1073,7 @@ body,
 
   <section class="info-card" id="revision-history" aria-labelledby="revisionTitle">
     <h2 id="revisionTitle">kusa事典の更新履歴</h2>
+    <div class="era"><strong>2026年10月1日</strong><span>【草パチ アップデート】台設定が毎日0時に切り替わるようになりました。設定に応じて当たりやすさが変化し、日ごとに異なる遊技バランスを楽しめます。</span></div>
     <div class="era"><strong>2026年10月1日 00:18</strong><span>【草パチ・草ガチャ 大型アップデート】草パチと草ガチャを大幅にアップデートしました。演出や遊びやすさを見直し、新しい楽しみを加えています。詳しい内容は、ぜひ遊びながら見つけてください。</span></div>
     <div class="era"><strong>2026年9月30日</strong><span>草パチの細かなバグや不具合（球の挙動、スマホ復帰時の描画、効果音など）を修正し、名簿の記載漏れやプロフィール表記を見直しました。</span></div>
     <div class="era"><strong>2026年9月29日</strong><span>ネームド名鑑の名前を情報提供に合わせて分割・表記修正し、各名前を五十音順の該当欄に整理しました。</span></div>
@@ -2049,24 +2039,9 @@ function openGachaCardDetail(card) {
   gachaDetailRarity.textContent = gachaRarityText(card.rarity);
   gachaDetailKind.textContent = card.kind;
   gachaDetailText.textContent = card.text;
-  gachaDetailPanel.querySelector('.detail-body').scrollTop = 0;
   gachaDetailModal.hidden = false;
-  syncGachaDetailViewport();
   gachaDetailModal.classList.add('is-open');
 }
-
-function syncGachaDetailViewport() {
-  if (gachaDetailModal.hidden) return;
-  const viewport = window.visualViewport;
-  if (!viewport) return;
-  gachaDetailModal.style.setProperty('--gacha-detail-viewport-left', `${viewport.offsetLeft}px`);
-  gachaDetailModal.style.setProperty('--gacha-detail-viewport-top', `${viewport.offsetTop}px`);
-  gachaDetailModal.style.setProperty('--gacha-detail-viewport-width', `${viewport.width}px`);
-  gachaDetailModal.style.setProperty('--gacha-detail-viewport-height', `${viewport.height}px`);
-}
-window.visualViewport?.addEventListener('resize', syncGachaDetailViewport);
-window.visualViewport?.addEventListener('scroll', syncGachaDetailViewport);
-window.addEventListener('resize', syncGachaDetailViewport);
 
 let closeActiveOmegaGachaEffect = null;
 function showOmegaGachaEffect(card) {
@@ -2450,6 +2425,7 @@ function arrangePageForFirstVisit() {
     main.querySelector('.news-card'),
     main.querySelector('.site-map'),
     main.querySelector('.kusa-play-corner'),
+    document.getElementById('gachaDetailModal'),
     main.querySelector('.search-box'),
     main.querySelector('.filter-bar'),
     main.querySelector('.type-filter-bar'),
@@ -2477,7 +2453,6 @@ function arrangePageForFirstVisit() {
   orderedBlocks.filter(Boolean).forEach(block => main.appendChild(block));
 }
 arrangePageForFirstVisit();
-document.body.appendChild(gachaDetailModal);
 
 initGacha();
 filterNames();
@@ -2506,11 +2481,35 @@ filterNames();
   const reelFaces = ['🌱', '🌿', '🍀', '🌻', '🌳', '✨'];
   const profileKey = 'kusaPachiProfilesV1';
   const soundKey = 'kusaPachiSoundV1';
-  const jackpotAmounts = {1: 100000, 5: 300000, 10: 500000};
+  const jackpotAmounts = {1: 500000, 5: 1500000, 10: 10000000};
+  const previousJackpotAmounts = {1: 100000, 5: 300000, 10: 500000};
   const jackpotOdds = 20000;
-  const pocketPayout = 2;
-  const hitPayout = 80;
-  const premiumPayout = 250;
+  const jackpotFestivalStartBonus = 10000;
+  const pocketPayout = 1;
+  const pachiSettings = [null,
+    {normal:1/159.8, high:1/50.0, normalLabel:'159.8', highLabel:'50.0'},
+    {normal:1/80, high:1/50, normalLabel:'80', highLabel:'50'},
+    {normal:1/35, high:1/30, normalLabel:'35', highLabel:'30'},
+    {normal:1/25, high:1/20, normalLabel:'25', highLabel:'20'},
+    {normal:1/15, high:1/12, normalLabel:'15', highLabel:'12'},
+    {normal:1/8, high:1/8, normalLabel:'8', highLabel:'8'}
+  ];
+  // 全訪問者で共通の日替わり設定。日本時間の日付を種に1〜6から均等に選ぶ。
+  function dailyPachiSetting() {
+    const dayKey = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
+    if (dayKey === '2026-10-01') return 3;
+    let hash = 0x811c9dc5;
+    for (let i = 0; i < dayKey.length; i++) hash = Math.imul(hash ^ dayKey.charCodeAt(i), 0x01000193);
+    hash = Math.imul(hash ^ (hash >>> 16), 0x21f0aaad);
+    hash = Math.imul(hash ^ (hash >>> 15), 0x735a2d97);
+    hash ^= hash >>> 15;
+    return (hash >>> 0) % 6 + 1;
+  }
+  const premiumPayout = 500;
+  const roundPayoutTables = {
+    normal: [{rounds:4,weight:1/3,payout:100},{rounds:10,weight:2/3,payout:150}],
+    rush: [{rounds:4,weight:.2,payout:150},{rounds:8,weight:.4,payout:190},{rounds:10,weight:.4,payout:250}]
+  };
   const rushSpins = 10;
   const rushBonusSpins = 15;
   const comboWindowMs = 10000;
@@ -2529,7 +2528,7 @@ filterNames();
     night:'夜の草むら。鈴の音と、当たり時のチャンス草ランプが少し出やすくなります。',
     festival:'お祭り。にぎやかな打音でSTART賞球が掛け金1個分増えます。',
     yaminabe:'闇鍋。START賞球に掛け金0〜2個分をランダム追加します。',
-    puyuyu:'ぷゆゆラッシュ。球は🥺だけ。通常抽選の大当たり・超大当たりは1.5倍。草ST・草RUSH中の連チャン確率は通常モードの5倍（13%→65%）。サイドとSTARTは掛け金2球分の賞球を追加。'
+    puyuyu:'ぷゆゆラッシュ。球は🥺だけ。通常時の当たり確率は1.5倍、ST/RUSH中は台設定に応じた高確率。START賞球を掛け金1球分追加。'
   };
   const chuteTipY = 40;
   function chuteX(y) {
@@ -2590,7 +2589,8 @@ filterNames();
     {id:'kwsk', name:'kwsk', rarity:'R', group:'play', rule:'結果画面を10回開く', unlocked:p => p.resultOpens >= 10},
     {id:'old', name:'古参', rarity:'SSR', group:'play', rule:'初プレイから7日経過', unlocked:p => Date.now() - Date.parse(p.firstPlayedAt) >= 7*86400000},
     {id:'vip', name:'VIP待遇', rarity:'GODR', group:'play', rule:'初プレイから30日経過', unlocked:p => Date.now() - Date.parse(p.firstPlayedAt) >= 30*86400000},
-    {id:'omega', name:'時間の無駄', rarity:'Ω', group:'play', rule:'累計で1,000,000球を所持', unlocked:p => p.bestBalls >= 1000000}
+    {id:'omega', name:'時間の無駄', rarity:'Ω', group:'play', rule:'累計で1,000,000球を所持', unlocked:p => p.bestBalls >= 1000000},
+    {id:'kusaServer', name:'KUSA SERVER', rarity:'Ω', group:'play', rule:'持ち球100,000,000球を達成', unlocked:p => p.bestBalls >= 100000000}
   ];
   let profiles = readProfiles();
   let player = null;
@@ -2598,7 +2598,7 @@ filterNames();
   let soundOn = readSound();
   const soundFiles = {
     launch: 'launch.wav', pegA: 'peg-a.wav', pegB: 'peg-b.wav', pegC: 'peg-c.wav',
-    start: 'start.wav', jackpot: 'jackpot.wav', drain: 'drain.wav',
+    start: 'start.wav', jackpot: 'jackpot.wav', jackpotGrand: 'jackpot-grand.wav', jackpotMilestone: 'jackpot-milestone.wav', jackpotFinale: 'jackpot-finale.wav', jackpotFinish: 'jackpot-finish.wav', drain: 'drain.wav',
     modeNight: 'mode-night.ogg', modePuyuLaunch: 'mode-puyu-launch.ogg',
     modePuyuPeg: 'mode-puyu-peg.ogg', modePuyuStart: 'mode-puyu-start.ogg',
     modeCombo: 'mode-combo.ogg', modeYaminabe: 'mode-yaminabe.ogg',
@@ -2618,6 +2618,7 @@ filterNames();
   let firing = false;
   let fireTimer = 0;
   let lastFire = 0;
+  let idleResetTimer = 0;
   let lastFrame = 0;
   let frameId = 0;
   let spinQueue = [];
@@ -2635,6 +2636,9 @@ filterNames();
   let payoutFinishTimer = 0;
   let payoutTotal = 0;
   let lastPayoutSound = 0;
+  let payoutShownMilestone = 0;
+  let jackpotGateTimer = 0;
+  let worldJackpotTimer = 0;
   let titleNoticeTimer = 0;
   const titleNoticeNames = new Set();
   let renderedTitleKey = '';
@@ -2642,9 +2646,6 @@ filterNames();
   let modeTransitionTimer = 0;
   let burstTimer = 0;
   let stageFlashTimer = 0;
-  let modeTransitionFrame = 0;
-  let burstFrame = 0;
-  let boardFlashFrame = 0;
   let boardAwardKey = '';
 
   function readProfiles() {
@@ -2658,12 +2659,18 @@ filterNames();
   function validCount(value, fallback = 0) {
     return Number.isSafeInteger(value) && value >= 0 ? Math.min(value, 100000000) : fallback;
   }
+  function validLongCount(value, fallback = 0) {
+    return Number.isSafeInteger(value) && value >= 0 ? value : fallback;
+  }
+  function incrementLongCount(value) {
+    return value < Number.MAX_SAFE_INTEGER ? value + 1 : Number.MAX_SAFE_INTEGER;
+  }
   function validWager(value) { return [1, 5, 10].includes(Number(value)) ? Number(value) : 1; }
   function normalizeSession(value) {
     if (!value || typeof value !== 'object' || !Number.isFinite(Date.parse(value.startedAt))) return null;
     return {
       startedAt: value.startedAt, shots: validCount(value.shots), spins: validCount(value.spins),
-      prize: validCount(value.prize), hits: validCount(value.hits), bestStreak: validCount(value.bestStreak),
+      prize: validCount(value.prize), hits: validCount(value.hits), bestStreak: validLongCount(value.bestStreak),
       jackpots: validCount(value.jackpots), chanceHolds: validCount(value.chanceHolds)
     };
   }
@@ -2673,21 +2680,25 @@ filterNames();
   function normalizeProfile(p) {
     const unlockedTitles = Array.isArray(p.unlockedTitles) ? [...new Set(p.unlockedTitles.filter(id => titleCatalog.some(title => title.id === id)))].slice(0, titleCatalog.length) : [];
     if (!unlockedTitles.includes('beginner')) unlockedTitles.unshift('beginner');
+    const jackpotRate = validWager(p.jackpotRate);
+    const pendingJackpot = validCount(p.pendingJackpot);
+    const jackpotAwardUnit = validCount(p.jackpotAwardUnit, pendingJackpot > 0 ? previousJackpotAmounts[jackpotRate] : jackpotAmounts[jackpotRate]);
     return {
       name: p.name, balls: validCount(p.balls, 250), grass: validCount(p.grass), wager: validWager(p.wager), spins: validCount(p.spins),
-      hits: validCount(p.hits), streak: validCount(p.streak), bestStreak: validCount(p.bestStreak),
+      hits: validCount(p.hits), streak: validLongCount(p.streak), bestStreak: validLongCount(p.bestStreak),
       rushLeft: Math.min(validCount(p.rushLeft), rushBonusSpins), lastBonusDay: typeof p.lastBonusDay === 'string' ? p.lastBonusDay : '',
       inFlight: validCount(p.inFlight), inFlightValue: validCount(p.inFlightValue, validCount(p.inFlight)),
-      pendingJackpot: validCount(p.pendingJackpot), jackpotRate: validWager(p.jackpotRate),
-      jackpotTotal: validCount(p.jackpotTotal, Math.ceil(validCount(p.pendingJackpot) / jackpotAmounts[validWager(p.jackpotRate)]) * jackpotAmounts[validWager(p.jackpotRate)]),
+      pendingJackpot, jackpotRate, jackpotAwardUnit,
+      jackpotTotal: validCount(p.jackpotTotal, Math.ceil(pendingJackpot / (pendingJackpot > 0 ? previousJackpotAmounts[jackpotRate] : jackpotAmounts[jackpotRate])) * (pendingJackpot > 0 ? previousJackpotAmounts[jackpotRate] : jackpotAmounts[jackpotRate])),
       totalShots: validCount(p.totalShots), totalPrize: validCount(p.totalPrize), bestPrize: validCount(p.bestPrize),
       bestBalls: Math.max(validCount(p.bestBalls), validCount(p.balls, 250)),
       bestSpins: validCount(p.bestSpins), jackpotCount: validCount(p.jackpotCount), premiumCount: validCount(p.premiumCount),
       scene: scenes.includes(p.scene) ? p.scene : 'normal', sceneSpinsLeft: Math.min(validCount(p.sceneSpinsLeft), sceneCycleSpins),
-      sceneChain: Math.min(validCount(p.sceneChain, Number.isSafeInteger(p.sceneSpinsLeft) ? 1 : 0), 999), jpFestivalLeft: Math.min(validCount(p.jpFestivalLeft), 10),
+      sceneChain: validLongCount(p.sceneChain, Number.isSafeInteger(p.sceneSpinsLeft) ? 1 : 0), jpFestivalLeft: Math.min(validCount(p.jpFestivalLeft), 10),
       rushType: p.rushType === 'rush' ? 'rush' : 'st', timeLeft: Math.min(validCount(p.timeLeft), 5),
-      comboCount: Math.min(validCount(p.comboCount), 999), comboLastAt: Number.isSafeInteger(p.comboLastAt) && p.comboLastAt > 0 && p.comboLastAt < Date.now() + 60000 ? p.comboLastAt : 0,
+      comboCount: validLongCount(p.comboCount), comboLastAt: Number.isSafeInteger(p.comboLastAt) && p.comboLastAt > 0 && p.comboLastAt < Date.now() + 60000 ? p.comboLastAt : 0,
       bonusHoldDue: Math.min(validCount(p.bonusHoldDue), 1),
+      lastFireAt: Number.isSafeInteger(p.lastFireAt) && p.lastFireAt > 0 && p.lastFireAt <= Date.now() ? p.lastFireAt : 0,
       fastHits: validCount(p.fastHits), chanceWins: validCount(p.chanceWins), hotHolds: validCount(p.hotHolds),
       rainbowWins: validCount(p.rainbowWins), dryShots: validCount(p.dryShots), comebackCount: validCount(p.comebackCount),
       resultOpens: validCount(p.resultOpens), firstPlayedAt: Number.isFinite(Date.parse(p.firstPlayedAt)) ? p.firstPlayedAt : new Date().toISOString(),
@@ -2758,6 +2769,24 @@ filterNames();
   function comboIsLive() {
     return !!player && player.comboCount > 0 && Date.now() - player.comboLastAt < comboWindowMs;
   }
+  function resetPlayerAfterIdle() {
+    if (!player?.lastFireAt || Date.now() - player.lastFireAt < 5 * 60 * 60 * 1000) return false;
+    player.scene = 'normal'; player.sceneSpinsLeft = 0; player.sceneChain = 0;
+    player.streak = 0; player.comboCount = 0; player.comboLastAt = 0;
+    player.rushLeft = 0; player.timeLeft = 0; player.jpFestivalLeft = 0;
+    applyScene();
+    return true;
+  }
+  function scheduleIdleReset() {
+    clearTimeout(idleResetTimer);
+    idleResetTimer = 0;
+    if (!player?.lastFireAt) return;
+    idleResetTimer = setTimeout(() => {
+      idleResetTimer = 0;
+      if (resetPlayerAfterIdle()) { saveProfiles(); updateUI(); }
+      else scheduleIdleReset();
+    }, Math.max(0, player.lastFireAt + 5 * 60 * 60 * 1000 - Date.now()));
+  }
   function activeScene() {
     if (payoutActive || player?.pendingJackpot > 0) return 'jackpot-festival';
     if (player?.jpFestivalLeft > 0) return 'jackpot-festival';
@@ -2771,7 +2800,7 @@ filterNames();
     const previous = player.scene;
     if (player.sceneChain > 0 && Math.random() < sceneContinueRates[previous]) {
       player.sceneSpinsLeft = sceneCycleSpins;
-      player.sceneChain = Math.min(player.sceneChain + 1, 999);
+      player.sceneChain = incrementLongCount(player.sceneChain);
       applyScene();
       showModeTransition(`${sceneLottery.find(scene => scene.id === previous).label} 継続 ×${player.sceneChain}！`, previous);
       showBurst(previous === 'puyuyu' ? '🥺 ぷゆゆ継続！' : '🌟 モード継続！', previous === 'puyuyu' ? 'gold' : 'grass');
@@ -2788,75 +2817,73 @@ filterNames();
     showModeTransition(`${selected.label} 突入！`, selected.id);
     if (selected.id === 'puyuyu') showBurst('🥺 ぷゆゆラッシュ！', 'gold');
   }
-  function sideAwardFor(wager = player?.wager || 1, scene = player?.scene || 'normal') {
-    return (pocketPayout + (scene === 'puyuyu' ? 2 : 0)) * wager;
+  function sideAwardFor(wager = player?.wager || 1) {
+    return pocketPayout * wager;
   }
   function startBonusUnits(scene = player?.scene || 'normal') {
-    return (comboIsLive() && player.comboCount >= 3 ? 1 : 0)
+    return (comboIsLive() && player.comboCount === 3 ? 1 : 0)
       + (player?.timeLeft > 0 && player.rushLeft === 0 ? 1 : 0)
-      + (player?.jpFestivalLeft > 0 && player.pendingJackpot === 0 ? 1 : 0)
-      + (scene === 'puyuyu' ? 2 : 0)
+      + (scene === 'puyuyu' ? 1 : 0)
       + (scene === 'festival' ? 1 : 0);
   }
-  function startAwardFor(wager = player?.wager || 1, randomize = false) {
+  function jackpotFestivalReady() {
+    return !!player && player.jpFestivalLeft > 0 && player.pendingJackpot === 0 && !payoutActive;
+  }
+  function startAwardFor(wager = player?.wager || 1, randomize = false, festivalEligible = true) {
     const minimum = (pocketPayout + startBonusUnits()) * wager;
-    return minimum + (player?.scene === 'yaminabe' && randomize ? Math.floor(Math.random() * 3) * wager : 0);
+    return minimum + (festivalEligible && jackpotFestivalReady() ? jackpotFestivalStartBonus : 0)
+      + (player?.scene === 'yaminabe' && randomize ? Math.floor(Math.random() * 3) * wager : 0);
+  }
+  function drawRoundPayout(rush, wager) {
+    let roll = Math.random();
+    const table = roundPayoutTables[rush ? 'rush' : 'normal'];
+    const result = table.find(item => (roll -= item.weight) < 0) || table[table.length - 1];
+    return {rounds: result.rounds, award: result.payout * wager};
   }
   function updatePocketAwards() {
     if (!player) return;
     const side = sideAwardFor();
     const start = startAwardFor();
-    const range = player.scene === 'yaminabe' ? `〜${start + 2 * player.wager}` : '';
+    const range = player.scene === 'yaminabe' ? `〜${(start + 2 * player.wager).toLocaleString('ja-JP')}` : '';
     $('pachiPocketNote').textContent = mobileLite
-      ? `サイド +${side}球 / START +${start}${range}球${comboIsLive() && player.comboCount >= 3 ? ' / コンボ込み' : ''}`
-      : `入賞賞球｜サイド +${side}球 ／ START +${start}${range}球${comboIsLive() && player.comboCount >= 3 ? '（コンボ込み）' : ''}`;
+      ? `サイド +${side}球 / START +${start.toLocaleString('ja-JP')}${range}球${comboIsLive() && player.comboCount >= 3 ? ' / コンボ込み' : ''}`
+      : `入賞賞球｜サイド +${side}球 ／ START +${start.toLocaleString('ja-JP')}${range}球${comboIsLive() && player.comboCount >= 3 ? '（コンボ込み）' : ''}`;
     const key = `${side}/${start}/${range}`;
     if (key !== boardAwardKey) { boardAwardKey = key; drawBoardScenery(); }
   }
   function stopStageEffects() {
     clearTimeout(modeTransitionTimer); clearTimeout(burstTimer); clearTimeout(stageFlashTimer);
-    cancelAnimationFrame(modeTransitionFrame); cancelAnimationFrame(burstFrame); cancelAnimationFrame(boardFlashFrame);
+    clearTimeout(jackpotGateTimer);
+    jackpotGateTimer = 0;
+    $('pachiJackpotGate').hidden = true;
+    $('pachiJackpotGate').classList.remove('is-opening');
     modeTransitionTimer = burstTimer = stageFlashTimer = 0;
-    modeTransitionFrame = burstFrame = boardFlashFrame = 0;
     $('pachiModeTransition').hidden = true;
     $('pachiBurst').hidden = true;
-    $('pachiBoardFlash').classList.remove('is-flashing');
     $('pachiMachine').classList.remove('is-stage-flash');
   }
   function showModeTransition(label, tone = activeScene()) {
     if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
     const layer = $('pachiModeTransition');
     clearTimeout(modeTransitionTimer);
-    cancelAnimationFrame(modeTransitionFrame);
     $('pachiModeTransitionLabel').textContent = label;
     layer.dataset.tone = tone;
     layer.hidden = true;
-    modeTransitionFrame = requestAnimationFrame(() => {
-      modeTransitionFrame = requestAnimationFrame(() => {
-        modeTransitionFrame = 0;
-        if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
-        layer.hidden = false;
-        modeTransitionTimer = setTimeout(() => { layer.hidden = true; modeTransitionTimer = 0; }, 1300);
-      });
-    });
+    void layer.offsetWidth;
+    layer.hidden = false;
+    modeTransitionTimer = setTimeout(() => { layer.hidden = true; modeTransitionTimer = 0; }, 1300);
     playSound('modeEnter', .24);
   }
   function showBurst(label, tone = 'grass', duration = 850) {
     if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
     const burst = $('pachiBurst');
     clearTimeout(burstTimer);
-    cancelAnimationFrame(burstFrame);
     burst.textContent = label;
     burst.dataset.tone = tone;
     burst.hidden = true;
-    burstFrame = requestAnimationFrame(() => {
-      burstFrame = requestAnimationFrame(() => {
-        burstFrame = 0;
-        if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
-        burst.hidden = false;
-        burstTimer = setTimeout(() => { burst.hidden = true; burstTimer = 0; }, duration);
-      });
-    });
+    void burst.offsetWidth;
+    burst.hidden = false;
+    burstTimer = setTimeout(() => { burst.hidden = true; burstTimer = 0; }, duration);
   }
   function flashStart() {
     if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
@@ -2877,7 +2904,7 @@ filterNames();
     $('pachiSceneLabel').textContent = `${sceneLabel}${chainSuffix}`;
     if (displayedScene === 'jackpot-festival') {
       $('pachiSceneHelp').textContent = player.jpFestivalLeft > 0 && player.pendingJackpot === 0 && !payoutActive
-        ? `JP祭終了まであと${player.jpFestivalLeft}回転`
+        ? `超大当たり確定・STARTに+1万球／残り${player.jpFestivalLeft}回転`
         : '発射で賞球を獲得中';
       return;
     }
@@ -2902,12 +2929,11 @@ filterNames();
   }
   function recordStartCombo() {
     const continued = comboIsLive();
-    player.comboCount = continued ? Math.min(999, player.comboCount + 1) : 1;
+    player.comboCount = continued ? incrementLongCount(player.comboCount) : 1;
     player.comboLastAt = Date.now();
     scheduleComboExpiry();
-    if (player.comboCount === 5) player.bonusHoldDue = 1;
     if ([3, 5, 10, 20].includes(player.comboCount)) {
-      const message = {3:'START賞球アップ！',5:'追加の草ランプを獲得！',10:'超大当たり期待度アップ！',20:'草祭コンボ達成！'}[player.comboCount];
+      const message = {3:'START賞球+1！',5:'草ランプ演出アップ！',10:'激アツ演出！',20:'草祭演出！'}[player.comboCount];
       announce(`🌿 ${player.comboCount}コンボ！ ${message}`, 2200);
       playSound('modeCombo', .24);
       showBurst(`${player.comboCount} COMBO!`, player.comboCount >= 10 ? 'gold' : 'grass');
@@ -3183,23 +3209,27 @@ filterNames();
     $('pachiSpins').textContent = player.spins.toLocaleString('ja-JP');
     $('pachiHits').textContent = player.hits.toLocaleString('ja-JP');
     $('pachiStreak').textContent = player.streak.toLocaleString('ja-JP');
+    $('pachiStreak').title = `${player.streak.toLocaleString('ja-JP')}連チャン`;
+    const streakCellWidth = $('pachiStreak').parentElement.clientWidth - 8;
+    $('pachiStreak').style.fontSize = `${Math.max(6, Math.min(19, streakCellWidth / Math.max(1, $('pachiStreak').textContent.length * .62)))}px`;
     $('pachiMode').textContent = player.rushLeft > 0
       ? `${player.rushType === 'rush' ? '🔥 草RUSH' : '🌱 草ST'} 残り${player.rushLeft}回転`
       : player.timeLeft > 0 ? `✨ 草時短 残り${player.timeLeft}回転` : '🌿 通常抽選';
-    if (player.jpFestivalLeft > 0 && player.pendingJackpot === 0) $('pachiMode').textContent += `・👑 JP祭${player.jpFestivalLeft}回転`;
+    if (jackpotFestivalReady()) $('pachiMode').textContent += `・👑 JP祭 残り${player.jpFestivalLeft}回転`;
     const combo = comboIsLive() ? player.comboCount : 0;
     $('pachiCombo').textContent = `STARTコンボ ${combo}`;
-    $('pachiComboEffect').textContent = combo >= 20 ? '🌈 草祭コンボ・超大当たり×1.5' : combo >= 10 ? '🌟 超大当たり期待度×1.5' : combo >= 3 ? `🌿 START賞球+${player.wager}` : '3・5・10・20で演出解放';
+    $('pachiComboEffect').textContent = combo >= 20 ? '🌈 草祭コンボ演出' : combo >= 10 ? '🌟 激アツ演出' : combo >= 5 ? '🍀 草ランプ演出アップ' : combo === 3 ? `🌿 START賞球+${player.wager}` : '3・5・10・20で演出解放';
     $('pachiMachine').classList.toggle('is-combo-high', combo >= 10 || player.rushLeft > 0);
     updatePocketAwards();
     applyScene();
     $('pachiDaily').disabled = player.lastBonusDay === today();
-    $('pachiDaily').textContent = $('pachiDaily').disabled ? '🎁 今日の補充は受取済み' : '🎁 今日の補充 +50球';
+    $('pachiDaily').textContent = $('pachiDaily').disabled ? '🎁 今日の補充は受取済み' : '🎁 今日の補充 +3,000球';
     $('pachiFire').disabled = (player.balls < player.wager && player.pendingJackpot === 0) || (player.pendingJackpot > 0 && !payoutActive) || !!payoutFinishTimer;
     $('pachiSignal').textContent = omenStage ? ['','🌱 草の気配…','✨ 金色の気配！','👑 最終判定！'][omenStage]
       : payoutActive ? '👑 JACKPOT 払い出し中！'
       : player.pendingJackpot > 0 ? '👑 特別判定待ち'
-      : player.rushLeft > 0 ? player.scene === 'puyuyu' ? '🥺 連チャン確率×5！' : '✨ 大当たり高確率！'
+      : jackpotFestivalReady() ? '👑 JP祭：超大当たり確定・START +1万球！'
+      : player.rushLeft > 0 ? player.scene === 'puyuyu' ? '🥺 ぷゆゆRUSH高確率！' : '✨ 大当たり高確率！'
       : player.timeLeft > 0 ? '🌿 START賞球アップ中！'
       : player.sceneSpinsLeft === 0 ? '🔥 次のSTARTでモード継続判定！'
       : player.sceneSpinsLeft <= 3 ? `✨ 継続判定まであと${player.sceneSpinsLeft}回転` : '🌱 チャンスを待とう';
@@ -3243,8 +3273,11 @@ filterNames();
     const name = $('pachiName').value.trim().replace(/\s+/g, ' ').slice(0, 20);
     if (!name) { $('pachiEntryMessage').textContent = 'プレイヤーネームを入力してください。'; $('pachiName').focus(); return; }
     const existing = profiles.find(p => p.name === name);
-    player = existing || normalizeProfile({name, balls: 250});
+    player = existing || normalizeProfile({name, balls: 5000});
     if (!existing) profiles.push(player);
+    const now = Date.now();
+    const idleReset = resetPlayerAfterIdle();
+    if (!player.lastFireAt) player.lastFireAt = now;
     if (!player.session) player.session = newSession();
     scheduleComboExpiry();
     drawBoardScenery();
@@ -3272,13 +3305,15 @@ filterNames();
     $('pachiReels').children[1].textContent = '🌿';
     $('pachiReels').children[2].textContent = '🍀';
     announce(`ようこそ、${name}さん！ ハンドルを調整して発射！`);
-    if (!specialModeActive() && player.sceneChain === 0) rollScene();
+    if (!existing && !idleReset) applyScene();
+    else if (!specialModeActive() && player.sceneChain === 0 && !idleReset) rollScene();
     saveProfiles(); updateUI(); playSound('start', .16); playTick(740, .018);
+    scheduleIdleReset();
     startLoop();
     if (player.pendingJackpot > 0) startPayout();
     if (player.bonusHoldDue) { flushBonusHold(); saveProfiles(); runSpin(); }
   }
-  function stopFiring() { firing = false; clearInterval(fireTimer); fireTimer = 0; $('pachiMachine').classList.remove('is-firing-jp'); }
+  function stopFiring() { firing = false; clearInterval(fireTimer); fireTimer = 0; $('pachiMachine').classList.remove('is-firing-jp'); scheduleIdleReset(); }
   function settlePendingSpinAwards() {
     if (!player) return;
     let paid = 0;
@@ -3325,11 +3360,14 @@ filterNames();
       if (player && ((player.balls < player.wager && player.pendingJackpot <= 0) || (player.pendingJackpot > 0 && !payoutActive) || payoutFinishTimer)) stopFiring();
       return;
     }
+    if (resetPlayerAfterIdle()) { saveProfiles(); updateUI(); }
+    clearTimeout(idleResetTimer); idleResetTimer = 0;
     const power = Number($('pachiPower').value) / 100;
+    player.lastFireAt = Date.now();
     const priorBalls = player.balls, priorPending = player.pendingJackpot, priorInFlight = player.inFlight, priorInFlightValue = player.inFlightValue;
     const priorProgress = {totalShots: player.totalShots, dryShots: player.dryShots, totalPrize: player.totalPrize,
       bestPrize: player.bestPrize, bestBalls: player.bestBalls, session: {...player.session}, unlockedTitles: [...player.unlockedTitles]};
-    const jackpotPayout = Math.min(jackpotAmounts[player.jackpotRate] / 50, player.pendingJackpot);
+    const jackpotPayout = Math.min((player.jackpotAwardUnit || jackpotAmounts[player.jackpotRate]) / 50, player.pendingJackpot);
     player.balls += jackpotPayout - player.wager;
     player.pendingJackpot -= jackpotPayout;
     player.inFlight++;
@@ -3461,7 +3499,8 @@ filterNames();
   }
   function queueStartSpin(wager, bonus = false) {
     if (!player || spinQueue.length + Number(spinning) >= 4) return false;
-    if (player.jpFestivalLeft > 0 && player.pendingJackpot === 0 && !payoutActive) player.jpFestivalLeft--;
+    const jackpotFestivalSpin = jackpotFestivalReady();
+    if (jackpotFestivalSpin) player.jpFestivalLeft--;
     player.spins++;
     player.session.spins++;
     player.bestSpins = Math.max(player.bestSpins, player.session.spins);
@@ -3469,23 +3508,25 @@ filterNames();
     const wasTime = !rush && player.timeLeft > 0;
     if (rush) player.rushLeft--;
     else if (player.timeLeft > 0) player.timeLeft--;
-    const jackpot = Math.random() < 1 / jackpotOdds;
+    const jackpot = !jackpotFestivalSpin && Math.random() < 1 / jackpotOdds;
     const jackpotExtension = jackpot && (player.pendingJackpot > 0 || !!payoutFinishTimer);
     const roll = Math.random();
-    const puyuyuMultiplier = player.scene === 'puyuyu' ? 1.5 : 1;
-    const premiumChance = (rush ? .008 : .003) * puyuyuMultiplier * (comboIsLive() && player.comboCount >= 10 ? 1.5 : 1);
-    const premium = !jackpot && roll < premiumChance;
-    const hitChance = rush ? (player.scene === 'puyuyu' ? .13 * 5 : .13) : .045 * puyuyuMultiplier;
+    const setting = pachiSettings[dailyPachiSetting()] || pachiSettings[1];
+    const puyuyuMultiplier = player.scene === 'puyuyu' && !rush ? 1.5 : 1;
+    const premiumChance = .001 * puyuyuMultiplier;
+    const premium = !jackpot && (jackpotFestivalSpin || roll < premiumChance);
+    const hitChance = (rush ? setting.high : setting.normal * puyuyuMultiplier);
     const hit = jackpot || premium || roll < hitChance;
     // 当たり賞球は抽選結果の表示が終わるまで保留する。
     let spinAward = 0;
+    let spinRounds = 0;
     if (hit) {
       player.hits++;
       player.session.hits++;
       if (player.session.spins <= 10) player.fastHits++;
       if (player.dryShots >= 500) player.comebackCount++;
       player.dryShots = 0;
-      player.streak = rush ? player.streak + 1 : 1;
+      player.streak = rush ? incrementLongCount(player.streak) : 1;
       player.bestStreak = Math.max(player.bestStreak, player.streak);
       player.session.bestStreak = Math.max(player.session.bestStreak, player.streak);
       if (jackpot) {
@@ -3493,15 +3534,17 @@ filterNames();
         player.session.jackpots++;
         player.jpFestivalLeft = 10;
         if (jackpotExtension && payoutFinishTimer) { clearTimeout(payoutFinishTimer); payoutFinishTimer = 0; }
-        if (!jackpotExtension) { player.jackpotTotal = 0; player.jackpotRate = wager; }
+        if (!jackpotExtension) { player.jackpotTotal = 0; player.jackpotRate = wager; player.jackpotAwardUnit = jackpotAmounts[wager]; }
         const award = jackpotAmounts[wager];
         player.pendingJackpot += award;
         player.jackpotTotal += award;
         payoutTotal = player.jackpotTotal;
       } else {
-        const award = (premium ? premiumPayout : hitPayout) * wager;
+        const roundPrize = premium ? null : drawRoundPayout(rush, wager);
+        const award = premium ? premiumPayout * wager : roundPrize.award;
         if (premium) player.premiumCount++;
         spinAward = award;
+        spinRounds = roundPrize?.rounds || 0;
       }
       player.rushType = premium || jackpot || rush ? 'rush' : 'st';
       player.rushLeft = player.rushType === 'rush' ? rushBonusSpins : rushSpins;
@@ -3513,7 +3556,7 @@ filterNames();
     if (!hit && wasTime && player.timeLeft === 0) player.sceneSpinsLeft = 0;
     if (jackpotExtension) announce(`👑 ジャックポット上乗せ！ さらに${jackpotAmounts[wager].toLocaleString('ja-JP')}球！`);
     else {
-      spinQueue.push({hit, premium, jackpot, rush, wager, bonus, award: spinAward || 0, scene: player.scene, nextRushType: player.rushType, enteredTime: !hit && rush && player.rushLeft === 0, hold: chooseHold(hit, premium, jackpot)});
+      spinQueue.push({hit, premium, jackpot, rush, wager, bonus, award: spinAward || 0, rounds: spinRounds || 0, scene: player.scene, nextRushType: player.rushType, enteredTime: !hit && rush && player.rushLeft === 0, hold: chooseHold(hit, premium, jackpot)});
       renderHolds();
     }
     return true;
@@ -3540,7 +3583,7 @@ filterNames();
       const canSpin = spinQueue.length + Number(spinning) < 4;
       const countSceneSpin = canSpin && !specialModeActive();
       if (countSceneSpin && player.sceneSpinsLeft === 0) rollScene();
-      const startAward = startAwardFor(ball.wager, true);
+      const startAward = startAwardFor(ball.wager, true, canSpin);
       player.balls += startAward;
       recordPrize(startAward);
       flashStart();
@@ -3628,20 +3671,62 @@ filterNames();
       }
     }
   }
+  function openJackpotGate() {
+    if (pageSuspended || document.hidden || panel.hidden) return;
+    const gate = $('pachiJackpotGate');
+    clearTimeout(jackpotGateTimer);
+    $('pachiJackpotGateAmount').textContent = `${payoutTotal.toLocaleString('ja-JP')}球 解放`;
+    gate.classList.remove('is-opening');
+    gate.hidden = false;
+    requestAnimationFrame(() => { if (!gate.hidden) gate.classList.add('is-opening'); });
+    jackpotGateTimer = setTimeout(() => { gate.hidden = true; gate.classList.remove('is-opening'); jackpotGateTimer = 0; }, 1900);
+  }
   function updatePayoutDisplay() {
     const remaining = player?.pendingJackpot || 0;
     payoutTotal = player?.jackpotTotal || jackpotAmounts[1];
-    $('pachiJackpotPaid').textContent = Math.max(0, payoutTotal - remaining).toLocaleString('ja-JP');
+    const paid = Math.max(0, payoutTotal - remaining);
+    const perShot = (player?.jackpotAwardUnit || jackpotAmounts[player?.jackpotRate || 1]) / 50;
+    const paidShots = Math.round(paid / perShot);
+    const totalShots = Math.round(payoutTotal / perShot);
+    const remainingShots = Math.max(0, totalShots - paidShots);
+    $('pachiJackpotPaid').textContent = paid.toLocaleString('ja-JP');
     $('pachiJackpotTotal').textContent = payoutTotal.toLocaleString('ja-JP');
+    $('pachiJackpotRounds').textContent = `${paidShots} / ${totalShots}発`;
+    $('pachiJackpotPhase').textContent = remainingShots <= 10 && remainingShots > 0
+      ? `🌈 最後の${remainingShots}発！` : `残り${remainingShots}発`;
     $('pachiJackpotBar').max = Math.max(1, payoutTotal);
-    $('pachiJackpotBar').value = Math.max(0, payoutTotal - remaining);
+    $('pachiJackpotBar').value = paid;
+    $('pachiJackpotSigil').style.setProperty('--jp-progress', `${Math.min(100, paid / Math.max(1, payoutTotal) * 100)}%`);
+    $('pachiMachine').classList.toggle('is-jp-finale', remainingShots > 0 && remainingShots <= 10);
+    document.body.classList.toggle('is-pachi-jp-finale', payoutActive && paid > 0 && remainingShots <= 10);
+    const milestone = Math.floor(paidShots / 10);
+    if (payoutActive && milestone > payoutShownMilestone && paidShots > 0) {
+      payoutShownMilestone = milestone;
+      showBurst(remainingShots > 0 && remainingShots <= 10 ? '🌈 虹色フィナーレ！' : `🌿 ${paidShots}発達成！`, remainingShots <= 10 ? 'rainbow' : 'gold', 1000);
+      playSound(remainingShots <= 10 ? 'jackpotFinale' : 'jackpotMilestone', remainingShots <= 10 ? .45 : .34);
+    }
   }
   function stopPayoutDisplay() {
     clearTimeout(payoutFinishTimer);
+    clearTimeout(jackpotGateTimer);
+    clearTimeout(worldJackpotTimer);
     payoutFinishTimer = 0;
+    jackpotGateTimer = 0;
+    worldJackpotTimer = 0;
     payoutActive = false;
+    document.body.classList.remove('is-pachi-jackpot-world', 'is-pachi-jp-finale');
+    $('pachiWorldJackpot').hidden = true;
+    $('pachiWorldJackpot').classList.remove('is-opening');
     $('pachiMachine').classList.remove('is-jackpot');
     $('pachiMachine').classList.remove('is-firing-jp');
+    $('pachiMachine').classList.remove('is-jp-finale');
+    delete $('pachiMachine').dataset.jpTheme;
+    delete $('pachiMachine').dataset.jpTier;
+    delete document.body.dataset.jpTier;
+    $('pachiJackpotGate').hidden = true;
+    $('pachiJackpotGate').classList.remove('is-opening');
+    $('pachiJackpotSigil').hidden = true;
+    $('pachiJackpot').classList.remove('is-complete');
     $('pachiJackpot').hidden = true;
   }
   function startPayout() {
@@ -3650,14 +3735,31 @@ filterNames();
     payoutFinishTimer = 0;
     payoutTotal = player.jackpotTotal || jackpotAmounts[player.jackpotRate];
     stopFiring();
-    $('pachiJackpotTitle').textContent = `${player.jackpotRate}草パチ・発射1球につき${(jackpotAmounts[player.jackpotRate] / 50).toLocaleString('ja-JP')}球！`;
+    payoutShownMilestone = Math.floor((payoutTotal - player.pendingJackpot) / ((player.jackpotAwardUnit || jackpotAmounts[player.jackpotRate]) / 50) / 10);
+    $('pachiMachine').dataset.jpTheme = player.scene;
+    const jpTierName = {1:'草ジャックポット', 5:'爆草ジャックポット', 10:'神草ジャックポット'}[player.jackpotRate] || 'ジャックポット';
+    $('pachiMachine').dataset.jpTier = String(player.jackpotRate);
+    document.body.dataset.jpTier = String(player.jackpotRate);
+    $('pachiJackpotHeadline').textContent = `👑 ${jpTierName} 👑`;
+    $('pachiWorldJackpotHeadline').textContent = `👑 ${player.jackpotRate}草 ${jpTierName} 👑`;
+    $('pachiWorldJackpotValue').textContent = `${payoutTotal.toLocaleString('ja-JP')}球を解放！`;
+    $('pachiJackpotTitle').textContent = `${player.jackpotRate}草パチ・発射1球につき${((player.jackpotAwardUnit || jackpotAmounts[player.jackpotRate]) / 50).toLocaleString('ja-JP')}球！`;
+    $('pachiJackpot').classList.remove('is-complete');
     $('pachiJackpot').hidden = false;
+    $('pachiJackpotSigil').hidden = false;
     $('pachiMachine').classList.add('is-jackpot');
     payoutActive = true;
+    const world = $('pachiWorldJackpot');
+    document.body.classList.add('is-pachi-jackpot-world');
+    world.hidden = false;
+    if (payoutTotal === player.pendingJackpot && !pageSuspended && !document.hidden) {
+      world.classList.remove('is-opening');
+      requestAnimationFrame(() => { if (!world.hidden) world.classList.add('is-opening'); });
+      clearTimeout(worldJackpotTimer);
+      worldJackpotTimer = setTimeout(() => { world.classList.remove('is-opening'); worldJackpotTimer = 0; }, 2400);
+    }
     applyScene();
-    showModeTransition('ジャックポット祭！', 'jackpot-festival');
-    showBurst('👑 JACKPOT!', 'gold', 1100);
-    playSound('modeJackpot', .26);
+    if (payoutTotal === player.pendingJackpot) openJackpotGate();
     for (const span of $('pachiReels').children) span.textContent = '7️⃣';
     updatePayoutDisplay();
     updateUI();
@@ -3666,9 +3768,14 @@ filterNames();
   function finishPayout() {
     stopFiring();
     updatePayoutDisplay();
+    const extra = Math.max(0, Math.round(payoutTotal / (player.jackpotAwardUnit || jackpotAmounts[player.jackpotRate])) - 1);
+    $('pachiJackpot').classList.add('is-complete');
+    $('pachiJackpotHeadline').textContent = '👑 払い出し完走！';
+    $('pachiJackpotTitle').textContent = `獲得${payoutTotal.toLocaleString('ja-JP')}球・上乗せ${extra}回`;
+    $('pachiJackpotPhase').textContent = '次はジャックポット祭！';
     announce(`👑 ジャックポット完走！ +${payoutTotal.toLocaleString('ja-JP')}球！`, 4500);
-    playChime(true);
-    payoutFinishTimer = setTimeout(() => { stopPayoutDisplay(); updateUI(); runSpin(); }, 1800);
+    playSound('jackpotFinish', .5);
+    payoutFinishTimer = setTimeout(() => { stopPayoutDisplay(); updateUI(); runSpin(); }, 2800);
     updateUI();
   }
   function pausePayout() {
@@ -3755,26 +3862,23 @@ filterNames();
       renderHolds();
       if (result.jackpot) {
         for (const span of reels.children) span.textContent = '7️⃣';
-        playSound('jackpot', .42);
-        playChime(true);
+        playSound(result.wager === 10 ? 'jackpotFinale' : 'jackpotGrand', result.wager === 10 ? .62 : result.wager === 5 ? .7 : .64);
         startPayout();
       } else if (result.hit) {
         const face = result.premium ? '🍀' : '🌿';
         for (const span of reels.children) span.textContent = face;
         const nextMode = result.nextRushType === 'rush' ? '草RUSH' : '草ST';
-        announce(result.premium ? `🌈 超大当たり！ +${premiumPayout * result.wager}球！ ${nextMode}突入！` : `🎉 大当たり！ +${hitPayout * result.wager}球！ ${nextMode}突入！`, 3600);
-        showBurst(result.premium ? `🌈 超大当たり +${premiumPayout * result.wager}球！` : `🎉 大当たり +${hitPayout * result.wager}球！`, result.premium ? 'rainbow' : 'gold', 1100);
+        const hitResultText = result.premium
+          ? `🌈 超大当たり！ +${result.award.toLocaleString('ja-JP')}球！ ${nextMode}突入！`
+          : `🎉 大当たり！ ${result.rounds}R +${result.award.toLocaleString('ja-JP')}球！ ${nextMode}突入！`;
+        announce(hitResultText, 3600);
+        showBurst(result.premium ? `🌈 超大当たり +${result.award.toLocaleString('ja-JP')}球！` : `🎉 ${result.rounds}R大当たり +${result.award.toLocaleString('ja-JP')}球！`, result.premium ? 'rainbow' : 'gold', 1100);
         showModeTransition(`${nextMode}突入！`, result.scene === 'puyuyu' ? 'puyuyu' : result.premium ? 'grass-festival' : 'normal');
         playSound('jackpot', .36);
         playChime(result.premium);
         $('pachiBoardFlash').classList.remove('is-flashing');
-        cancelAnimationFrame(boardFlashFrame);
-        boardFlashFrame = requestAnimationFrame(() => {
-          boardFlashFrame = requestAnimationFrame(() => {
-            boardFlashFrame = 0;
-            if (!pageSuspended && !document.hidden) $('pachiBoardFlash').classList.add('is-flashing');
-          });
-        });
+        void $('pachiBoardFlash').offsetWidth;
+        $('pachiBoardFlash').classList.add('is-flashing');
       } else {
         playTick(540, .02);
         reels.children[0].textContent = '🌱';
@@ -3882,7 +3986,7 @@ filterNames();
         ctx.font = '900 9px system-ui';
         ctx.fillText('START', pocket.x, pocket.y - 2);
         ctx.font = '900 11px system-ui';
-        ctx.fillText(`+${startAwardFor()}`, pocket.x, pocket.y + 10);
+        ctx.fillText(jackpotFestivalReady() ? 'JP+1万' : `+${startAwardFor()}`, pocket.x, pocket.y + 10);
       } else {
         ctx.font = '900 11px system-ui';
         ctx.fillText(`+${sideAwardFor()}`, pocket.x, pocket.y + 4);
@@ -3976,6 +4080,8 @@ filterNames();
     restoreCanvases();
     requestAnimationFrame(() => { if (!pageSuspended && !document.hidden) restoreCanvases(); });
     if (player) {
+      if (resetPlayerAfterIdle()) saveProfiles();
+      scheduleIdleReset();
       updateUI();
       if (!panel.hidden && player.pendingJackpot > 0 && !spinQueue.some(result => result.jackpot)) startPayout();
       else runSpin();
@@ -4286,8 +4392,9 @@ filterNames();
   $('pachiDaily').addEventListener('click', () => {
     if (!player || player.lastBonusDay === today()) return;
     unlockAudio();
-    player.lastBonusDay = today(); player.balls += 50;
-    saveProfiles(); updateUI(); announce('🎁 今日の補充！ 50球追加しました。', 2400); playChime();
+    const refill = Math.min(3000, Math.max(0, 100000000 - player.balls));
+    player.lastBonusDay = today(); player.balls += refill;
+    saveProfiles(); updateUI(); announce(`🎁 今日の補充！ ${refill.toLocaleString('ja-JP')}球追加しました。`, 2400); playChime();
   });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) pauseForBackground();
