@@ -2625,7 +2625,8 @@ filterNames();
     {id:'old', name:'古参', rarity:'SSR', group:'play', rule:'初プレイから7日経過', unlocked:p => Date.now() - Date.parse(p.firstPlayedAt) >= 7*86400000},
     {id:'vip', name:'VIP待遇', rarity:'GODR', group:'play', rule:'初プレイから30日経過', unlocked:p => Date.now() - Date.parse(p.firstPlayedAt) >= 30*86400000},
     {id:'omega', name:'時間の無駄', rarity:'Ω', group:'play', rule:'累計で1,000,000球を所持', unlocked:p => p.bestBalls >= 1000000},
-    {id:'kusaServer', name:'KUSA SERVER', rarity:'Ω', group:'play', rule:'持ち球100,000,000球を達成', unlocked:p => p.bestBalls >= 100000000}
+    {id:'kusaServer', name:'KUSA SERVER', rarity:'Ω', group:'play', rule:'持ち球100,000,000球を達成', unlocked:p => p.bestBalls >= 100000000},
+    {id:'grassAlchemist', name:'草の錬金術師', rarity:'Ω', group:'play', rule:'改竄された疑いのあるデータを読み込ませる', unlocked:() => false}
   ];
   let profiles = readProfiles();
   let player = null;
@@ -4207,23 +4208,46 @@ filterNames();
     link.click();
     link.remove();
   }
-  function createBackupBlob(format = 'json') {
+  function stableBackupStringify(value) {
+    if (Array.isArray(value)) return `[${value.map(stableBackupStringify).join(',')}]`;
+    if (value && typeof value === 'object') {
+      return `{${Object.keys(value).sort().map(key => `${JSON.stringify(key)}:${stableBackupStringify(value[key])}`).join(',')}}`;
+    }
+    return JSON.stringify(value);
+  }
+  async function calculateBackupChecksum(value, algorithm) {
+    const canonical = stableBackupStringify(JSON.parse(JSON.stringify(value)));
+    if (algorithm === 'SHA-256') {
+      if (!window.crypto?.subtle || typeof TextEncoder !== 'function') throw new Error('checksum unavailable');
+      const bytes = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(canonical));
+      return [...new Uint8Array(bytes)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+    }
+    if (algorithm === 'FNV1A-32') {
+      let hash = 0x811c9dc5;
+      for (let i = 0; i < canonical.length; i++) hash = Math.imul(hash ^ canonical.charCodeAt(i), 0x01000193);
+      return (hash >>> 0).toString(16).padStart(8, '0');
+    }
+    throw new Error('unsupported checksum');
+  }
+  async function createBackupBlob(format = 'json') {
     const isText = format === 'txt';
     const backup = {
-      format: 'kusa-play-backup', version: 3, savedAt: new Date().toISOString(),
+      format: 'kusa-play-backup', version: 4, savedAt: new Date().toISOString(),
       profiles,
       rewards: rewards.read(),
       gacha: JSON.parse(localStorage.getItem(rewards.gachaKey) || '{}'),
       sound: localStorage.getItem(soundKey) === 'off' ? 'off' : 'on'
     };
+    const algorithm = window.crypto?.subtle && typeof TextEncoder === 'function' ? 'SHA-256' : 'FNV1A-32';
+    backup.integrity = {algorithm, checksum: await calculateBackupChecksum(backup, algorithm)};
     const serialized = JSON.stringify(backup, null, 2);
     return new Blob([isText ? `\uFEFF${serialized}` : serialized], {
       type: isText ? 'text/plain;charset=utf-8' : 'application/json'
     });
   }
-  function previewBackup(format = 'txt') {
+  async function previewBackup(format = 'txt') {
     try {
-      const blob = createBackupBlob(format);
+      const blob = await createBackupBlob(format);
       const typeLabel = format === 'txt' ? 'TXT' : 'JSON';
       const previewUrl = setBackupPreview(blob, `${typeLabel}形式のバックアップを作成しました。下のリンクから内容を表示できます。`, format);
       const previewWindow = window.open(previewUrl, '_blank');
@@ -4233,10 +4257,10 @@ filterNames();
       setBackupStatus('バックアップを表示できませんでした。ブラウザの設定を確認してください。');
     }
   }
-  function exportBackup(format = 'json') {
+  async function exportBackup(format = 'json') {
     try {
       const isText = format === 'txt';
-      const blob = createBackupBlob(format);
+      const blob = await createBackupBlob(format);
       const filename = `kusa-backup-${today()}.${isText ? 'txt' : 'json'}`;
       let file = null;
       try { file = new File([blob], filename, {type: isText ? 'text/plain' : 'application/json'}); } catch { /* 古いWebViewは従来の保存方法へ */ }
@@ -4279,17 +4303,34 @@ filterNames();
       if (file.size > 2_000_000) throw new Error('too large');
       const backupText = (await file.text()).replace(/^\uFEFF/, '');
       const backup = JSON.parse(backupText);
-      if (backup.format !== 'kusa-play-backup' || ![1, 2, 3].includes(backup.version) || !Array.isArray(backup.profiles) ||
+      if (backup.format !== 'kusa-play-backup' || ![1, 2, 3, 4].includes(backup.version) || !Array.isArray(backup.profiles) ||
           !backup.rewards || !backup.gacha || typeof backup.gacha !== 'object') throw new Error('invalid backup');
+      let checksumMismatch = false;
+      if (backup.version === 4) {
+        if (!backup.integrity || !['SHA-256', 'FNV1A-32'].includes(backup.integrity.algorithm) || typeof backup.integrity.checksum !== 'string') {
+          throw new Error('invalid integrity metadata');
+        }
+        const {integrity, ...backupPayload} = backup;
+        checksumMismatch = await calculateBackupChecksum(backupPayload, integrity.algorithm) !== integrity.checksum.toLowerCase();
+      }
       const restoredProfiles = backup.profiles.filter(p => p && typeof p.name === 'string' && p.name.trim() && p.name.length <= 20)
         .slice(0, 1000).map(normalizeProfile);
+      if (backup.version < 4) {
+        for (const restored of restoredProfiles) restored.unlockedTitles = restored.unlockedTitles.filter(id => id !== 'grassAlchemist');
+      }
       const gacha = {
         lastDrawAt: Number.isFinite(backup.gacha.lastDrawAt) && backup.gacha.lastDrawAt >= 0 ? backup.gacha.lastDrawAt : 0,
         obtainedCards: Array.isArray(backup.gacha.obtainedCards)
           ? backup.gacha.obtainedCards.filter(id => typeof id === 'string' && id.length <= 100).slice(0, 10000) : [],
         grassPoint: validCount(backup.gacha.grassPoint)
       };
+      if (checksumMismatch && !window.confirm('バックアップのチェックサムが一致しません。保存後に内容が変更または破損した可能性があります。読み込みを続けると、復元先のプレイヤーにΩ称号「草の錬金術師」が付きます。内容を理解したうえで続けますか？')) return;
       if (!window.confirm('現在保存されている全プレイヤーの持ち球・所持草・遊技記録・称号・ガチャ券・取得カード・音量設定を、読み込むバックアップの内容で置き換えます。続けますか？')) return;
+      if (checksumMismatch) {
+        const recipient = (player && restoredProfiles.find(profile => profile.name === player.name)) || restoredProfiles[0];
+        if (!recipient) throw new Error('no profile for integrity title');
+        if (!recipient.unlockedTitles.includes('grassAlchemist')) recipient.unlockedTitles.push('grassAlchemist');
+      }
       stopFiring();
       const entries = [
         [profileKey, JSON.stringify(restoredProfiles)],
