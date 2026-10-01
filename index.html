@@ -731,16 +731,18 @@ body,
     <div class="migration-notice-copy">
       <h2 id="migrationNoticeTitle">【重要】サイトURL変更予定とデータ引き継ぎのお知らせ</h2>
       <p>当サイトは、新しいURLへの移行を予定しています。</p>
-      <p>草パチ・草ガチャのデータはお使いのブラウザに保存されているため、新しいURLへ自動では引き継がれません。移行前に下のボタンからJSONファイルを保存してください。</p>
+      <p>草パチ・草ガチャのデータはお使いのブラウザに保存されているため、新しいURLへ自動では引き継がれません。移行前に下のボタンからJSONまたはTXTファイルを保存してください。</p>
       <p>バックアップを作成していない場合や、ファイルの紛失・破損などで新しいURLへデータを引き継げなかった場合、データの復旧や補填はできません。また、端末やブラウザの状態によっては引き継ぎを保証できない場合があります。復元が完了するまで、バックアップファイルを大切に保管してください。</p>
       <p>新しいURLでの復元方法と移行日は、決まり次第このページでお知らせします。</p>
       <p class="migration-data">対象データ：持ち球、所持草、ガチャ券、取得済みカード、全プレイヤー記録、称号、音量設定など</p>
     </div>
     <div class="migration-action">
       <button id="migrationBackupButton" class="migration-backup-button" type="button">全データをバックアップ</button>
-      <button id="migrationRestoreButton" class="migration-restore-button" type="button">バックアップを読み込む</button>
-      <input id="migrationRestoreFile" class="migration-file-input" type="file" accept=".json,application/json" aria-label="読み込むバックアップJSONを選択">
-      <p class="migration-action-note">JSONを選んで復元します。現在の記録はバックアップ内容に置き換わります。</p>
+      <button id="migrationTxtBackupButton" class="migration-restore-button" type="button">TXTでバックアップ</button>
+      <button id="migrationTxtPreviewButton" class="migration-restore-button" type="button">TXTを表示</button>
+      <button id="migrationRestoreButton" class="migration-restore-button" type="button">JSON/TXTを読み込む</button>
+      <input id="migrationRestoreFile" class="migration-file-input" type="file" accept=".json,.txt,application/json,text/plain" aria-label="読み込むJSONまたはTXTバックアップを選択">
+      <p class="migration-action-note">JSONまたはTXTを選んで復元します。現在の記録はバックアップ内容に置き換わります。</p>
       <p id="migrationBackupStatus" class="migration-backup-status" role="status" aria-live="polite"></p>
     </div>
   </section>
@@ -933,7 +935,7 @@ body,
           <progress id="pachiExchangeBar" max="15000" value="0" aria-label="草がガチャ券の交換に必要な15,000草へ達するまで"></progress>
           <button id="pachiExchangeButton" class="pachi-exchange-button" type="button" disabled>15,000草でガチャ券1枚</button>
           <p id="pachiExchangeMessage" class="pachi-exchange-message" role="status"></p>
-          <div class="pachi-backup"><button id="pachiBackupButton" type="button">バックアップを書き出す</button><label for="pachiRestoreFile">保存した記録を読み込む</label><input id="pachiRestoreFile" type="file" accept=".json,application/json"></div>
+          <div class="pachi-backup"><button id="pachiBackupButton" type="button">バックアップを書き出す</button><button id="pachiTxtBackupButton" type="button">TXTで書き出す</button><button id="pachiTxtPreviewButton" type="button">TXTを表示</button><label for="pachiRestoreFile">JSON/TXTから復元</label><input id="pachiRestoreFile" type="file" accept=".json,.txt,application/json,text/plain"></div>
         </section>
         <div class="pachi-rule" aria-labelledby="pachiRuleTitle">
           <h3 id="pachiRuleTitle">遊び方</h3>
@@ -4173,7 +4175,7 @@ filterNames();
     return `${$('pachiShareName').checked ? `${player.name}の` : ''}草パチ記録：称号「[${selectedTitleRarity()}] ${selectedTitleName()}」、持ち球${player.balls.toLocaleString('ja-JP')}球、所持草${player.grass.toLocaleString('ja-JP')}草、最大${player.bestStreak}連チャン、ジャックポット${player.jackpotCount}回。`;
   }
   let activeBackupObjectUrl = '';
-  function setBackupStatus(message, previewUrl = '') {
+  function setBackupStatus(message, previewUrl = '', previewLabel = 'JSONを表示') {
     for (const status of [$('pachiExchangeMessage'), $('migrationBackupStatus')]) {
       if (!status) continue;
       status.replaceChildren(document.createTextNode(message));
@@ -4184,18 +4186,20 @@ filterNames();
       previewLink.href = previewUrl;
       previewLink.target = '_blank';
       previewLink.rel = 'noopener';
-      previewLink.textContent = 'JSONを表示して保存';
+      previewLink.textContent = previewLabel;
       status.append(previewLink);
     }
   }
-  function setBackupPreview(blob, message) {
+  function setBackupPreview(blob, message, format = 'json') {
     if (activeBackupObjectUrl) URL.revokeObjectURL(activeBackupObjectUrl);
     activeBackupObjectUrl = URL.createObjectURL(blob);
-    setBackupStatus(`${message} 保存が始まらない場合は、下のリンクからJSONを開き、ブラウザの共有メニューで「ファイルに保存」を選んでください。`, activeBackupObjectUrl);
+    const label = format === 'txt' ? 'TXTを表示' : 'JSONを表示';
+    const typeLabel = format === 'txt' ? 'TXT' : 'JSON';
+    setBackupStatus(`${message} 保存が始まらない場合は、下のリンクから${typeLabel}を開いてください。`, activeBackupObjectUrl, label);
     return activeBackupObjectUrl;
   }
-  function showBackupFallback(blob, filename, message) {
-    const previewUrl = setBackupPreview(blob, message);
+  function showBackupFallback(blob, filename, message, format = 'json') {
+    const previewUrl = setBackupPreview(blob, message, format);
     const link = document.createElement('a');
     link.href = previewUrl;
     link.download = filename;
@@ -4203,24 +4207,47 @@ filterNames();
     link.click();
     link.remove();
   }
-  function exportBackup() {
+  function createBackupBlob(format = 'json') {
+    const isText = format === 'txt';
+    const backup = {
+      format: 'kusa-play-backup', version: 3, savedAt: new Date().toISOString(),
+      profiles,
+      rewards: rewards.read(),
+      gacha: JSON.parse(localStorage.getItem(rewards.gachaKey) || '{}'),
+      sound: localStorage.getItem(soundKey) === 'off' ? 'off' : 'on'
+    };
+    const serialized = JSON.stringify(backup, null, 2);
+    return new Blob([isText ? `\uFEFF${serialized}` : serialized], {
+      type: isText ? 'text/plain;charset=utf-8' : 'application/json'
+    });
+  }
+  function previewBackup(format = 'txt') {
     try {
-      const backup = {
-        format: 'kusa-play-backup', version: 3, savedAt: new Date().toISOString(),
-        profiles,
-        rewards: rewards.read(),
-        gacha: JSON.parse(localStorage.getItem(rewards.gachaKey) || '{}'),
-        sound: localStorage.getItem(soundKey) === 'off' ? 'off' : 'on'
-      };
-      const blob = new Blob([JSON.stringify(backup, null, 2)], {type: 'application/json'});
-      const filename = `kusa-backup-${today()}.json`;
+      const blob = createBackupBlob(format);
+      const typeLabel = format === 'txt' ? 'TXT' : 'JSON';
+      const previewUrl = setBackupPreview(blob, `${typeLabel}形式のバックアップを作成しました。下のリンクから内容を表示できます。`, format);
+      const previewWindow = window.open(previewUrl, '_blank');
+      if (previewWindow) previewWindow.opener = null;
+      if (!previewWindow) setBackupStatus(`${typeLabel}形式のバックアップを作成しました。ポップアップが開かない場合は、下のリンクから内容を表示できます。`, previewUrl, format === 'txt' ? 'TXTを表示' : 'JSONを表示');
+    } catch {
+      setBackupStatus('バックアップを表示できませんでした。ブラウザの設定を確認してください。');
+    }
+  }
+  function exportBackup(format = 'json') {
+    try {
+      const isText = format === 'txt';
+      const blob = createBackupBlob(format);
+      const filename = `kusa-backup-${today()}.${isText ? 'txt' : 'json'}`;
       let file = null;
-      try { file = new File([blob], filename, {type: 'application/json'}); } catch { /* 古いWebViewは従来の保存方法へ */ }
-      const shareData = file ? {files: [file], title: 'kusa事典のバックアップ'} : null;
+      try { file = new File([blob], filename, {type: isText ? 'text/plain' : 'application/json'}); } catch { /* 古いWebViewは従来の保存方法へ */ }
+      const shareData = file ? {files: [file], title: isText ? 'kusa事典のTXTバックアップ' : 'kusa事典のバックアップ'} : null;
       let canShareFile = false;
       try {
-        canShareFile = !!shareData && typeof navigator.share === 'function' &&
-          typeof navigator.canShare === 'function' && navigator.canShare(shareData);
+        const isMobile = navigator.userAgentData?.mobile === true ||
+          /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '') ||
+          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        canShareFile = isMobile && !!shareData && typeof navigator.share === 'function' &&
+          typeof navigator.canShare === 'function' && navigator.canShare({files: shareData.files});
       } catch { /* 未対応のWebViewはダウンロードと表示リンクを使う */ }
       if (canShareFile) {
         let shareResult;
@@ -4230,9 +4257,9 @@ filterNames();
           Promise.resolve(shareResult).catch(error => {
             try {
               if (error?.name === 'AbortError') {
-                setBackupPreview(blob, '共有をキャンセルしました。必要なら下のリンクから別の方法で保存できます。');
+                setBackupPreview(blob, '共有をキャンセルしました。必要なら下のリンクから別の方法で保存できます。', format);
               } else {
-                showBackupFallback(blob, filename, '共有メニューを完了できませんでした。');
+                showBackupFallback(blob, filename, '共有メニューを完了できませんでした。', format);
               }
             } catch {
               setBackupStatus('バックアップを保存できませんでした。ブラウザの共有・ダウンロード設定を確認してください。');
@@ -4241,7 +4268,7 @@ filterNames();
           return;
         }
       }
-      showBackupFallback(blob, filename, 'バックアップファイルの保存を開始しました。');
+      showBackupFallback(blob, filename, 'バックアップファイルの保存を開始しました。', format);
     } catch {
       setBackupStatus('バックアップを作成できませんでした。ブラウザの共有・ダウンロード設定を確認してください。');
     }
@@ -4250,7 +4277,8 @@ filterNames();
     if (!file) return;
     try {
       if (file.size > 2_000_000) throw new Error('too large');
-      const backup = JSON.parse(await file.text());
+      const backupText = (await file.text()).replace(/^\uFEFF/, '');
+      const backup = JSON.parse(backupText);
       if (backup.format !== 'kusa-play-backup' || ![1, 2, 3].includes(backup.version) || !Array.isArray(backup.profiles) ||
           !backup.rewards || !backup.gacha || typeof backup.gacha !== 'object') throw new Error('invalid backup');
       const restoredProfiles = backup.profiles.filter(p => p && typeof p.name === 'string' && p.name.trim() && p.name.length <= 20)
@@ -4281,7 +4309,7 @@ filterNames();
       }
       window.location.reload();
     } catch {
-      const errorMessage = '記録を読み込めませんでした。草パチで保存したJSONファイルを選んでください。';
+      const errorMessage = '記録を読み込めませんでした。草パチで保存したJSONまたはTXTファイルを選んでください。';
       $('pachiExchangeMessage').textContent = errorMessage;
       const migrationStatus = $('migrationBackupStatus');
       if (migrationStatus) migrationStatus.textContent = errorMessage;
@@ -4458,6 +4486,10 @@ filterNames();
   });
   $('pachiBackupButton').addEventListener('click', exportBackup);
   $('migrationBackupButton').addEventListener('click', exportBackup);
+  $('pachiTxtBackupButton').addEventListener('click', () => exportBackup('txt'));
+  $('migrationTxtBackupButton').addEventListener('click', () => exportBackup('txt'));
+  $('pachiTxtPreviewButton').addEventListener('click', () => previewBackup('txt'));
+  $('migrationTxtPreviewButton').addEventListener('click', () => previewBackup('txt'));
   $('migrationRestoreButton').addEventListener('click', () => $('migrationRestoreFile').click());
   $('migrationRestoreFile').addEventListener('change', event => importBackup(event.target.files[0], event.target));
   $('pachiRestoreFile').addEventListener('change', event => importBackup(event.target.files[0], event.target));
