@@ -71,6 +71,11 @@ function jstDay(timestamp) {
   return new Date(timestamp + JST).toISOString().slice(0, 10);
 }
 
+function jstDayStart(timestamp) {
+  const shifted = new Date(timestamp + JST);
+  return Date.UTC(shifted.getUTCFullYear(), shifted.getUTCMonth(), shifted.getUTCDate()) - JST;
+}
+
 async function recordDailyVisitor(request, env, visitorId, now) {
   const day = jstDay(now);
   const id = storedId(request, visitorId);
@@ -90,35 +95,37 @@ async function rateLimit(request, env, bucket) {
 async function snapshot(request, env, ctx, wager) {
   const site = siteOf(request);
   const scope = site === 'public' ? 'LIKE' : 'NOT LIKE';
+  const now = Date.now();
+  const day = jstDay(now);
+  const dayStart = jstDayStart(now);
+  const dayEnd = dayStart + DAY;
   const cache = caches.default;
-  const key = new Request(new URL(`/cache/v3/${site}/${wager}`, request.url));
+  const key = new Request(new URL(`/cache/v4/${site}/${day}/${wager}`, request.url));
   let value = await cache.match(key).then(response => response?.json());
   if (!value) {
-    const since = Date.now() - DAY;
     const result = await env.DB.prepare(`
       SELECT e.player_id,
         (SELECT n.display_name FROM score_events n WHERE n.player_id = e.player_id
          ORDER BY n.created_at DESC, n.event_id DESC LIMIT 1) AS name,
         SUM(e.net_balls) AS balls
       FROM score_events e
-      WHERE e.wager = ? AND e.created_at >= ? AND e.player_id ${scope} ?
+      WHERE e.wager = ? AND e.created_at >= ? AND e.created_at < ? AND e.player_id ${scope} ?
       GROUP BY e.player_id
       ORDER BY balls DESC, player_id ASC
       LIMIT 10000
-    `).bind(wager, since, 'p:%').all();
+    `).bind(wager, dayStart, dayEnd, 'p:%').all();
     const rows = result.results.map((item, index) => ({
       rank: index + 1,
       playerId: item.player_id,
       name: item.name,
       balls: item.balls,
     }));
-    value = {rows, participants: rows.length, updatedAt: Date.now()};
+    value = {rows, participants: rows.length, day, updatedAt: now};
     ctx.waitUntil(cache.put(key, new Response(JSON.stringify(value), {
       headers: {'Cache-Control': `public, max-age=${CACHE_SECONDS}`},
     })));
   }
 
-  const now = Date.now();
   const dailyVisitors = await env.DB.prepare(
     `SELECT COUNT(*) AS count FROM daily_visitors WHERE day = ? AND visitor_id ${scope} ?`
   ).bind(jstDay(now), 'p:%').first();
@@ -181,7 +188,10 @@ async function submit(request, env) {
   `).bind(eventId, playerId, body.name.trim(), body.wager,
     body.shots, body.credit, net, now).run();
   if (result.meta.rows_written > 0) {
-    try { await caches.default.delete(new Request(new URL(`/cache/v3/${siteOf(request)}/${body.wager}`, request.url))); }
+    try {
+      const day = jstDay(now);
+      await caches.default.delete(new Request(new URL(`/cache/v4/${siteOf(request)}/${day}/${body.wager}`, request.url)));
+    }
     catch { /* 記録の保存をキャッシュ削除の失敗に巻き込まない */ }
   }
   return reply(request, {ok: true, saved: result.meta.rows_written > 0});

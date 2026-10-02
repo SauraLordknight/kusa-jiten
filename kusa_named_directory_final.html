@@ -949,7 +949,7 @@ body,
             <li><strong>各モードの効果：</strong>サイド入賞は掛け金1球分、STARTは基本1球分。夜の草むらはチャンス草ランプが少し出やすく、お祭りはSTART賞球が掛け金1球分増加。闇鍋はSTART賞球が掛け金0〜2球分変動します。ぷゆゆラッシュは球が🥺だけになり、START賞球が掛け金1球分増加。通常時の当たり確率は1.5倍、ST/RUSH中は高確率です。釘の配置はどのモードも同じです。</li>
             <li><strong>ジャックポット：</strong>通常時のSTART抽選で1/20,000。1草パチで50万球、5草パチで150万球、10草パチで1,000万球を、発射50回に分けて払い出します。その後のジャックポット祭は10回転。祭中のSTART入賞には10,000球を上乗せし、10回とも超大当たりが確定します。</li>
             <li><strong>記録と交換：</strong>「結果を見る」で記録と称号を確認できます。持ち球は1球＝1草で交換でき、15,000草でガチャ券1枚と交換できます。球・草・記録はブラウザに自動保存されます。</li>
-            <li><strong>24時間ランキング：</strong>発射ボタン下の「24時間ランキングを見る」を押すと、最新の順位を中央に表示します。1・5・10草パチ別に、直近24時間の遊技で増やした球数を競います。球の補充や交換は順位に含まれません。接続できない間の記録は端末に保存し、後で送信します。</li>
+            <li><strong>24時間ランキング：</strong>発射ボタン下の「24時間ランキングを見る」を押すと、最新の順位を中央に表示します。1・5・10草パチ別に、日本時間の本日0:00〜23:59に遊技で増やした球数を競います。球の補充や交換は順位に含まれません。接続できない間の記録は端末に保存し、後で送信します。</li>
           </ul>
         </div>
         <p id="pachiSaveMessage" class="pachi-save-message" role="status">持ち球・草・ガチャ券・記録・称号は自動保存されます。端末のデータを消す前にバックアップを残してください。</p>
@@ -964,7 +964,7 @@ body,
   <dialog id="pachiRankingModal" class="pachi-ranking-dialog" aria-labelledby="pachiRankingTitle">
     <section class="pachi-ranking">
       <div class="pachi-ranking-head"><div><small><span class="pachi-ranking-signal" aria-hidden="true"></span> LIVE NETWORK / 24H</small><h3 id="pachiRankingTitle">🏆 草パチ 24時間ランキング</h3></div><button id="pachiRankingClose" type="button" aria-label="ランキングを閉じる">×</button></div>
-      <p class="pachi-ranking-lead">直近24時間の「遊技で獲得した球 − 発射で消費した球」を競います。補充と球・草の交換は集計しません。</p>
+      <p class="pachi-ranking-lead">日本時間の本日0:00〜23:59の「遊技で獲得した球 − 発射で消費した球」を競います。補充と球・草の交換は集計しません。</p>
       <div class="pachi-ranking-tabs" role="group" aria-label="ランキングの掛け金"><button type="button" data-ranking-wager="1" aria-pressed="true">1草パチ</button><button type="button" data-ranking-wager="5" aria-pressed="false">5草パチ</button><button type="button" data-ranking-wager="10" aria-pressed="false">10草パチ</button></div>
       <div class="pachi-ranking-numbers"><div><small>本日の訪問者数</small><strong id="pachiRankingVisitors">—</strong></div><div><small>参加プレイヤー</small><strong id="pachiRankingParticipants">—</strong></div><div><small>自分の順位</small><strong id="pachiRankingMineRank">—</strong></div></div>
       <p id="pachiRankingMine" class="pachi-ranking-mine">プレイヤーを選ぶと自分の順位を表示します。</p>
@@ -3016,7 +3016,7 @@ filterNames();
       }
       $('pachiRankingStatus').textContent = profiles.some(profile => profile.rankingQueue.length)
         ? '一部の記録は通信待ちです。更新ボタンを押すと再送します。'
-        : '表示内容を更新しました。サーバー集計は最大約1分キャッシュされます。';
+        : '表示内容を更新しました。日本時間の本日0:00〜23:59で集計しています（表示は最大約1分キャッシュ）。';
     } catch {
       if (requestNumber === rankingRequest && $('pachiRankingModal').open) $('pachiRankingStatus').textContent = 'ランキングに接続できません。遊技記録は端末に保存し、後で再送します。';
     }
