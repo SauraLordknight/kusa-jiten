@@ -2,8 +2,6 @@
 const DAY = 86_400_000;
 const JST = 9 * 60 * 60 * 1000;
 const CACHE_SECONDS = 60;
-const ACTIVE_WINDOW = 10 * 60 * 1000;
-const VISITOR_WRITE_INTERVAL = 5 * 60 * 1000;
 const MAX_BODY = 2048;
 const ID_PATTERN = /^[a-f0-9]{32}$/;
 const ALLOWED_ORIGINS = new Set([
@@ -73,20 +71,13 @@ function jstDay(timestamp) {
   return new Date(timestamp + JST).toISOString().slice(0, 10);
 }
 
-async function touchVisitor(request, env, visitorId, now) {
+async function recordDailyVisitor(request, env, visitorId, now) {
   const day = jstDay(now);
   const id = storedId(request, visitorId);
-  await env.DB.batch([
-    env.DB.prepare(`
-      INSERT INTO daily_visitors (day, visitor_id, first_seen) VALUES (?, ?, ?)
-      ON CONFLICT(day, visitor_id) DO NOTHING
-    `).bind(day, id, now),
-    env.DB.prepare(`
-      INSERT INTO visitors (visitor_id, last_seen) VALUES (?, ?)
-      ON CONFLICT(visitor_id) DO UPDATE SET last_seen = excluded.last_seen
-      WHERE visitors.last_seen < excluded.last_seen - ?
-    `).bind(id, now, VISITOR_WRITE_INTERVAL),
-  ]);
+  await env.DB.prepare(`
+    INSERT INTO daily_visitors (day, visitor_id, first_seen) VALUES (?, ?, ?)
+    ON CONFLICT(day, visitor_id) DO NOTHING
+  `).bind(day, id, now).run();
 }
 
 async function rateLimit(request, env, bucket) {
@@ -128,24 +119,18 @@ async function snapshot(request, env, ctx, wager) {
   }
 
   const now = Date.now();
-  const [dailyVisitors, activeVisitors] = await Promise.all([
-    env.DB.prepare(`SELECT COUNT(*) AS count FROM daily_visitors WHERE day = ? AND visitor_id ${scope} ?`)
-      .bind(jstDay(now), 'p:%').first(),
-    env.DB.prepare(`SELECT COUNT(*) AS count FROM visitors WHERE last_seen >= ? AND visitor_id ${scope} ?`)
-      .bind(now - ACTIVE_WINDOW, 'p:%').first(),
-  ]);
-  return {...value, visitorsToday: dailyVisitors?.count || 0,
-    activeNow: activeVisitors?.count || 0};
+  const dailyVisitors = await env.DB.prepare(
+    `SELECT COUNT(*) AS count FROM daily_visitors WHERE day = ? AND visitor_id ${scope} ?`
+  ).bind(jstDay(now), 'p:%').first();
+  return {...value, visitorsToday: dailyVisitors?.count || 0};
 }
 
 async function overview(request, env, ctx) {
   const body = await readBody(request);
-  if (!validWager(body?.wager) || !validId(body?.visitorId) ||
+  if (!validWager(body?.wager) || (body?.visitorId != null && !validId(body.visitorId)) ||
       (body.playerId != null && !validId(body.playerId))) {
     return reply(request, {error: 'invalid_request'}, 400);
   }
-  const now = Date.now();
-  await touchVisitor(request, env, body.visitorId, now);
   const value = await snapshot(request, env, ctx, body.wager);
   const mine = value.rows.find(row => row.playerId === storedId(request, body.playerId)) || null;
   return reply(request, {
@@ -154,7 +139,6 @@ async function overview(request, env, ctx) {
     mine: mine ? {rank: mine.rank, name: mine.name, balls: mine.balls} : null,
     participants: value.participants,
     visitorsToday: value.visitorsToday,
-    activeNow: value.activeNow,
     updatedAt: value.updatedAt,
     truncated: value.rows.length === 10000,
   });
@@ -163,7 +147,7 @@ async function overview(request, env, ctx) {
 async function heartbeat(request, env) {
   const body = await readBody(request);
   if (!validId(body?.visitorId)) return reply(request, {error: 'invalid_request'}, 400);
-  await touchVisitor(request, env, body.visitorId, Date.now());
+  await recordDailyVisitor(request, env, body.visitorId, Date.now());
   return reply(request, {ok: true});
 }
 

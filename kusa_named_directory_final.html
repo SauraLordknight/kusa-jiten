@@ -966,11 +966,12 @@ body,
       <div class="pachi-ranking-head"><div><small><span class="pachi-ranking-signal" aria-hidden="true"></span> LIVE NETWORK / 24H</small><h3 id="pachiRankingTitle">🏆 草パチ 24時間ランキング</h3></div><button id="pachiRankingClose" type="button" aria-label="ランキングを閉じる">×</button></div>
       <p class="pachi-ranking-lead">直近24時間の「遊技で獲得した球 − 発射で消費した球」を競います。補充と球・草の交換は集計しません。</p>
       <div class="pachi-ranking-tabs" role="group" aria-label="ランキングの掛け金"><button type="button" data-ranking-wager="1" aria-pressed="true">1草パチ</button><button type="button" data-ranking-wager="5" aria-pressed="false">5草パチ</button><button type="button" data-ranking-wager="10" aria-pressed="false">10草パチ</button></div>
-      <div class="pachi-ranking-numbers"><div><small>本日の訪問者数</small><strong id="pachiRankingVisitors">—</strong></div><div><small>アクティブ人数</small><strong id="pachiRankingActive">—</strong></div><div><small>参加プレイヤー</small><strong id="pachiRankingParticipants">—</strong></div><div><small>自分の順位</small><strong id="pachiRankingMineRank">—</strong></div></div>
+      <div class="pachi-ranking-numbers"><div><small>本日の訪問者数</small><strong id="pachiRankingVisitors">—</strong></div><div><small>参加プレイヤー</small><strong id="pachiRankingParticipants">—</strong></div><div><small>自分の順位</small><strong id="pachiRankingMineRank">—</strong></div></div>
       <p id="pachiRankingMine" class="pachi-ranking-mine">プレイヤーを選ぶと自分の順位を表示します。</p>
       <ol id="pachiRankingList" class="pachi-ranking-list"><li class="is-empty">ランキングを読み込み中です。</li></ol>
-      <p id="pachiRankingStatus" class="pachi-ranking-status" role="status">開くたびに最新の記録を取得します。</p>
-      <p class="pachi-ranking-note">訪問者数は日本時間の本日0:00からのブラウザ概算、アクティブ人数は直近10分以内にページを表示したブラウザの概算です。プレイヤー名と遊技記録はランキングに送信され、名前と順位が公開されます。このランキングでは、草パチの遊技記録を集計します。</p>
+      <button id="pachiRankingRefresh" class="pachi-ranking-refresh" type="button">↻ ランキングを更新</button>
+      <p id="pachiRankingStatus" class="pachi-ranking-status" role="status">ランキングを開くと最新情報を取得します。</p>
+      <p class="pachi-ranking-note">訪問者数は、日本時間の本日0:00からのユニークブラウザ数の概算です。プレイヤー名と遊技記録はランキングに送信され、名前と順位が公開されます。このランキングでは、草パチの遊技記録を集計します。</p>
     </section>
   </dialog>
 
@@ -1127,6 +1128,7 @@ body,
 
   <section class="info-card" id="revision-history" aria-labelledby="revisionTitle">
     <h2 id="revisionTitle">kusa事典の更新履歴</h2>
+    <div class="era"><strong>2026年10月2日</strong><span>ランキングの表示を見直し、アクティブ人数を削除しました。ランキング情報は画面を開いた時と更新操作時に取得し、訪問者数は1日1回の記録に変更しました。</span></div>
     <div class="era"><strong>2026年10月2日</strong><span>草パチ 24時間ランキングを実装しました。訪問者数とアクティブ人数を確認できるようになり、案内文も見直しました。</span></div>
     <div class="era"><strong>2026年10月1日</strong><span>【草パチ アップデート】台設定が毎日0時に切り替わるようになりました。設定に応じて当たりやすさが変化し、日ごとに異なる遊技バランスを楽しめます。</span></div>
     <div class="era"><strong>2026年10月1日 00:18</strong><span>【草パチ・草ガチャ 大型アップデート】草パチと草ガチャを大幅にアップデートしました。演出や遊びやすさを見直し、新しい楽しみを加えています。詳しい内容は、ぜひ遊びながら見つけてください。</span></div>
@@ -1157,7 +1159,7 @@ body,
     <p>このページのHTMLでは、現時点でGoogle広告やアクセス解析のタグを設置していません。名鑑の検索入力はブラウザ内で処理し、このページから検索語を送信しません。</p>
     <h3>外部サービスと送信される情報</h3>
     <p>要望BOXはTallyのフォームへの通常リンクで開きます。フォームを開く・送信する際には入力内容がTallyに送信されます。本サイトではネームドのアイコン画像を表示せず、確認できた見た目の傾向だけを文章で記録しています。</p>
-    <p>草パチランキングでは、Cloudflareにランダムなブラウザ識別子を送り、日本時間の本日の訪問ブラウザ数と直近10分以内にページを表示したアクティブブラウザ数を概算します。ページを表示している間は5分ごとに活動時刻を更新します。プレイヤーを開始すると、ランダムなプレイヤー識別子・表示名・掛け金・発射数・賞球数を送信し、表示名と差し引き球数をランキングに公開します。サーバー上では48時間を超えた訪問・遊技記録を毎日整理します。持ち球・所持草・ガチャ券・草ガチャの所持品は送信しません。</p>
+    <p>草パチランキングでは、Cloudflareにランダムなブラウザ識別子を送り、日本時間の本日の訪問ブラウザ数を概算します。訪問記録はページ表示時に1日1回送信し、定期的な活動確認は行いません。プレイヤーを開始すると、ランダムなプレイヤー識別子・表示名・掛け金・発射数・賞球数を送信し、表示名と差し引き球数をランキングに公開します。ランキング情報はランキング画面を開いた時、掛け金の切り替え時、または更新ボタンを押した時に取得します。サーバー上では48時間を超えた訪問・遊技記録を毎日整理します。持ち球・所持草・ガチャ券・草ガチャの所持品は送信しません。</p>
     <h3>公開基盤</h3>
     <p>本サイトをGitHub Pagesで公開する場合、GitHub Pagesの運用上、アクセス元のIPアドレス等がGitHub側で記録される場合があります。GitHub Pagesのプライバシーに関する説明もご確認ください。</p>
     <h3>お問い合わせの利用</h3>
@@ -2843,8 +2845,9 @@ filterNames();
   let rankingWager = 1;
   let rankingSending = null;
   let rankingRequest = 0;
-  let rankingLiveTimer = 0;
   let rankingVisitorId = '';
+  let rankingVisitDay = '';
+  let rankingVisitRequest = null;
   try {
     const stored = localStorage.getItem(rankingVisitorKey);
     rankingVisitorId = rankingIdPattern.test(stored) ? stored : newRankingId();
@@ -2933,12 +2936,33 @@ filterNames();
   function rankingScoreText(balls) {
     return `${balls > 0 ? '+' : ''}${balls.toLocaleString('ja-JP')}球`;
   }
-  function registerRankingVisit() {
+  function jstRankingDay() {
+    return new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  }
+  async function registerRankingVisit() {
     if (document.hidden) return;
-    fetch(`${rankingApi}/v1/heartbeat`, {
-      method: 'POST', headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({visitorId: rankingVisitorId}), keepalive: true
-    }).catch(() => {});
+    const today = jstRankingDay();
+    if (rankingVisitDay === today) return;
+    try {
+      if (localStorage.getItem(`${rankingVisitorKey}:day`) === today) {
+        rankingVisitDay = today;
+        return;
+      }
+    } catch {}
+    if (rankingVisitRequest) return rankingVisitRequest;
+    rankingVisitRequest = (async () => {
+      try {
+        const response = await fetch(`${rankingApi}/v1/heartbeat`, {
+          method: 'POST', headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({visitorId: rankingVisitorId}), keepalive: true
+        });
+        if (response.ok) {
+          rankingVisitDay = today;
+          try { localStorage.setItem(`${rankingVisitorKey}:day`, today); } catch {}
+        }
+      } catch {}
+    })().finally(() => { rankingVisitRequest = null; });
+    return rankingVisitRequest;
   }
   async function refreshRanking() {
     if (!$('pachiRankingModal').open) return;
@@ -2948,13 +2972,12 @@ filterNames();
     try {
       const response = await fetch(`${rankingApi}/v1/overview`, {
         method: 'POST', headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({wager, visitorId: rankingVisitorId, playerId: player?.rankingId || null})
+        body: JSON.stringify({wager, playerId: player?.rankingId || null})
       });
       if (!response.ok) throw new Error(`overview_${response.status}`);
       const data = await response.json();
       if (requestNumber !== rankingRequest || !$('pachiRankingModal').open) return;
       $('pachiRankingVisitors').textContent = Number(data.visitorsToday || 0).toLocaleString('ja-JP');
-      $('pachiRankingActive').textContent = Number(data.activeNow || 0).toLocaleString('ja-JP');
       $('pachiRankingParticipants').textContent = Number(data.participants || 0).toLocaleString('ja-JP');
       $('pachiRankingMineRank').textContent = data.mine ? `${Number(data.mine.rank).toLocaleString('ja-JP')}位` : '—';
       $('pachiRankingMine').textContent = !player ? 'プレイヤーを選ぶと自分の順位を表示します。'
@@ -2975,8 +2998,8 @@ filterNames();
         });
       }
       $('pachiRankingStatus').textContent = profiles.some(profile => profile.rankingQueue.length)
-        ? '一部の記録は通信待ちです。次に開いたときに再送します。'
-        : '直近24時間の集計です。新しい記録は約1分で反映されます。';
+        ? '一部の記録は通信待ちです。更新ボタンを押すと再送します。'
+        : '表示内容を更新しました。サーバー集計は最大約1分キャッシュされます。';
     } catch {
       if (requestNumber === rankingRequest && $('pachiRankingModal').open) $('pachiRankingStatus').textContent = 'ランキングに接続できません。遊技記録は端末に保存し、後で再送します。';
     }
@@ -4663,17 +4686,22 @@ filterNames();
     $('pachiRankingStatus').textContent = '遊技記録を同期中です…';
     if (player) selectRankingWager(player.wager);
     if (player) sealRanking(player, true);
-    clearInterval(rankingLiveTimer);
-    rankingLiveTimer = setInterval(() => {
-      if ($('pachiRankingModal').open && !document.hidden) refreshRanking();
-    }, 60 * 1000);
+    await registerRankingVisit();
     await flushRankingQueue();
     await refreshRanking();
   });
+  $('pachiRankingRefresh').addEventListener('click', async () => {
+    const button = $('pachiRankingRefresh');
+    button.disabled = true;
+    try {
+      await registerRankingVisit();
+      if (player) sealRanking(player, true);
+      await flushRankingQueue();
+      await refreshRanking();
+    } finally { button.disabled = false; }
+  });
   $('pachiRankingClose').addEventListener('click', closeRanking);
   $('pachiRankingModal').addEventListener('close', () => {
-    clearInterval(rankingLiveTimer);
-    rankingLiveTimer = 0;
     rankingRequest++;
     if (player && !$('pachiGame').hidden && !panel.hidden) $('pachiRankingOpen').focus();
   });
@@ -4819,7 +4847,6 @@ filterNames();
     if (player) sealRanking(player);
     flushRankingQueue();
   }, 60000);
-  setInterval(registerRankingVisit, 5 * 60 * 1000);
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) registerRankingVisit();
   });
