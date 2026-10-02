@@ -271,3 +271,4 @@ body[data-jp-tier="10"] .pachi-world-jackpot-title em{color:#fff6b3;text-shadow:
 .pachi-ranking-refresh:hover{background:linear-gradient(120deg,#176172,#218276)}
 .pachi-ranking-refresh:disabled{opacity:.65;cursor:wait}
 @media(max-width:520px){.pachi-ranking-numbers{grid-template-columns:repeat(3,minmax(0,1fr))}.pachi-ranking-numbers small{font-size:9px}}
+#pachiMachine .pachi-combo{display:none}
