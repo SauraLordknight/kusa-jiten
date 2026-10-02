@@ -616,17 +616,17 @@ body,
 .pachi-mode-readout[data-mode="yaminabe"] strong{color:#eddbff}
 @media(max-width:560px){.pachi-status-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.pachi-status-cell{height:82px;padding:5px 6px}.pachi-status-cell .pachi-display-label{margin-bottom:2px;font-size:8px}.pachi-status-cell strong{font-size:clamp(10px,3vw,12px);line-height:1.2;height:2.4em}.pachi-status-cell small{margin-top:2px;font-size:9px;line-height:1.2;height:2.4em}}
 .pachi-combo{display:flex;justify-content:space-between;gap:8px;padding:5px 12px;border-radius:8px;background:#10442f;color:#edffcb;font-size:11px;font-weight:900}
-.pachi-machine[data-scene="night"] .pachi-board-wrap{filter:hue-rotate(105deg) brightness(.72)}
+.pachi-machine[data-scene="night"] #pachiCanvas,.pachi-machine[data-scene="night"] .pachi-balls-canvas{filter:hue-rotate(105deg) brightness(.72)}
 .pachi-machine[data-scene="night"] .pachi-display{background:linear-gradient(120deg,#111d47,#25466d)}
-.pachi-machine[data-scene="festival"] .pachi-board-wrap,.pachi-machine[data-scene="grass-festival"] .pachi-board-wrap{filter:saturate(1.5) hue-rotate(-20deg)}
+.pachi-machine[data-scene="festival"] #pachiCanvas,.pachi-machine[data-scene="festival"] .pachi-balls-canvas,.pachi-machine[data-scene="grass-festival"] #pachiCanvas,.pachi-machine[data-scene="grass-festival"] .pachi-balls-canvas{filter:saturate(1.5) hue-rotate(-20deg)}
 .pachi-machine[data-scene="festival"] .pachi-display,.pachi-machine[data-scene="grass-festival"] .pachi-display{background:linear-gradient(120deg,#842b45,#a8511e)}
-.pachi-machine[data-scene="yaminabe"] .pachi-board-wrap{filter:hue-rotate(220deg) saturate(.8)}
+.pachi-machine[data-scene="yaminabe"] #pachiCanvas,.pachi-machine[data-scene="yaminabe"] .pachi-balls-canvas{filter:hue-rotate(220deg) saturate(.8)}
 .pachi-machine[data-scene="yaminabe"] .pachi-display{background:linear-gradient(120deg,#342040,#154744)}
 .pachi-machine[data-scene="puyuyu"]{border-color:#e7bb31;background:linear-gradient(110deg,#8e731b,#ffe286 9%,#b47c1d 15%,#9b6b1c 85%,#ffe286 93%,#8e731b);box-shadow:0 14px 0 #73511e,0 22px 28px rgba(74,58,12,.3),inset 0 0 0 3px #fff2a7}
 .pachi-machine[data-scene="puyuyu"] .pachi-marquee{background:radial-gradient(circle at 50% 10%,#fff4ac,#dfaf28 63%,#8e621b);color:#553b12}
 .pachi-machine[data-scene="puyuyu"] .pachi-display{background:linear-gradient(120deg,#755514,#b48b1b);color:#fff8d7}
 .pachi-machine[data-scene="puyuyu"] .pachi-board-wrap{border-color:#ffe080;background:#8e741c}
-.pachi-machine[data-scene="puyuyu"] #pachiCanvas{filter:hue-rotate(-70deg) saturate(1.55) brightness(1.22)}
+.pachi-machine[data-scene="puyuyu"] #pachiCanvas,.pachi-machine[data-scene="puyuyu"] .pachi-balls-canvas{filter:hue-rotate(-70deg) saturate(1.55) brightness(1.22)}
 .pachi-machine[data-scene="puyuyu"] .pachi-center-slot{background:radial-gradient(ellipse at 50% 35%,#b18a2b,#463611 78%);color:#fff0a8}
 .pachi-machine[data-scene="jackpot-festival"] .pachi-board-wrap{filter:none}
 .pachi-machine[data-scene="jackpot-festival"] .pachi-display{background:linear-gradient(120deg,#af7124,#e7b43b)}
@@ -664,6 +664,13 @@ body,
 .pachi-burst[data-tone="gold"]{background:rgba(116,60,12,.91);border-color:#fff4a7;box-shadow:0 0 24px #ffd849}
 .pachi-burst[data-tone="rainbow"]{background:linear-gradient(95deg,rgba(149,48,83,.94),rgba(49,103,145,.94),rgba(42,112,46,.94));border-color:#fff;box-shadow:0 0 27px #fff}
 .pachi-burst[data-tone="puyuyu"]{background:rgba(177,132,30,.94);border-color:#fff4ac;box-shadow:0 0 27px #fff1a1}
+.pachi-burst[data-tone="miss-chance"]{background:rgba(87,72,15,.94);border-color:#ffe986;color:#fff5b4;box-shadow:0 0 18px #d9b934}
+.pachi-burst[data-tone="miss-hot"]{background:linear-gradient(100deg,rgba(83,17,13,.96),rgba(139,48,17,.94));border-color:#ffb08e;color:#fff0d4;box-shadow:0 0 24px #f04b2e}
+.pachi-burst[data-tone="miss-kusa"]{background:linear-gradient(100deg,rgba(77,35,72,.95),rgba(28,83,61,.95));border-color:#d8ffdf;color:#f3ffe9;box-shadow:0 0 25px #b9ffc9;filter:saturate(.72)}
+.pachi-machine.is-hold-miss-chance .pachi-holds i.is-consuming{animation:pachi-hold-miss-chance .72s ease-out both}
+.pachi-machine.is-hold-miss-hot .pachi-holds i.is-consuming{animation:pachi-hold-miss-hot 1.05s ease-out both}
+.pachi-machine.is-hold-miss-kusa .pachi-holds i.is-consuming{animation:pachi-hold-miss-kusa 1.2s ease-out both}
+.pachi-machine.is-hold-near-miss .pachi-reels{animation:pachi-near-miss .18s ease-in-out 4}
 #pachiMachine.is-stage-flash .pachi-center-slot{box-shadow:0 0 22px 6px #b9ff77,inset 0 0 12px #ecffb1}
 .pachi-machine.is-combo-high .pachi-marquee .pachi-bulb{animation:pachi-bulb-throb 1s ease-in-out infinite alternate}
 .pachi-machine[data-scene="puyuyu"] .pachi-marquee .pachi-bulb{color:#fff5a9;text-shadow:0 0 14px #fff8a8}
@@ -684,6 +691,10 @@ body,
 @keyframes pachi-transition-lamp{0%{background:#143b28;box-shadow:none}100%{background:#f6ff94;box-shadow:0 0 13px #fff9b8}}
 @keyframes pachi-transition-reel{50%{transform:translateY(-5px);filter:brightness(1.6)}}
 @keyframes pachi-burst-pop{0%{opacity:0;transform:scale(.55)}22%{opacity:1;transform:scale(1.08)}68%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.08)}}
+@keyframes pachi-hold-miss-chance{0%,35%{transform:scale(1.15);filter:brightness(1.65)}55%{transform:translateY(-3px) scale(1.08)}100%{transform:scale(.76);filter:brightness(.38);opacity:.35}}
+@keyframes pachi-hold-miss-hot{0%,18%,38%,58%{transform:scale(1.16);filter:brightness(1.85)}9%,29%,49%,70%{transform:scale(.94);filter:brightness(.55)}100%{transform:scale(.68);filter:brightness(.22);opacity:.22}}
+@keyframes pachi-hold-miss-kusa{0%{transform:scale(1.18);filter:brightness(1.7) saturate(1.4)}55%{transform:scale(1);filter:brightness(.9) saturate(.65)}100%{transform:scale(.58) rotate(24deg);filter:brightness(.35) saturate(0);opacity:.18}}
+@keyframes pachi-near-miss{50%{transform:translateX(3px);filter:brightness(1.35)}}
 @keyframes pachi-bulb-throb{to{filter:brightness(1.65);transform:scale(1.16)}}
 @keyframes pachi-lcd-drift{to{transform:translate3d(4%,3%,0) scale(1.04)}}
 @media (prefers-reduced-motion:reduce){.pachi-lcd::before,.pachi-mode-transition,.pachi-mode-transition::before,.pachi-mode-transition strong,.pachi-transition-lamps i,.pachi-transition-reels span,.pachi-burst,.pachi-machine.is-combo-high .pachi-marquee .pachi-bulb{animation:none!important}.pachi-mode-transition{opacity:1}.pachi-burst{opacity:1}}
@@ -941,7 +952,7 @@ body,
           <h3 id="pachiRuleTitle">遊び方</h3>
           <ul class="pachi-rule-list">
             <li><strong>まずは発射：</strong>1・5・10草パチから掛け金を選び、ハンドルで強さを調整して発射します。1発につき掛け金と同じ数の球を消費します。</li>
-            <li><strong>入賞と草ランプ：</strong>左右の入賞口と中央のSTARTで球を獲得します。STARTに入ると草ランプが最大4個たまり、順番にリールが回ります。盤面と「入賞賞球」に、現在の掛け金に応じた賞球数を表示します。</li>
+            <li><strong>入賞と草ランプ：</strong>左右の入賞口と中央のSTARTで球を獲得します。STARTに入ると草ランプが最大4個たまり、順番にリールが回ります。チャンス以上のランプが外れた時は惜敗演出が入り、激アツ外れでは掛け金1発分を返球します。盤面と「入賞賞球」に、現在の掛け金に応じた賞球数を表示します。</li>
             <li><strong>STARTコンボ：</strong>10秒以内に続けてSTARTへ入れると継続。3コンボ達成時にSTART賞球が掛け金1球分増加し、5・10・20コンボで演出が変化します。</li>
             <li><strong>大当たり後：</strong>通常大当たり後は10回転の草ST。ST中の大当たり、超大当たり、ジャックポット後は15回転の草RUSHに入ります。終了後は5回転の草時短となり、START賞球が掛け金1球分増えます。1草パチの払い出しは通常4Rが100球・10Rが150球、RUSH中4Rが150球・8Rが190球・10Rが250球、超大当たりが500球です。5草・10草パチではそれぞれ5倍・10倍になります。</li>
             <li><strong>モード抽選：</strong>開始時は通常45％・夜25％・お祭り15％・闇鍋12％・ぷゆゆラッシュ3％で抽選。通常抽選中のSTARTを15回消化すると、次のSTARTで継続を判定します。</li>
@@ -1129,6 +1140,7 @@ body,
 
   <section class="info-card" id="revision-history" aria-labelledby="revisionTitle">
     <h2 id="revisionTitle">kusa事典の更新履歴</h2>
+    <div class="era"><strong>2026年10月3日</strong><span>【草パチ アップデート】草ランプ演出とリール結果の見せ方を改善しました。チャンス時の結果が分かりやすくなるよう、遊技中の演出を見直しています。</span></div>
     <div class="era"><strong>2026年10月2日</strong><span>ランキングの表示を見直し、アクティブ人数を削除しました。ランキング情報は画面を開いた時と更新操作時に取得し、訪問者数は1日1回の記録に変更しました。</span></div>
     <div class="era"><strong>2026年10月2日</strong><span>草パチ 24時間ランキングを実装しました。訪問者数とアクティブ人数を確認できるようになり、案内文も見直しました。</span></div>
     <div class="era"><strong>2026年10月1日</strong><span>【草パチ アップデート】台設定が毎日0時に切り替わるようになりました。設定に応じて当たりやすさが変化し、日ごとに異なる遊技バランスを楽しめます。</span></div>
@@ -3125,7 +3137,7 @@ filterNames();
     modeTransitionTimer = burstTimer = stageFlashTimer = 0;
     $('pachiModeTransition').hidden = true;
     $('pachiBurst').hidden = true;
-    $('pachiMachine').classList.remove('is-stage-flash');
+    $('pachiMachine').classList.remove('is-stage-flash', 'is-hold-miss-chance', 'is-hold-miss-hot', 'is-hold-miss-kusa', 'is-hold-near-miss');
   }
   function showModeTransition(label, tone = activeScene()) {
     if (pageSuspended || document.hidden || panel.hidden || $('pachiGame').hidden) return;
@@ -4081,6 +4093,48 @@ filterNames();
     }
     $('pachiHoldStatus').textContent = waiting.length ? `保留${waiting.length}個：${waiting.map(kind => names[kind]).join('、')}` : '保留なし';
   }
+  function drawMissReels(hold) {
+    const nearChance = hold === 'kusa' ? .9 : hold === 'hot' ? .78 : hold === 'chance' ? .48 : .22;
+    const nearMiss = Math.random() < nearChance;
+    if (nearMiss) {
+      const match = reelFaces[Math.floor(Math.random() * reelFaces.length)];
+      let other = match;
+      while (other === match) other = reelFaces[Math.floor(Math.random() * reelFaces.length)];
+      const faces = [match, match, match];
+      faces[Math.floor(Math.random() * faces.length)] = other;
+      return {faces, nearMiss};
+    }
+    const pool = [...reelFaces];
+    const faces = [];
+    while (faces.length < 3) faces.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+    return {faces, nearMiss};
+  }
+  function clearHoldMissEffect() {
+    $('pachiMachine').classList.remove('is-hold-miss-chance', 'is-hold-miss-hot', 'is-hold-miss-kusa', 'is-hold-near-miss');
+  }
+  function showHoldMiss(result, nearMiss) {
+    if (!['chance', 'hot', 'kusa'].includes(result.hold)) return 0;
+    clearHoldMissEffect();
+    $('pachiMachine').classList.add(`is-hold-miss-${result.hold}`);
+    if (nearMiss) $('pachiMachine').classList.add('is-hold-near-miss');
+    let refund = 0;
+    if (result.hold === 'hot' && !result.missRefundPaid) {
+      refund = result.wager;
+      result.missRefundPaid = true;
+      player.balls += refund;
+      recordPrize(refund, result.wager);
+      saveProfiles();
+    }
+    const details = {
+      chance: {tone:'miss-chance', duration:nearMiss ? 900 : 720, label:nearMiss ? '💛 あと1図柄… チャンス終了' : '💛 チャンス終了'},
+      hot: {tone:'miss-hot', duration:1150, label:nearMiss ? `🔥 激アツ、あと1図柄… +${refund || result.wager}球返却` : `🔥 激アツ惜敗… +${refund || result.wager}球返却`},
+      kusa: {tone:'miss-kusa', duration:1300, label:nearMiss ? '🍃 草確、あと1図柄…' : '🍃 草が足りない…'}
+    }[result.hold];
+    showBurst(details.label, details.tone, details.duration);
+    announce(details.label, details.duration + 700);
+    playTick(result.hold === 'hot' ? 390 : result.hold === 'kusa' ? 330 : 470, .025);
+    return details.duration;
+  }
   function clearOmen() {
     omenTimers.forEach(clearTimeout);
     omenTimers = [];
@@ -4135,8 +4189,6 @@ filterNames();
       clearInterval(reelTimer);
       reels.classList.remove('is-spinning');
       clearOmen();
-      activeHold = null;
-      renderHolds();
       if (result.jackpot) {
         for (const span of reels.children) span.textContent = '7️⃣';
         playSound(result.wager === 10 ? 'jackpotFinale' : 'jackpotGrand', result.wager === 10 ? .62 : result.wager === 5 ? .7 : .64);
@@ -4158,12 +4210,29 @@ filterNames();
         $('pachiBoardFlash').classList.add('is-flashing');
       } else {
         playTick(540, .02);
-        reels.children[0].textContent = '🌱';
-        reels.children[1].textContent = '🌿';
-        reels.children[2].textContent = '🌱';
-        announce('おしい！ 次の入賞を狙おう。', 1500);
+        const miss = drawMissReels(result.hold);
+        miss.faces.forEach((face, index) => { reels.children[index].textContent = face; });
+        const missDuration = showHoldMiss(result, miss.nearMiss);
         if (result.enteredTime) showModeTransition('草時短へ', 'night');
+        if (missDuration) {
+          updateUI();
+          spinTimer = setTimeout(() => {
+            if (!player || currentSpin !== result) return;
+            clearHoldMissEffect();
+            activeHold = null;
+            currentSpin = null;
+            spinning = false;
+            flushBonusHold();
+            renderHolds();
+            updateUI();
+            spinTimer = setTimeout(runSpin, 420);
+          }, missDuration);
+          return;
+        }
+        announce(miss.nearMiss ? 'あと1図柄！ 次の入賞を狙おう。' : 'おしい！ 次の入賞を狙おう。', 1500);
       }
+      activeHold = null;
+      renderHolds();
       if (result.award > 0 && !result.jackpot) {
         updateUI();
         spinTimer = setTimeout(() => {
