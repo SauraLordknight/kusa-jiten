@@ -1913,7 +1913,11 @@ function namedGachaCard(name, rarity) {
   const detail = namedDetails[name];
   const type = getType(name);
   const typeLabel = typeMeta[type].shortLabel;
-  const description = detail?.description || 'このネームドについて、詳しい紹介はまだ整理中です。';
+  const description = detail?.description || (type === 'handle'
+    ? 'このコテハンについて、詳しい紹介はまだ整理中です。'
+    : type === 'named'
+      ? 'このネームドについて、詳しい紹介はまだ整理中です。'
+      : 'この名前について、詳しい紹介はまだ整理中です。');
   return {
     id: `named-${rarity}-${name}`,
     rarity,
