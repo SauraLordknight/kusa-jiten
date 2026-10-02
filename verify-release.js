@@ -102,7 +102,9 @@ const normalizeProfile = vm.runInNewContext(
   {
     titleCatalog: [{id: 'beginner'}],
     rushBonusSpins: 15,
-    jackpotAmounts: {1: 100000, 5: 300000, 10: 500000},
+    jackpotAmounts: {1: 500000, 5: 1500000, 10: 10000000},
+    previousJackpotAmounts: {1: 100000, 5: 300000, 10: 500000},
+    rankingIdPattern: /^[a-f0-9]{32}$/,
     scenes: ['normal', 'night', 'festival', 'yaminabe', 'puyuyu'],
     sceneCycleSpins: 15
   }
@@ -118,5 +120,8 @@ assert.equal(profile.inFlightValue, 10);
 assert.equal(profile.pendingJackpot, 3000);
 assert.equal(profile.spins, 99);
 assert.equal(profile.hits, 4);
+assert.match(profile.rankingId, /^[a-f0-9]{32}$/);
+assert.equal(profile.rankingBuckets[5].shots, 0);
+assert.equal(profile.rankingQueue.length, 0);
 
 console.log('公開ファイル・素材・既存保存データの互換性: OK');
