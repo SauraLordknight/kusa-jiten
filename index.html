@@ -1051,6 +1051,7 @@ body,
     <li class="named-item" data-name="従来型コーディングガイジ"><span class="leaf">🌱</span><span class="name">従来型コーディングガイジ</span></li>
     <li class="named-item" data-name="バイブコーディングガイジ"><span class="leaf">🌱</span><span class="name">バイブコーディングガイジ</span></li>
     <li class="named-item" data-name="二十日帰庫"><span class="leaf">🌱</span><span class="name">二十日帰庫</span></li>
+    <li class="named-item" data-name="名無しOUT"><span class="leaf">🌱</span><span class="name">名無しOUT</span></li>
   </ul></section>
   <div id="empty" class="empty">🌱 該当するネームドが見つかりません。</div>
 
@@ -1835,6 +1836,16 @@ const namedDetails = Object.freeze({
     summary: '夕方ごろに「初カキコ」と書き込む、謎めいたネームド。',
     iconTendency: '確認できるアイコン傾向は未整理。',
     source: '要望で提供された観測情報をもとに整理。'
+  },
+  '名無しOUT': {
+    description: 'デカキンのアイコンを設定している。管理人の身元を特定した要注意人物。',
+    classification: '要注意人物',
+    topics: 'IDと管理人に関する話題。',
+    activity: 'IDがアウトー‼️‼️‼️🐷💢\n反省したので謹慎\nとプロフィールに設定していた。\nそれ以上やるなら訴訟である。',
+    confidence: '提供情報',
+    summary: 'デカキンのアイコンを設定している、管理人の身元を特定した要注意人物。',
+    iconTendency: 'デカキンのアイコンを設定している。',
+    source: '要望で提供されたプロフィール文をもとに記載。'
   }
 });
 
@@ -1850,6 +1861,7 @@ const typeByName = Object.freeze({
   '生首': 'named',
   'ヴァロキチ': 'handle',
   '二十日帰庫': 'named',
+  '名無しOUT': 'caution',
   'しそ': 'handle',
   'らべんだー': 'handle',
   'ふぁぼ': 'named',
@@ -1867,6 +1879,7 @@ const typeByName = Object.freeze({
 });
 const typeMeta = Object.freeze({
   named: { label: '🌿 ネームド', shortLabel: 'ネームド' },
+  caution: { label: '⚠️ 要注意人物', shortLabel: '要注意人物' },
   handle: { label: '🏷️ コテハン', shortLabel: 'コテハン' },
   both: { label: '🌿🏷️ 両方', shortLabel: '両方' },
   unknown: { label: '❔ 判定保留', shortLabel: '判定保留' }
@@ -1892,6 +1905,7 @@ addTypeBadges();
 const gachaCooldown = 6 * 60 * 60 * 1000;
 const gachaStorageKey = window.KusaRewards.gachaKey;
 const gachaExcludedSsrNames = new Set(['従来型コーディングガイジ', 'バイブコーディングガイジ']);
+const gachaExcludedNames = new Set(['名無しOUT']);
 const gachaExcludedLegacySsrIds = new Set([...gachaExcludedSsrNames].map(name => `named-SSR-${name}`));
 const rarityMeta = Object.freeze({
   N: { label: 'N', name: '草むら' },
@@ -1969,7 +1983,7 @@ function namedGachaCard(name, rarity) {
 }
 
 function buildGachaPools() {
-  const names = items.map(item => item.dataset.name).filter(Boolean);
+  const names = items.map(item => item.dataset.name).filter(name => name && !gachaExcludedNames.has(name));
   const knownNames = names.filter(name => namedDetails[name]);
   const extraSsrNames = new Set(['長門', 'らべんだー', 'ノープ']);
   const confirmedNames = knownNames.filter(name =>
@@ -2489,7 +2503,7 @@ const newNamedGroups = {
   'か': ['かねる', 'ゲイ', 'コロッケガイジ', 'ことわざバトルガイジ', 'カリカリガイジ', 'きぃうぃ', 'クウガイジ', 'きんたま奇数個ガイジ', 'QR', 'ガチシコマン'],
   'さ': ['全肯定おじ', '全肯定お兄さん', 'サツヨコピングー', 'しそ', 'シャドバンガイジ', 'ショタコン', '失言ニキ', '従来型コーディングガイジ'],
   'た': ['タラタラガイジ', 'チュパカブラ', 'トリッカル'],
-  'な': ['虹神全', 'ニートだけど'],
+  'な': ['虹神全', 'ニートだけど', '名無しOUT'],
   'は': ['ぷゆガイ', 'ビビアミ', 'PB', 'バイブコーディングガイジ', 'ふぁぼ', 'ふむ', 'ぷゆゆパン', 'ぷゆゆ特化の可愛い魔法', 'ホイ卒', '包丁おじ', '二十日帰庫'],
   'ま': ['むほほおじさん'],
   'や': [],
