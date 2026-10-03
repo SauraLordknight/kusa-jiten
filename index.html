@@ -1985,7 +1985,7 @@ function namedGachaCard(name, rarity) {
 function buildGachaPools() {
   const names = items.map(item => item.dataset.name).filter(name => name && !gachaExcludedNames.has(name));
   const knownNames = names.filter(name => namedDetails[name]);
-  const extraSsrNames = new Set(['長門', 'らべんだー', 'ノープ']);
+  const extraSsrNames = new Set(['長門', 'らべんだー', 'ノープ', 'しそ']);
   const confirmedNames = knownNames.filter(name =>
     !gachaExcludedSsrNames.has(name) &&
     (['確定', '確定（プロフィール記載）'].includes(namedDetails[name].confidence) || extraSsrNames.has(name))
@@ -2610,8 +2610,10 @@ filterNames();
     {normal:1/8, high:1/8, normalLabel:'8', highLabel:'8'}
   ];
   // 全訪問者で共通の日替わり設定。日本時間の日付を種に1〜6から均等に選ぶ。
-  function dailyPachiSetting() {
-    const dayKey = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  function jstPachiDay(now = Date.now()) {
+    return new Date(now + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  }
+  function pachiSettingForDay(dayKey) {
     if (dayKey === '2026-10-01') return 3;
     let hash = 0x811c9dc5;
     for (let i = 0; i < dayKey.length; i++) hash = Math.imul(hash ^ dayKey.charCodeAt(i), 0x01000193);
@@ -2619,6 +2621,19 @@ filterNames();
     hash = Math.imul(hash ^ (hash >>> 15), 0x735a2d97);
     hash ^= hash >>> 15;
     return (hash >>> 0) % 6 + 1;
+  }
+  let activePachiSettingDay = '';
+  let activePachiSetting = 1;
+  function refreshDailyPachiSetting(now = Date.now()) {
+    const dayKey = jstPachiDay(now);
+    if (activePachiSettingDay === dayKey) return false;
+    activePachiSettingDay = dayKey;
+    activePachiSetting = pachiSettingForDay(dayKey);
+    return true;
+  }
+  function dailyPachiSetting(now = Date.now()) {
+    refreshDailyPachiSetting(now);
+    return activePachiSetting;
   }
   const premiumPayout = 500;
   const roundPayoutTables = {
@@ -3819,6 +3834,8 @@ filterNames();
   }
   function queueStartSpin(wager, bonus = false) {
     if (!player || spinQueue.length + Number(spinning) >= 4) return false;
+    // 発射ボタンを押し続けていても、START入賞の直前に日付を再判定する。
+    refreshDailyPachiSetting();
     const jackpotFestivalSpin = jackpotFestivalReady();
     if (jackpotFestivalSpin) player.jpFestivalLeft--;
     player.spins++;
@@ -3831,7 +3848,7 @@ filterNames();
     const jackpot = !jackpotFestivalSpin && Math.random() < 1 / jackpotOdds;
     const jackpotExtension = jackpot && (player.pendingJackpot > 0 || !!payoutFinishTimer);
     const roll = Math.random();
-    const setting = pachiSettings[dailyPachiSetting()] || pachiSettings[1];
+    const setting = pachiSettings[activePachiSetting] || pachiSettings[1];
     const puyuyuMultiplier = player.scene === 'puyuyu' && !rush ? 1.5 : 1;
     const premiumChance = .001 * puyuyuMultiplier;
     const premium = !jackpot && (jackpotFestivalSpin || roll < premiumChance);
@@ -5008,6 +5025,7 @@ filterNames();
   window.addEventListener('storage', event => { if (event.key === rewards.key) updateExchangeUI(); });
   setInterval(() => {
     if (document.hidden) return;
+    refreshDailyPachiSetting();
     if (player) sealRanking(player);
     flushRankingQueue();
   }, 60000);
