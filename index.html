@@ -602,6 +602,7 @@ body,
 .pachi-status-cell .pachi-display-label{display:block;margin-bottom:3px;color:#c7e9bc;font-size:9px;font-weight:800;letter-spacing:.08em}
 .pachi-status-cell strong{display:-webkit-box;height:2.6em;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;color:#f4ffe8;font-size:clamp(12px,2.7vw,15px);font-weight:900;line-height:1.3;overflow-wrap:anywhere}
 .pachi-status-cell small{display:-webkit-box;height:2.6em;overflow:hidden;margin-top:3px;-webkit-box-orient:vertical;-webkit-line-clamp:2;color:#d5efcd;font-size:10px;font-weight:700;line-height:1.3;overflow-wrap:anywhere}
+.pachi-six-day-notice{margin:-1px 0 7px;padding:5px 9px;border:1px solid #fff09c;border-radius:8px;background:linear-gradient(90deg,#6b4710,#b67b17,#6b4710);color:#fff9d0;font-size:11px;font-weight:1000;letter-spacing:.04em;text-align:center;text-shadow:0 1px 2px #3f2605;box-shadow:0 0 10px rgba(255,213,82,.5)}
 .pachi-announcement{height:32px;overflow:hidden}
 .pachi-mode-readout[data-mode="normal"]{border-color:#91d477;background:rgba(19,85,39,.8)}
 .pachi-mode-readout[data-mode="night"]{border-color:#95beff;background:rgba(22,48,114,.85)}
@@ -614,7 +615,7 @@ body,
 .pachi-mode-readout[data-mode="night"] strong{color:#d3e4ff}
 .pachi-mode-readout[data-mode="festival"] strong{color:#ffe0a8}
 .pachi-mode-readout[data-mode="yaminabe"] strong{color:#eddbff}
-@media(max-width:560px){.pachi-status-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.pachi-status-cell{height:82px;padding:5px 6px}.pachi-status-cell .pachi-display-label{margin-bottom:2px;font-size:8px}.pachi-status-cell strong{font-size:clamp(10px,3vw,12px);line-height:1.2;height:2.4em}.pachi-status-cell small{margin-top:2px;font-size:9px;line-height:1.2;height:2.4em}}
+@media(max-width:560px){.pachi-status-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.pachi-status-cell{height:82px;padding:5px 6px}.pachi-status-cell .pachi-display-label{margin-bottom:2px;font-size:8px}.pachi-status-cell strong{font-size:clamp(10px,3vw,12px);line-height:1.2;height:2.4em}.pachi-status-cell small{margin-top:2px;font-size:9px;line-height:1.2;height:2.4em}.pachi-six-day-notice{margin-bottom:5px;padding:4px 6px;font-size:10px}}
 .pachi-combo{display:flex;justify-content:space-between;gap:8px;padding:5px 12px;border-radius:8px;background:#10442f;color:#edffcb;font-size:11px;font-weight:900}
 .pachi-machine[data-scene="night"] #pachiCanvas,.pachi-machine[data-scene="night"] .pachi-balls-canvas{filter:hue-rotate(105deg) brightness(.72)}
 .pachi-machine[data-scene="night"] .pachi-display{background:linear-gradient(120deg,#111d47,#25466d)}
@@ -905,6 +906,7 @@ body,
               <div id="pachiSceneDisplay" class="pachi-status-cell pachi-mode-readout" data-mode="normal"><span class="pachi-display-label">モード</span><strong id="pachiSceneLabel">🌿 通常モード</strong><small id="pachiSceneHelp">継続抽選35％・終了判定まであと15回転</small></div>
               <div class="pachi-status-cell"><span class="pachi-display-label">遊技状態</span><strong id="pachiMode">🌿 通常抽選</strong><small id="pachiSignal">🌱 チャンスを待とう</small></div>
             </div>
+            <div id="pachiSixDayNotice" class="pachi-six-day-notice" role="status" hidden>🎉 6の日・本日は設定6　大当たり確率アップ中！</div>
             <div id="pachiAnnouncement" class="pachi-announcement" aria-live="polite">中央のスタートチャッカーを狙おう！</div>
             <div class="pachi-omen-meter" aria-hidden="true"><span>草気配</span><i></i><i></i><i></i></div>
           </div>
@@ -2614,11 +2616,16 @@ filterNames();
     {normal:1/15, high:1/12, normalLabel:'15', highLabel:'12'},
     {normal:1/8, high:1/8, normalLabel:'8', highLabel:'8'}
   ];
-  // 全訪問者で共通の日替わり設定。日本時間の日付を種に1〜6から均等に選ぶ。
+  // 全訪問者で共通の日替わり設定。日本時間で毎月6日・16日・26日は設定6、それ以外は日付を種に1〜6から均等に選ぶ。
   function jstPachiDay(now = Date.now()) {
     return new Date(now + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
   }
+  function isPachiSixDay(dayKey = jstPachiDay()) {
+    const dayOfMonth = Number(dayKey.slice(-2));
+    return dayOfMonth === 6 || dayOfMonth === 16 || dayOfMonth === 26;
+  }
   function pachiSettingForDay(dayKey) {
+    if (isPachiSixDay(dayKey)) return 6;
     if (dayKey === '2026-10-01') return 3;
     let hash = 0x811c9dc5;
     for (let i = 0; i < dayKey.length; i++) hash = Math.imul(hash ^ dayKey.charCodeAt(i), 0x01000193);
@@ -3529,6 +3536,7 @@ filterNames();
   }
   function updateUI() {
     if (!player) return;
+    $('pachiSixDayNotice').hidden = !isPachiSixDay();
     $('pachiPlayer').textContent = player.name;
     for (const input of document.querySelectorAll('input[name="pachiWager"]')) input.checked = Number(input.value) === player.wager;
     $('pachiWagerNote').textContent = `1発${player.wager}球消費・残り${Math.floor(player.balls / player.wager).toLocaleString('ja-JP')}発${player.pendingJackpot ? '（JP中は倍率固定）' : ''}`;
@@ -3604,6 +3612,8 @@ filterNames();
     player = existing || normalizeProfile({name, balls: 5000});
     if (!existing) profiles.push(player);
     const now = Date.now();
+    refreshDailyPachiSetting(now);
+    const settingSixDay = isPachiSixDay();
     const idleReset = resetPlayerAfterIdle();
     if (!player.lastFireAt) player.lastFireAt = now;
     if (!player.session) player.session = newSession();
@@ -3636,6 +3646,10 @@ filterNames();
     if (!existing && !idleReset) applyScene();
     else if (!specialModeActive() && player.sceneChain === 0 && !idleReset) rollScene();
     saveProfiles(); updateUI(); playSound('start', .16); playTick(740, .018);
+    if (settingSixDay) {
+      announce('🎉 6の日！ 本日は設定6で遊技できます。', 2600);
+      showBurst('🎉 6の日・本日は設定6！', 'gold', 1800);
+    }
     selectRankingWager(player.wager);
     sealRanking(player);
     flushRankingQueue();
@@ -5030,7 +5044,14 @@ filterNames();
   window.addEventListener('storage', event => { if (event.key === rewards.key) updateExchangeUI(); });
   setInterval(() => {
     if (document.hidden) return;
-    refreshDailyPachiSetting();
+    const settingChanged = refreshDailyPachiSetting();
+    if (settingChanged && player) {
+      updateUI();
+      if (isPachiSixDay()) {
+        announce('🎉 6の日！ 本日は設定6で遊技できます。', 2600);
+        showBurst('🎉 6の日・本日は設定6！', 'gold', 1800);
+      }
+    }
     if (player) sealRanking(player);
     flushRankingQueue();
   }, 60000);
