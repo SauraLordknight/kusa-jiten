@@ -1053,7 +1053,6 @@ body,
     <li class="named-item" data-name="従来型コーディングガイジ"><span class="leaf">🌱</span><span class="name">従来型コーディングガイジ</span></li>
     <li class="named-item" data-name="バイブコーディングガイジ"><span class="leaf">🌱</span><span class="name">バイブコーディングガイジ</span></li>
     <li class="named-item" data-name="二十日帰庫"><span class="leaf">🌱</span><span class="name">二十日帰庫</span></li>
-    <li class="named-item" data-name="名無しOUT"><span class="leaf">🌱</span><span class="name">名無しOUT</span></li>
   </ul></section>
   <div id="empty" class="empty">🌱 該当するネームドが見つかりません。</div>
 
@@ -1833,16 +1832,6 @@ const namedDetails = Object.freeze({
     iconTendency: '確認できるアイコン傾向は未整理。',
     source: '要望で提供された観測情報をもとに整理。'
   },
-  '名無しOUT': {
-    description: 'デカキンのアイコンを設定している。管理人の身元を特定した要注意人物。',
-    classification: '要注意人物',
-    topics: 'IDと管理人に関する話題。',
-    activity: 'IDがアウトー‼️‼️‼️🐷💢\n反省したので謹慎\nとプロフィールに設定していた。\nそれ以上やるなら訴訟である。',
-    confidence: '提供情報',
-    summary: 'デカキンのアイコンを設定している、管理人の身元を特定した要注意人物。',
-    iconTendency: 'デカキンのアイコンを設定している。',
-    source: '要望で提供されたプロフィール文をもとに記載。'
-  },
   'PB': {
     description: 'ディッカーマックスに関するYouTube・pixivへのリンクをプロフィールに掲げ、オリジナルの立ち絵に関する動画を推しリストへ登録しているネームド。',
     classification: '創作・動画話題型',
@@ -1868,7 +1857,6 @@ const typeByName = Object.freeze({
   '生首': 'named',
   'ヴァロキチ': 'handle',
   '二十日帰庫': 'named',
-  '名無しOUT': 'caution',
   'しそ': 'handle',
   'らべんだー': 'handle',
   'ふぁぼ': 'named',
@@ -1912,7 +1900,7 @@ addTypeBadges();
 const gachaCooldown = 6 * 60 * 60 * 1000;
 const gachaStorageKey = window.KusaRewards.gachaKey;
 const gachaExcludedSsrNames = new Set(['従来型コーディングガイジ', 'バイブコーディングガイジ']);
-const gachaExcludedNames = new Set(['名無しOUT']);
+const gachaExcludedNames = new Set();
 const gachaExcludedLegacySsrIds = new Set([...gachaExcludedSsrNames].map(name => `named-SSR-${name}`));
 const rarityMeta = Object.freeze({
   N: { label: 'N', name: '草むら' },
@@ -2510,7 +2498,7 @@ const newNamedGroups = {
   'か': ['かねる', 'ゲイ', 'コロッケガイジ', 'ことわざバトルガイジ', 'カリカリガイジ', 'きぃうぃ', 'クウガイジ', 'きんたま奇数個ガイジ', 'QR', 'ガチシコマン'],
   'さ': ['全肯定おじ', '全肯定お兄さん', 'サツヨコピングー', 'しそ', 'シャドバンガイジ', 'ショタコン', '失言ニキ', '従来型コーディングガイジ'],
   'た': ['タラタラガイジ', 'チュパカブラ', 'トリッカル'],
-  'な': ['虹神全', 'ニートだけど', '名無しOUT'],
+  'な': ['虹神全', 'ニートだけど'],
   'は': ['ぷゆガイ', 'ビビアミ', 'PB', 'バイブコーディングガイジ', 'ふぁぼ', 'ふむ', 'ぷゆゆパン', 'ぷゆゆ特化の可愛い魔法', 'ホイ卒', '包丁おじ', '二十日帰庫'],
   'ま': ['むほほおじさん'],
   'や': [],
